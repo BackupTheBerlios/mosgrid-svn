@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cml:dictionary
+	xmlns:cml="http://www.xml-cml.org/schema"
+
+	xmlns:convention="http://www.xml-cml.org/convention/"
+	xmlns:unit="http://www.xml-cml.org/unit/nonSi/"
+	xmlns:unitType="http://www.xml-cml.org/unit/unitType/"
+	xmlns:si="http://www.xml-cml.org/unit/si/"
+	xmlns:nonSi="http://www.xml-cml.org/unit/nonSi/"
+	xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+	convention="convention:dictionary"
+	title="Parser dictionary with definitions of allowed parser parameters."
+	namespace="http://www.xml-cml.org/dictionary/parser/"
+	dictionaryPrefix="parser">
+
+	<dc:author>Martin Kruse</dc:author>
+	<cml:description>
+		<xhtml:p>
+			MSML-Jobs may contain parameter for the parser. These contain informations
+			on how to parse output-files of specific tools.
+		</xhtml:p>
+	</cml:description>
+
+	<cml:entry id="moleculeInfo" term="moleculeInfo" title="Pattern to file where CML-Molecule-Info is stored." dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				A pattern to identify the file where a molecule info is stored in CML format.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Calculations may result into a new geometry that has to be placed in the
+				MSML-File. Parameters with this dictionary reference contain a regular
+				expression to point to a file that contains a molecule in CML-format.
+				A parameter list MAY contain a moleculeInfo.
+				A parameter list MUST NOT contain more than one moleculeInfo.
+				The parent of a moleculeInfo MUST be a parameter list for job initialization. 
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+
+	<cml:entry id="parserConfig" term="parserConfig" title="File name of the parserConfig." dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				File name of the parserConfig to be used.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				This parameter points to the configuration file containing all information 
+				necessary to parse the output files of a tool to MSML.
+				A parameter list MAY contain a parserConfig.
+				A parameter list MUST NOT contain more than one parserConfig.
+				The parent of a parserConfig MUST be a parameter list for job initialization. 
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+	
+	<cml:entry id="outputLocation" term="outputLocation" title="Location of the output MSML-File." dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Filename of the parsed MSML-File.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				This parameter points to the location where the resulting MSML-File will be stored.
+				It is not necessary to provide a location for the MSML-File as the current MSML-File
+				will be overwritten if this parameter is not set.
+				A parameter list MAY contain a outputLocation.
+				A parameter list MUST NOT contain more than one outputLocation (may change).
+				The parent of a outputLocation MUST be a parameter list for job initialization. 
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+	
+	<cml:entry id="parserJobId" term="parserJobId" title="Id of the first parser job in workflow" dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Job-Id of the first parser job in workflow
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				This parameter is used in the ParserConfiguratino block below the JobList element. 
+				It shall contain the Job-Id of the first parser job in the workflow. 
+				The resulting msml file will be uploaded to this job.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+	
+	<cml:entry id="parserJobPort" term="parserJobPort" title="Port of the first parser job in workflow where the msml file is exptected" dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Port of the first parser job in workflow where the msml file is exptected
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				This parameter is used in the ParserConfiguratino block below the JobList element. 
+				It shall contain the port number of the first parser job in the workflow, where the msml file is expected. 
+				The resulting msml file will be uploaded to this port of the corresponding parser job.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+</cml:dictionary>

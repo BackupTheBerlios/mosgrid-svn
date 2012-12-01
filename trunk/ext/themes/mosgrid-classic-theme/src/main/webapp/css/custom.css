@@ -1,0 +1,707 @@
+@import url(custom_common.css);
+
+@import url(color_schemes/green.css);
+
+@import url(color_schemes/orange.css);
+
+/* ---------- Base styles ---------- */
+
+body {
+      background: #EEF0F2;
+      color: #222;
+}
+
+html {
+      font-size: 100.01%;
+}
+
+
+a {
+	color: #5B677D;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #06C;
+	text-decoration: none;
+}
+
+hr, .separator {
+	border-color: #BFBFBF transparent #FFF;
+	border-style: solid;
+	border-width: 1px 0;
+}
+
+#wrapper {
+	background: none;
+	margin: 0 auto;
+	max-width: 90%;
+	min-width: 960px;
+	position: relative;
+}
+
+.ie6 #wrapper {
+	width: 90%;
+}
+
+#banner {
+	background: none;
+	height: auto;
+}
+
+#banner .company-title {
+	float: none;
+	margin: 15px 0 0;
+	position: static;
+}
+
+body #banner .logo a {
+	float: left;
+}
+
+.current-community {
+	display: none;
+}
+
+.logo .current-community {
+	background: #A6AFBE url(../images/dock/my_places_public.png) no-repeat 15px 50%;
+	color: #FFF;
+	display: block;
+	float: right;
+	font-size: 0.8em;
+	font-weight: bold;
+	margin: 15px 0 0 20px;
+	padding: 7px 17px 7px 40px;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+#skip-to-content:focus {
+	clip: auto;
+	right: 0;
+	z-index: 200;
+}
+
+#sign-in {
+	background: url(../images/common/key.png) no-repeat 3px 50%;
+	font-weight: bold;
+	padding: 5px 5px 5px 25px;
+	position: absolute;
+	right: 0;
+	top: 1.4em;
+}
+
+.guest-community .logo .current-community {
+	display: none;
+}
+
+.private-page .logo .current-community {
+	background-image: url(../images/dock/my_places_private.png);
+}
+
+.ie6 #banner {
+	height: 1%;
+}
+
+.ie6 #banner h1.logo {
+	height: 1%;
+}
+
+/* ---------- Main navigation ---------- */
+
+#navigation {
+	background: #414445 url(../images/navigation/bg.png) repeat-x 0 0;
+	clear: both;
+	margin: 0 auto 5px;
+	min-height: 2.2em;
+	padding: 0 5px;
+	position: relative;
+	z-index: 1;
+}
+
+#navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 3px;
+}
+
+.ie7 #navigation ul {
+	padding: 2px;
+}
+
+#navigation li, #navigation a {
+	display: inline-block;
+}
+
+.ie6 #navigation li, .ie7 #navigation li, .ie6 #navigation a, .ie7 #navigation a {
+	display: inline;
+	zoom: 1;
+	z-index: 200;
+}
+
+#navigation li {
+	position: relative;
+	vertical-align: top;
+}
+
+#navigation a {
+	color: #FFF;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin: 0 1px;
+	padding: 3px 15px;
+	text-decoration: none;
+}
+
+.ie7 #navigation a {
+	padding: 4px 15px;
+}
+
+#navigation .aui-dd-drop a {
+	cursor: move;
+}
+
+#navigation .selected a, #navigation a:hover, #navigation a:focus, #navigation .child-menu li a, #navigation .aui-dd-dragging, .lfr-navigation-proxy {
+	background: #313334;
+	color: #FFF;
+	outline: 0;
+	text-shadow: -1px -1px #000;
+}
+
+#navigation li:hover .child-menu {
+	background: #1E2529;
+	display: block;
+	position: absolute;
+	width: 200px;
+	z-index: 200;
+}
+
+#navigation .child-menu a {
+	display: block;
+}
+
+.ie6 #navigation li.hover .child-menu {
+	background: #1E2529;
+	display: block;
+	position: absolute;
+	width: 200px;
+	z-index: 200;
+}
+
+.ie6 #navigation li.hover .child-menu, .ie7 #navigation li:hover ul.child-menu {
+	left: 0;
+	top: 25px;
+}
+
+#navigation .child-menu {
+	display: none;
+}
+
+#navigation .child-menu li {
+	border-width: 0 0 1px;
+	display: block;
+	float: none;
+	margin: 0;
+}
+
+#navigation .child-menu li a {
+	cursor: pointer !important;
+}
+
+.ie7 #navigation .child-menu li a {
+	zoom: 1;
+}
+
+#navigation .child-menu li a:hover {
+	background-color: #020509;
+}
+
+#navigation .child-menu .selected a {
+	background: #020509 url(../images/navigation/bullet_selected.png) no-repeat 5px 50%;
+}
+
+/* ---------- Portlet wrapper and icons ---------- */
+
+.portlet,
+#banner-login .portlet-body {
+	background-color: #EEF0F2;
+	border: 1px solid #C8C9CA;
+	margin: 0 0 10px;
+	padding: 3px;
+	text-align: left;
+	color: #222;
+}
+
+.portlet-topper {
+	background: #D4D4D4 url(../images/portlet/header_bg.png) repeat-x 0 0;
+	border: 1px solid;
+	border-color: #C8C9CA #9E9E9E #9E9E9E #C8C9CA;
+	font-size: 1.1em;
+}
+
+.portlet-title {
+	color: #222;
+	float: none;
+	font-weight: bold;
+	min-width: 50%;
+	padding: 5px;
+	text-shadow: 1px 1px #FFF;
+}
+
+.portlet-borderless-container a {
+	color: #d4d4d4;
+}
+
+.portlet-navigation .portlet-borderless-container {
+      margin-bottom: 3em;
+}
+
+
+
+.lfr-portlet-title-editable {
+	margin-top: -4px;
+	z-index: 9999;
+}
+
+.ie .lfr-portlet-title-editable {
+	margin-top: -6px;
+}
+
+.lfr-portlet-title-editable-content {
+	padding: 0;
+}
+
+.ie .lfr-portlet-title-editable-content {
+	margin-top: 4px;
+}
+
+.portlet-icons {
+	float: none;
+}
+
+.portlet-icons .portlet-close-icon {
+	border-width: 0;
+}
+
+.page-maximized .portlet-icons {
+	font-size: 100%;
+}
+
+.portlet-icon-back {
+}
+
+.ie .portlet-title {
+	padding-bottom: 5px;
+}
+
+.ie6 .portlet-topper {
+	zoom: 1;
+}
+
+/* ---------- Footer ---------- */
+
+#footer {
+      text-align: right;
+}
+
+/* gets overwritten */
+
+
+/* ---------- Hudcrumbs ---------- */
+
+.lfr-hudcrumbs {
+	position: fixed;
+	top: 0;
+	z-index: 200;
+}
+
+.lfr-hudcrumbs ul {
+	background: #414445;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.lfr-hudcrumbs .breadcrumbs li a, .lfr-hudcrumbs .breadcrumbs li span {
+	color: #FFF;
+}
+
+.lfr-hudcrumbs li span {
+	background-image: url(../images/common/breadcrumbs_hud.png);
+}
+
+/* ---------- Misc. ---------- */
+
+.lfr-panel-container {
+	background-color: transparent;
+}
+
+.aui-combobox .aui-field-input {
+	padding: 4px 3px 3px;
+	font-size: 100%;
+	height: 15px;
+}
+
+.aui-combobox .aui-field {
+	float: left;
+	line-height: 0;
+}
+
+.lfr-portlet-title-editable-content .aui-field {
+	float: none;
+	display: inline;
+}
+
+/* ---------- Extras ---------- */
+
+.portlet-borderless-bar {
+	-moz-border-radius: 20px;
+	-moz-box-shadow: inset 0 1px 3px #000;
+	-webkit-border-radius: 20px;
+	-webkit-box-shadow: inset 0 1px 3px #000;
+	border-radius: 20px;
+	box-shadow: inset 0 1px 3px #000;
+}
+
+.portlet-topper {
+	-moz-box-shadow: 1px 1px 0 #FFF;
+	-webkit-box-shadow: 1px 1px 0 #FFF;
+	box-shadow: 1px 1px 0 #FFF;
+}
+
+.logo .current-community {
+	-moz-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
+}
+
+#navigation li.selected a {
+	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.aui-combobox .aui-toolbar-first {
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+
+body {
+    background-color: #fff;
+    background-image: none;
+    font-size: 80%;
+  }
+
+
+.mosgridBG {
+    background-color: #0e131a;
+    background-image: url(../images/backgrounds/bg-stripe-01.png);
+    background-repeat: repeat;
+	color: #fff;
+}
+
+.clearfix:after {
+      content: ".";
+      display: block;
+      clear: both;
+      visibility: hidden;
+      line-height: 0;
+      height: 0;
+}
+ 
+.clearfix {
+      display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+      display: block;
+}
+ 
+html .clearfix {
+      height: 1%;
+}
+
+
+
+
+table.unipartners,
+table.industrypartners,
+table.associatedpartners{
+    width: 100%;
+}
+
+
+table.unipartners td,
+table.industrypartners td,
+table.associatedpartners td {
+    padding: 10px 40px;
+}
+
+
+img.partnerlogo {
+    max-width: 120px;
+    max-height:100px;
+}
+
+/* ---------- Footer ---------- */
+
+#footer {
+    float:right;
+/*
+    font-size: 14px;
+*/
+    text-align: right;
+    color:white;
+    margin-bottom: 40px;
+    padding-bottom:40px;
+    }
+
+#sign-in {
+      background: url(../images/common/key.png) no-repeat 3px 50%;
+      font-weight: bold;
+      padding: 5px 5px 5px 25px;
+}
+
+.company-title a {
+   width: 200px;
+   min-height:100px;
+}  
+
+.company-title .mosgrid-name {
+    font-size : 144%;
+    font-style: italic;
+    display: inline;
+}
+
+p.powered-by {
+    display: block;
+    vertical-align: middle;
+    text-align: right;
+/* implemented in portal_normal.vm
+    display: table-cell;
+    vertical-align: middle;
+    background-image: url(../images/logos/logo-guse-circle-80.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    height: 80px;
+    padding-right: 90px;
+*/
+}
+
+.powered-by img {
+        vertical-align: middle;
+        margin-left:1em;
+}
+
+.powered-by a {
+        text-decoration:none;
+        font-weight: bold;
+}
+
+span.supported-by {
+        margin-left:2em;
+}
+
+/* pre and code: color scheme copied from informaiton pane */
+
+pre {
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:1px dashed #2F6FAB;
+    margin:5px 0;
+    padding:0.5em;
+        border-radius: 4px;
+    /*    margin-left: -5px;
+        margin-right:-5px;      
+        padding:4px;
+        background-color: #DFF4FF;
+        border: 1px solid #A7CEDF;
+   */     color: #34404F;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+}
+
+code {
+        border-radius: 4px;
+        margin: 1px;
+        padding: 2px;
+        border: 1px dashed #2F6FAB;
+        color: #34404F;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+}
+
+pre code {
+      margin:0px;
+      border:none;
+      background-color:transparent;
+}
+
+.aui-autocomplete-results-content,
+.aui-calendar-content,
+.aui-colorpicker-content,
+.aui-dialog-content,
+.aui-overlaycontext-content {
+    background:none repeat scroll 0 0 #FFFFFF;
+      color: #222;
+}
+
+.aui-underlay-content {
+    background:url("../images/common/message_panel_shadow.png") repeat-x scroll 0 0 #F4F3F3;
+    border-color:#AEAFB1;
+    border-style:solid;
+    border-width:0 1px 1px;
+    color: #222;
+}
+
+.nav-menu li a.selected {
+    color:inherit;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.portal-add-content a {
+	color: #222;
+}
+
+#heading h2.company-title {
+	margin: 0 0 0 160px;
+	font-size:276%;
+	padding:0.5em;
+}
+#heading a {
+	text-decoration:none;
+	color:#fff;
+}
+#heading .page-title{
+	position: absolute;
+	clip: rect(0pt,0pt,0pt,0pt);
+
+}
+
+#heading .logo {
+	float:left;
+}
+
+#banner-login a {
+	color:#999;
+}
+
+#banner-login {
+	display:block;
+	float:right;
+	width:33em;
+}
+
+#banner-login .portlet,
+#banner-login .portlet-body {
+/*	background-color: 	#414445;
+	border-color: 	#414445;
+*/
+	background: transparent;
+	border: 1px solid #414445;
+
+	color: #999;
+}
+
+#banner-login .portlet-body {
+	border:none;
+}
+
+#banner-login .aui-field-focused input {
+	background-color: #333;
+	color: #bbb;
+}
+
+#banner-login input[type="button"],#banner-login button,#banner-login input {
+	/* background:  #999; 
+	color: #000; */
+	border-color: #999;
+	background:transparent;
+	color:inherit;
+	text-shadow:1px 1px #000;
+}
+
+#banner-login .portlet-content {
+	padding:0;
+}
+#banner-login .aui-form {
+	margin:0;
+	padding:0;
+}
+#banner-login fieldset {
+	display:block;
+	position:static;
+	margin:0;
+	-webkit-padding-after:0;
+	-webkit-padding-end:0;
+	-webkit-margin-start:0px;
+	-webkit-margin-end:0px;
+}
+	
+
+#banner-login label {
+	display:block;
+	float:left;
+	width:11em;
+}
+#banner-login .aui-field-input-text {
+	margin-top: -5px;
+	width:20em;
+}
+#banner-login .aui-field-text .aui-field-element {
+	margin-left:11em;
+	display:block;
+}
+#banner-login .aui-field-choice .aui-field-content {
+	margin:0 0 0 17em;
+}
+#banner-login .aui-field-text {
+	clear:both;
+	width:100%;
+	display:block;
+}
+	
+#banner-login .aui-button-holder {
+	margin: -1.7em  0 0 11em;
+}
+	
+#banner .portlet-login header {
+	display:none;
+}
+
+.portlet-borderless-container .taglib-captcha img,
+.portlet-borderless-container .navigation {
+	background-color: #414445;
+}
+
+
+#banner-login .navigation {
+	display:block;
+	margin-left:0em;
+	margin-top:-2em;	
+	width:11em;
+	padding:0;
+	background:transparent;
+	border:none;
+
+}
+
+#tinycontent {
+	background:none repeat scroll 0 0 #FFFFFF;
+	color: #000;
+}
+
+#chatBar {
+	color: #222;
+	color:initial;
+}
+
+.error-message,
+.portlet-msg-error,
+.popup-alert-warning
+{
+	color: #222;
+	background-color: #fdd;
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project>
+<project default="jar" name="Jar for Project MSMLGenericParser">
+
+	<import file="../../../../buildscripts/build-paths.xml"/>
+	
+	<property name="usr" value="FILL USR FOR DIALOG-UNIKOELN OR OTHER PUBLIC_HTML PROVIDER"/>
+	<property name="pwd" value="FILL PASSWORD FOR PUBLIC HTML PROVIDER"/>
+	
+	<dirname property="parser.basedir" file="${ant.file.build-paths}" />
+
+	<property name="src.dir"     value="src"/>
+    <property name="lib.dir"     value="lib"/>
+    <property name="build.dir"   value="bin"/>
+
+	<property name="getdown" location="${src.dir}/../../getdown/"/>
+	<property name="jardest" location="${getdown}/genparser.jar"/>
+
+    <target name="clean">
+    	<ant antfile="${loc.msmlapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.cmlstruc}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+        <delete dir="${build.dir}"/>
+    </target>
+
+	<target name="compile" depends="clean">
+    	<ant antfile="${loc.msmlapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.cmlstruc}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <filelist>
+                	<file name="${loc.msmlapi.jar}"/>
+                	<file name="${loc.cmlstruc.jar}"/>
+                </filelist>
+        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+		
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}" includes="**/*.xml"/>
+		</copy>
+		<copy todir="${build.dir}/de/ukoeln/msml/genericparser/resources">
+			<fileset dir="${src.dir}/../../doc" includes="**/*.pdf"/>
+		</copy>
+		<copy todir="${build.dir}/de/ukoeln/msml/genericparser/resources">
+			<fileset dir="${loc.msmlapi}../../../XML/dictionaries/Parser/" includes="**/*.cml"/>
+		</copy>
+
+		<copy todir="${build.dir}/Docking">
+			<fileset dir="${loc.msmlapi}../../../XML/dictionaries/Docking/" includes="**/*.cml"/>
+		</copy>
+		<copy todir="${build.dir}/MD">
+			<fileset dir="${loc.msmlapi}../../../XML/dictionaries/MD/specific/" includes="**/*.cml"/>
+		</copy>
+		<copy todir="${build.dir}/QC">
+			<fileset dir="${loc.msmlapi}../../../XML/dictionaries/QC/specific/" includes="**/*.cml"/>
+		</copy>
+	</target>
+	
+    <target name="jar" depends="compile">
+    	<property name="jar.dir" location="${getdown}" />
+    	<property name="loc.tmp.dir" location="${jar.dir}/tmp" />
+    	<echo message="${loc.tmp.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+    	<mkdir dir="${loc.tmp.dir}"/>
+    	<unjar dest="${loc.tmp.dir}">
+        	<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        	<fileset dir="${loc.msmlapi}/libs/" includes="**/*.jar"/>
+			<fileset file="${loc.cmlstruc.jar}"/>
+			<fileset file="${loc.msmlapi.jar}"/>
+    	</unjar>
+        <jar destfile="${jardest}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="de.ukoeln.msml.genericparser.GenericParserMain"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+        	<fileset dir="${loc.tmp.dir}"/>
+    	</jar>
+        <delete dir="${loc.tmp.dir}"/>
+    </target>
+
+	<target name="prepare.getdown" depends="jar">
+		<java classpath="${getdown}/getdown-tools-1.2.jar" classname="com.threerings.getdown.tools.Digester">
+			<arg value="${getdown}"/>
+		</java>
+	</target>
+	
+	<target name="deploy" depends="prepare.getdown" >
+		<sshexec host="dialog.rrz.uni-koeln.de" username="${usr}" command="rm -r ~/public_html/genparser" password="${pwd}"/>
+		<sshexec host="dialog.rrz.uni-koeln.de" username="${usr}" command="mkdir ~/public_html/genparser" password="${pwd}"/>
+		<scp todir="${usr}@dialog.rrz.uni-koeln.de:~/public_html/genparser" password="${pwd}">
+			<fileset dir="${getdown}">
+				<include name="*.txt"/>
+				<include name="*.jar"/>
+			</fileset>
+		</scp>
+	</target>
+</project>
+

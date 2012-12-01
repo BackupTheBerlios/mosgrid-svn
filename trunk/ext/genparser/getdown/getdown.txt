@@ -1,0 +1,11 @@
+# The URL from which the client is downloaded
+appbase = http://www.uni-koeln.de/~mkruse0/genparser/
+
+# UI Configuration
+ui.name = Generic Parser
+
+# Application jar files
+code = genparser.jar
+
+# The main entry point for the application
+class = de.ukoeln.msml.genericparser.GenericParserMain

@@ -1,0 +1,22 @@
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+    <service name="urn:resourceadmin" provider="java:RPC">
+        <parameter name="className" value="hu.sztaki.lpds.information.net.wsaxis13.ResourceServiceImpl"/>
+        <parameter name="allowedMethods" value="getAllMidleware getAllGrids getGridProperies setGridProperies getAllResource addResource deleteResource getConfiguredResources"/>
+        <parameter name="scope" value="request"/>
+
+        <beanMapping qname="lpdsNS:ResourceBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.information.data.ResourceBean"/>
+
+        <typeMapping deserializer="org.apache.axis.encoding.ser.VectorDeserializerFactory"
+            languageSpecificType="java:java.util.Vector" qname="ns1:AxisVector"
+            serializer="org.apache.axis.encoding.ser.VectorSerializerFactory"
+            encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        
+        <typeMapping
+            xmlns:ns="http://soapinterop.org/"
+            qname="ns1:AxisHashMap"
+            type="java:java.util.HashMap"
+            serializer="org.apache.axis.encoding.ser.MapSerializerFactory"
+            deserializer="org.apache.axis.encoding.ser.MapDeserializerFactory"
+            encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </service>
+</deployment>

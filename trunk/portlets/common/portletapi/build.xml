@@ -1,0 +1,70 @@
+<!DOCTYPE project>
+<project name="mosgrid-portlet-api" basedir="." default="clean-build">
+	
+	<import file="../../../../buildscripts/build-paths.xml"/>
+	
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="bin"/>
+    <property name="classes.dir" value="${build.dir}"/>
+	
+    <property name="lib.dir"     value="lib"/>
+
+    <target name="clean">
+    	<ant antfile="${loc.cmlstruc}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.asmapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.xfscon}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+    	<ant antfile="${loc.cmlstruc}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.asmapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.xfscon}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="true" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <filelist>
+                	<file name="${loc.cmlstruc.jar}"/>
+                	<file name="${loc.asmapi.jar}"/>
+                	<file name="${loc.msmlapi.jar}"/>
+                	<file name="${loc.dygraph}/dygraph.jar"/>
+                	<file name="${loc.chemdoodle}/chemdoodle.jar"/>
+                	
+                	<!-- IF NO LIFERAY EXTENVIRONMENT IS PRESENT THEN USE PRECOMPILED
+                	XTREEMFS-CONNECTION -->
+                	<file name="${loc.xfscon.jar}"/>
+                </filelist>
+        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        		<fileset dir="${loc.cmlstruc}/lib" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+    <target name="jar" depends="compile">
+    	<dirname property="jar.dir" file="${loc.portletapi.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.portletapi.jar}" basedir="${classes.dir}">
+    	</jar>
+    </target>
+	
+    <target name="warall">
+    	<ant antfile="${loc.dockingportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.mdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.qcportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.remdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.tdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.xfsportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<mkdir dir="/usr/local/guseuser/wars"/>
+		<copy todir="/usr/local/guseuser/wars" overwrite="true">
+			<fileset file="${loc.dockingportlet.war}"/>
+			<fileset file="${loc.mdportlet.war}"/>
+			<fileset file="${loc.qcportlet.war}"/>
+			<fileset file="${loc.remdportlet.war}"/>
+			<fileset file="${loc.tdportlet.war}"/>
+			<fileset file="${loc.xfsportlet.war}"/>
+		</copy>
+    </target>
+
+	<target name="clean-build" depends="clean,jar"/>
+</project>

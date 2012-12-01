@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cml:dictionary xmlns:cml="http://www.xml-cml.org/schema"
+
+	xmlns:convention="http://www.xml-cml.org/convention/" xmlns:unit="http://www.xml-cml.org/unit/nonSi/"
+	xmlns:unitType="http://www.xml-cml.org/unit/unitType/" xmlns:si="http://www.xml-cml.org/unit/si/"
+	xmlns:nonSi="http://www.xml-cml.org/unit/nonSi/" xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:dc="http://purl.org/dc/elements/1.1/" convention="convention:dictionary"
+	title="This is the adapter dictionary for the jobref adapter."
+	namespace="http://www.xml-cml.org/dictionary/adapter/jobref"
+	dictionaryPrefix="jobref">
+
+	<dc:author>Martin Kruse</dc:author>
+	<cml:description>
+		<xhtml:p>
+			This dictionary defines all parameter the jobref-Adapter may
+			have.
+			The jobref-adapter gets its input-file from the adapter
+			of
+			another job. This is for the case that two jobs will have exactly the
+			same
+			inputfiles.
+		</xhtml:p>
+	</cml:description>
+
+	<cml:entry id="jobref" term="jobref"
+		title="Name of the job that contains information about the inputfilegeneration."
+		dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				A job-ID within the given msml-document.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				The adapter-config for the job identified by this parameter
+				will be taken
+				to generate the inputfile for the current job.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+</cml:dictionary>

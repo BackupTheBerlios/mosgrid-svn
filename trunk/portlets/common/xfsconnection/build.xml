@@ -1,0 +1,38 @@
+<!DOCTYPE project>
+<project name="xtreemfs-connection" basedir="." default="clean-build">
+    
+	<import file="../../../../buildscripts/build-paths.xml"/>
+
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="bin"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+
+    <property name="lib.dir"     value="libs"/>
+	
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+	
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" target="1.6" source="1.6" debug="on"
+        	destdir="${classes.dir}" classpathref="classpath"/>
+    </target>
+
+    <target name="jar" depends="compile">
+    	<dirname property="jar.dir" file="${loc.xfscon.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.xfscon.jar}" basedir="${classes.dir}">
+        	<zipfileset dir="${src.dir}/schema" prefix="schema"/>
+        	<zipfileset dir="${src.dir}/templates" prefix="templates"/>
+        	<zipfileset dir="includes/saml" includes="*.xml, *.properties, *.jks"/>
+    	</jar>
+    </target>
+
+	<target name="clean-build" depends="clean,jar"/>
+</project>
