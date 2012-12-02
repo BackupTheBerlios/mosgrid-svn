@@ -1,7 +1,7 @@
 <!DOCTYPE project>
 <project name="md-portlet" basedir="." default="clean-build">
 	
-	<import file="../../../../buildscripts/build-paths.xml"/>
+	<import file="../../buildscripts/build-paths.xml"/>
 	
 	<property name="src.dir"     value="src"/>
 
@@ -13,7 +13,11 @@
 
     <target name="clean">
     	<ant antfile="${loc.portletapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
-        <delete dir="${build.dir}"/>
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
     </target>
 
     <target name="compile">

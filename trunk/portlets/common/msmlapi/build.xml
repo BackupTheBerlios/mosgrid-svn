@@ -1,20 +1,24 @@
 <!DOCTYPE project>
 <project name="msml-api" basedir="." default="clean-build">
 	
-	<import file="../../../../buildscripts/build-paths.xml"/>
+	<import file="../../../buildscripts/build-paths.xml"/>
 
 	<property name="src.dir"     value="src"/>
 
     <property name="build.dir"   value="bin"/>
     <property name="classes.dir" value="${build.dir}"/>
-	<property name="lib.dir"     value="libs"/>
+	<property name="lib.dir"     value="lib"/>
 		
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="**/*.jar"/>
 	</path>
 	
     <target name="clean">
-        <delete dir="${build.dir}"/>
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
     </target>
 
     <target name="compile">

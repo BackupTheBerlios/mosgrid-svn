@@ -14,7 +14,11 @@
     </path>
 	
     <target name="clean">
-        <delete dir="${build.dir}"/>
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
     </target>
 
     <target name="compile">

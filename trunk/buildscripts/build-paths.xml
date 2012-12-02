@@ -3,29 +3,31 @@
 	<dirname property="paths.basedir" file="${ant.file.build-paths}" />
 	
 	<property file="${paths.basedir}/build.properties"/>
+	<property name="loc.portlets.dir" location="${paths.basedir}/../portlets/" />
+	<property name="loc.ext.dir" location="${paths.basedir}/../ext/" />
 	
-	<property name="loc.asmapi" location="${paths.basedir}/../portal/trunk/wspgrade/asm_api_3.4.3/" />
-	<property name="loc.cmlstruc" location="${paths.basedir}/../msml/trunk/converters/" />
-	<property name="loc.msmlapi" location="${paths.basedir}/../msml/trunk/api/MSMLAPI/" />
-	<property name="loc.portletapi" location="${paths.basedir}/../portal/trunk/Portlets/API/" />
-	<property name="loc.xfscon" location="${paths.basedir}/../portal/trunk/Portlets/XtreemFS-Connection/" />
-	<property name="loc.dygraph" location="${paths.basedir}/../portal/trunk/Widgets/Dygraph" />
-	<property name="loc.chemdoodle" location="${paths.basedir}/../portal/trunk/Widgets/ChemDoodle" />
+	<property name="loc.asmapi" location="${loc.portlets.dir}/common/asmapi/api/" />
+	<property name="loc.cmlstruc" location="${loc.portlets.dir}/common/converter/" />
+	<property name="loc.msmlapi" location="${loc.portlets.dir}/common/msmlapi/" />
+	<property name="loc.portletapi" location="${loc.portlets.dir}/common/portletapi/" />
+	<property name="loc.xfscon" location="${loc.portlets.dir}/common/xfsconnection/" />
+	<property name="loc.dygraph" location="${loc.ext.dir}/widgets/dygraph/widget/" />
+	<property name="loc.chemdoodle" location="${loc.ext.dir}/widgets/chemdoodle/widget/" />
 	
 
-	<property name="loc.qcportlet" location="${paths.basedir}/../portal/trunk/Portlets/QM/QCPortletVAPI/" />
-	<property name="loc.mdportlet" location="${paths.basedir}/../portal/trunk/Portlets/MD-Portlet-V2/" />
-	<property name="loc.dockingportlet" location="${paths.basedir}/../portal/trunk/Portlets/Docking-Portlet-V2/" />
-	<property name="loc.tdportlet" location="${paths.basedir}/../msml/trunk/TemplateDesigner/" />
-	<property name="loc.remdportlet" location="${paths.basedir}/../portal/trunk/Portlets/REMD-Portlet/" />
-	<property name="loc.xfsportlet" location="${paths.basedir}/../portal/trunk/Portlets/XtreemFS/" />
-	<property name="loc.parser" location="${paths.basedir}/../msml/trunk/parser/src/" />
+	<property name="loc.qcportlet" location="${loc.portlets.dir}/qc/" />
+	<property name="loc.mdportlet" location="${loc.portlets.dir}/md/" />
+	<property name="loc.dockingportlet" location="${loc.portlets.dir}/docking/" />
+	<property name="loc.tdportlet" location="${loc.portlets.dir}/templatedesigner/" />
+	<property name="loc.remdportlet" location="${loc.portlets.dir}/remd/" />
+	<property name="loc.xfsportlet" location="${loc.portlets.dir}/xtreemfs/" />
+	<property name="loc.parser" location="${loc.ext.dir}/genparser/" />
 	
 	<property name="loc.asmapi.jar" location="${loc.asmapi}/mg-asm-api.jar" />
 	<property name="loc.cmlstruc.jar" location="${loc.cmlstruc}/mg-cml-struc.jar" />
 	<property name="loc.msmlapi.jar" location="${loc.msmlapi}/mg-msml-api.jar" />
 	<property name="loc.portletapi.jar" location="${loc.portletapi}/mg-portlet-api.jar" />
-	<property name="loc.xfscon.jar" location="${paths.basedir}/../portal/trunk/Portlets/XtreemFS-Connection/mg-xfscon.jar" />
+	<property name="loc.xfscon.jar" location="${loc.xfscon}/mg-xfscon.jar" />
 
 	<property name="val.qcportlet.war" value="QCPortletVAPI.war" />
 	<property name="val.mdportlet.war" value="MDPortletV2.war" />
@@ -49,14 +51,14 @@
 	<property name="loc.webapps.td.local" location="/usr/local/guseuser/tomcat/webapps/TemplateDesigner" />
 	<property name="loc.webapps.xtfsportlet.local" location="/usr/local/guseuser/tomcat/webapps/XtreemFS-Portlet" />
 
-	<property name="loc.xml" location="${paths.basedir}/../msml/trunk/XML" />
-	<property name="loc.adapdict" location="${loc.xml}/dictionaries/Adapter/" />
-	<property name="loc.envdict" location="${loc.xml}/dictionaries/Environment/" />
-	<property name="loc.parsdict" location="${loc.xml}/dictionaries/Parser/" />
-	<property name="loc.qcdict" location="${loc.xml}/dictionaries/QC/specific/" />
-	<property name="loc.mddict" location="${loc.xml}/dictionaries/MD/specific/" />
-	<property name="loc.dockingdict" location="${loc.xml}/dictionaries/Docking/" />
-	<property name="loc.remddict" location="${loc.xml}/dictionaries/REMD/" />
+	<property name="loc.xml" location="${paths.basedir}/../xml/" />
+	<property name="loc.adapdict" location="${loc.xml}/dictionaries/adapter/" />
+	<property name="loc.envdict" location="${loc.xml}/dictionaries/environment/" />
+	<property name="loc.parsdict" location="${loc.xml}/dictionaries/parser/" />
+	<property name="loc.qcdict" location="${loc.xml}/dictionaries/qc/" />
+	<property name="loc.mddict" location="${loc.xml}/dictionaries/md/" />
+	<property name="loc.dockingdict" location="${loc.xml}/dictionaries/docking/" />
+	<property name="loc.remddict" location="${loc.xml}/dictionaries/remd/" />
 
 	<property name="loc.adapdict.local" location="/usr/local/guseuser/guse/commondicts/adapter/dictionaries/" />
 	<property name="loc.envdict.local" location="/usr/local/guseuser/guse/commondicts/environment/dictionaries/" />
