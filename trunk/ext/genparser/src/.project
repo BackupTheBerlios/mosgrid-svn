@@ -49,12 +49,12 @@
 		<link>
 			<name>src/de/ukoeln/msml/genericparser/resources/dict-parser.cml</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/XML/dictionaries/parser/dict-parser.cml</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/xml/dictionaries/parser/dict-parser.cml</locationURI>
 		</link>
 		<link>
 			<name>src/de/ukoeln/msml/genericparser/resources/genparser-manual.pdf</name>
 			<type>1</type>
-			<locationURI>MOSGRID_SVN/msml/trunk/parser/doc/genparser-manual.pdf</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/doc/genparser-manual.pdf</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

@@ -58,7 +58,7 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/asm_api_3.4.3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asm_api"/>
 	<classpathentry kind="lib" path="lib/portlet.jar"/>
 	<classpathentry kind="lib" path="lib/jcl-over-slf4j.jar"/>
 	<classpathentry kind="lib" path="lib/jul-to-slf4j.jar"/>

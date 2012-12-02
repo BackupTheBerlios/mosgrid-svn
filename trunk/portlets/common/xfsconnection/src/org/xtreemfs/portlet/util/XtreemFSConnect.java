@@ -276,9 +276,16 @@ public class XtreemFSConnect {
 	protected static Client connect(String certFile, String certPass, String type) throws Exception {
 
 		// read the trusted.jks from within the jar
+		SSLOptions sslOptions = null;
 		InputStream trustedCAstream = null;
 		try {
 			trustedCAstream = new FileInputStream("trusted_xtreemfs.jks");
+
+			// SSLOptionen für XtreemFS: gridssl
+			String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
+			sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
+					trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
+
 		} catch (Exception e) {
 			trustedCAstream = XtreemFSConnect.class.getResourceAsStream("include/trusted_xtreemfs.jks");
 			if (trustedCAstream == null) {
@@ -312,11 +319,6 @@ public class XtreemFSConnect {
 				}
 			}
 		}
-
-		// SSLOptionen für XtreemFS: gridssl
-		String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
-		SSLOptions sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
-				trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
 
 		// Connection Timeout nach 2 Stunden
 		String url = XfsProperties.getProperty(XfsProperties.MRC_URL);
