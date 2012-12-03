@@ -18,7 +18,16 @@ import de.mosgrid.portlet.AboutInfo;
 import de.mosgrid.portlet.ImportedWorkflow;
 import de.mosgrid.portlet.MoSGridPortlet;
 import de.mosgrid.ukoeln.templatedesigner.gui.TDMainWindow;
-
+/**
+ * Template Designer main application class.
+ * 
+ * The TemplateDesigner is a portlet to help MoSGrid developers to setup templates. It provides a GUI
+ * to define all parameters for all jobs. The user needs to have advanced knowledge on how templates are used as
+ * the designer does not provide some kind of wizard to guide the user through the process.
+ * 
+ * @author mkruse0
+ *
+ */
 public class TemplateDesignerApplication extends MoSGridPortlet implements PortletRequestListener {
 	/**
 	 * 
@@ -27,54 +36,10 @@ public class TemplateDesignerApplication extends MoSGridPortlet implements Portl
 	private final Logger LOGGER = LoggerFactory.getLogger(TemplateDesignerApplication.class);
 	private TDDocumentManager man;
 
-	
-//	public TemplateDesignerApplication() {
-//		super();
-//		LogManager.getLogManager().reset();
-//		SLF4JBridgeHandler.install();
-//		java.util.logging.Logger.getLogger("").setLevel(java.util.logging.Level.FINEST);
-//		try {
-//			Properties properties = new Properties();
-//			InputStream s = TemplateDesignerApplication.class.getResourceAsStream("log4j.properties");
-//			properties.load(new BufferedInputStream(s));
-//			s.close();
-//			PropertyConfigurator.configure(properties);
-//		} catch (IOException e) {
-//			LOGGER.error("Unable to load properties for Logging.");
-//			e.printStackTrace();
-//		}
-//		
-//		Logging.start(Logging.LEVEL_INFO);
-//	}
-
-//	@Override
-//	public void init() {
-//		Logging.start(Logging.LEVEL_INFO, Category.all);
-//		if (_request == null) {
-//			String message = "Initialization error! Trying to initialize before request start!";
-//			Window w = new Window();
-//			setMainWindow(w);
-//			w.showNotification("Error", message + " Please contact the support.", Notification.TYPE_ERROR_MESSAGE);
-//		} else {
-//			VaadinXtreemFSSession.initialize(this);
-//
-//			man = new TDDocumentManager(_user, _request);
-//			TDMainWindow window = man.getMainWindow();
-//			window.setManager(man);
-//			setMainWindow(window);
-//		}
-//	}
-//
-//	@Override
-//	public void onRequestStart(PortletRequest request, PortletResponse response) {
-//		if (_request != null)
-//			return;
-//		_request = request;
-//		String userID = request.getRemoteUser();
-//		Principal p = request.getUserPrincipal();
-//		_user = new MosgridUser(userID, p);
-//	}
-
+	/**
+	 * Close is invoked on session-end. As opening a view is exclusive for one user, all views/templates must be closed
+	 * when a user is done editing templates.
+	 */
 	@Override
 	public void close() {
 		man.getMainDocument().closeAllOpenTemplates(getUser());
@@ -106,6 +71,10 @@ public class TemplateDesignerApplication extends MoSGridPortlet implements Portl
 	@Override
 	protected void afterApplicationInit() throws PortletInitializationException {}
 
+	/**
+	 * Somewhat the main entry point. Creates the DocumentManager which creates the
+	 * main view.
+	 */
 	@Override
 	protected void createUI() {
 		man = new TDDocumentManager(getUser(), this);

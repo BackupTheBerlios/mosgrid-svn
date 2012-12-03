@@ -4,6 +4,13 @@ import hu.sztaki.lpds.pgportal.services.asm.ASMService;
 
 import java.util.Map.Entry;
 
+/**
+ * Basis for a wrapped asm port. It provides functionality to retrieve port's name
+ * and port's number. Inherited objects must provide functionality to retrieve the remote path. 
+ * 
+ * @author mkruse0
+ *
+ */
 public abstract class MGASMPort extends MGASMBaseObject {
 
 	private final String _name;
@@ -19,10 +26,20 @@ public abstract class MGASMPort extends MGASMBaseObject {
 		_job = job;
 	}
 
+	/**
+	 * Get port's name.
+	 * 
+	 * @return Port's name
+	 */
 	public String getName() {
 		return _name;
 	}
-	
+
+	/**
+	 * Get port's number.
+	 * 
+	 * @return Port's number
+	 */
 	public String getNumber() {
 		return _number;
 	}

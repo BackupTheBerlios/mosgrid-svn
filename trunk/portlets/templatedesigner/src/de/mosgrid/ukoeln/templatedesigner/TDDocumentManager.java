@@ -11,6 +11,13 @@ import de.mosgrid.ukoeln.templatedesigner.gui.TDMainWindow;
 import de.mosgrid.ukoeln.templatedesigner.gui.TDViewBase;
 import de.mosgrid.ukoeln.templatedesigner.gui.TDViewBaseNonGeneric;
 
+/**
+ * The DocumentManager creates views and corresponding documents. For each document there is exactly one view.
+ * The view is the GUI and the document contains all data and handling logic.
+ *  
+ * @author mkruse0
+ *
+ */
 public class TDDocumentManager {
 
 	private TDMainWindow _mainWindow;
@@ -26,12 +33,20 @@ public class TDDocumentManager {
 		init(user, app);
 	}
 
+	/**
+	 * Initializes the manager and stores user and reference to main application.
+	 * Instantly creates the main view, which contains domain selection, templates etc. 
+	 * 
+	 * @param user The user of the current session.
+	 * @param app The main application.
+	 */
 	private void init(MosgridUser user, TemplateDesignerApplication app) {
 		_app = app;
 		_mainWindow = new TDMainWindow();
 		_tdMainView = new TDMainView();
 		_user = user;
 		
+		// create main view. other invokes of this kind are done when opening a template
 		_mainDoc = createAndAddView(new TDViewParam<TDMainTab, TDMainDocument>() {
 
 			@Override
@@ -66,6 +81,14 @@ public class TDDocumentManager {
 		return doc;
 	}
 
+	/**
+	 * This class is the base of parameters needed to create view and document.
+	 * 
+	 * @author mkruse0
+	 *
+	 * @param <T> Type of view.
+	 * @param <D> Type of document.
+	 */
 	public abstract class TDViewParam<T extends TDViewBaseNonGeneric, D extends TDDocumentBaseNonGeneric> {
 	
 		private T _view;
