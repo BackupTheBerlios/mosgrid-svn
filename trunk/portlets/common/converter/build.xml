@@ -15,7 +15,7 @@
     		<fileset dir="${build.dir}" defaultexcludes="true">
     			<include name="**/*"/>
     		</fileset>
-    	</delete>s
+    	</delete>
     </target>
 	
     <target name="compile.cronjob">
