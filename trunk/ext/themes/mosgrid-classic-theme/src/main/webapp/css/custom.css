@@ -1,12 +1,21 @@
+@import "compass";
+
+@import url(custom_base.css);
+
 @import url(custom_common.css);
 
-@import url(color_schemes/green.css);
-
-@import url(color_schemes/orange.css);
 
 /* ---------- Base styles ---------- */
 
-body {
+body,
+.aui-autocomplete-results-content,
+.aui-calendar-content,
+.aui-colorpicker-content,
+.aui-dialog-content,
+.aui-overlaycontext-content,
+.lfr-panel-container,
+.aui-menu-content
+{
       background: #EEF0F2;
       color: #222;
 }
@@ -15,8 +24,8 @@ html {
       font-size: 100.01%;
 }
 
-
-a {
+a,
+.aui-dialog-content a {
 	color: #5B677D;
 	text-decoration: underline;
 }
@@ -25,6 +34,7 @@ a:hover {
 	color: #06C;
 	text-decoration: none;
 }
+
 
 hr, .separator {
 	border-color: #BFBFBF transparent #FFF;
@@ -47,20 +57,58 @@ hr, .separator {
 #banner {
 	background: none;
 	height: auto;
+	margin-top: 1.4em;
+	position: relative;
 }
 
-#banner .company-title {
-	float: none;
-	margin: 15px 0 0;
-	position: static;
+.site-title .site-name {
+	background: #555 url(../images/common/site_icon.png) no-repeat 15px 50%;
+	color: #FFF;
+	display: block;
+	float: right;
+	font-size: 1em;
+	font-weight: bold;
+	margin: 15px 0 0 20px;
+	padding: 7px 17px 7px 40px;
+	position: relative;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 }
 
+.page-template .site-title .site-name {
+	background-image: url(../images/common/page_template.png);
+}
+
+.site-template .site-title .site-name {
+	background-image: url(../images/common/site_template.png);
+}
+
+.company-site .site-title .site-name {
+	background-image: url(../images/common/folder.png);
+}
+
+.organization-site .site-title .site-name {
+	background-image: url(../images/common/organization_icon_white.png);
+                                            }
 body #banner .logo a {
 	float: left;
 }
 
+.user-site .site-title .site-name {
+	background-image: url(../images/common/user_icon_white.png);
+                                    }
 .current-community {
 	display: none;
+}
+
+.private-page .site-title .site-name:after {
+	background-image: url(../images/common/key_small.png);
+	content: '';
+	display: block;
+	height: 10px;
+	left: 24px;
+	position: absolute;
+	top: 50%;
+	width: 10px;
 }
 
 .logo .current-community {
@@ -76,7 +124,7 @@ body #banner .logo a {
 }
 
 #skip-to-content:focus {
-	clip: auto;
+	clip: rect(auto auto auto auto);
 	right: 0;
 	z-index: 200;
 }
@@ -152,42 +200,30 @@ body #banner .logo a {
 	text-decoration: none;
 }
 
-.ie7 #navigation a {
+.ie6 #navigation a, .ie7 #navigation a {
 	padding: 4px 15px;
 }
 
-#navigation .aui-dd-drop a {
+#navigation .yui3-dd-drop a {
 	cursor: move;
 }
 
-#navigation .selected a, #navigation a:hover, #navigation a:focus, #navigation .child-menu li a, #navigation .aui-dd-dragging, .lfr-navigation-proxy {
+#navigation .selected a, #navigation li.hover a, #navigation a:hover, #navigation a:focus, #navigation .child-menu li a, #navigation .yui3-dd-dragging, .lfr-navigation-proxy {
 	background: #313334;
 	color: #FFF;
 	outline: 0;
 	text-shadow: -1px -1px #000;
 }
 
-#navigation li:hover .child-menu {
+#navigation li.hover .child-menu {
 	background: #1E2529;
 	display: block;
 	position: absolute;
 	width: 200px;
-	z-index: 200;
+	z-index: 250;
 }
 
-#navigation .child-menu a {
-	display: block;
-}
-
-.ie6 #navigation li.hover .child-menu {
-	background: #1E2529;
-	display: block;
-	position: absolute;
-	width: 200px;
-	z-index: 200;
-}
-
-.ie6 #navigation li.hover .child-menu, .ie7 #navigation li:hover ul.child-menu {
+.ie6 #navigation ul.child-menu-visible, .ie6 #navigation li.hover .child-menu, .ie7 #navigation ul.child-menu-visible, .ie7 #navigation li.hover ul.child-menu {
 	left: 0;
 	top: 25px;
 }
@@ -211,12 +247,16 @@ body #banner .logo a {
 	zoom: 1;
 }
 
-#navigation .child-menu li a:hover {
+#navigation .child-menu li a:hover, #navigation li a.active {
 	background-color: #020509;
 }
 
 #navigation .child-menu .selected a {
 	background: #020509 url(../images/navigation/bullet_selected.png) no-repeat 5px 50%;
+}
+
+.nav-menu-style-arrows ul {
+	list-style-image: url(../images/navigation/bullet_selected.png);
 }
 
 /* ---------- Portlet wrapper and icons ---------- */
@@ -300,18 +340,67 @@ body #banner .logo a {
 /* ---------- Footer ---------- */
 
 #footer {
-      text-align: right;
+	text-align: right;
 }
 
-/* gets overwritten */
+/* ---------- Site breadcrumbs ---------- */
 
+.site-breadcrumbs {
+	margin: 0 0 5px;
+	width: auto;
+}
+
+.site-breadcrumbs ul {
+	background-color: #FFF;
+	border: 1px solid #DEDEDE;
+	border-color: #C0C2C5;
+	margin: 0;
+}
+
+.site-breadcrumbs li {
+	background-image: none;
+	margin-right: 0;
+	padding-left: 0.75em;
+	padding-right: 0;
+}
+
+.site-breadcrumbs li span {
+	background: url(../images/common/breadcrumbs.png) no-repeat 100% 50%;
+	display: block;
+	padding: 0.5em 15px 0.5em 0;
+}
+
+.site-breadcrumbs li span a {
+	text-decoration: none;
+}
+
+.site-breadcrumbs li.first a {
+	color: #369;
+	font-weight: bold;
+}
+
+.site-breadcrumbs li.last a {
+	color: #4B5567;
+	font-size: 1.3em;
+}
+
+.site-breadcrumbs .last {
+	font-size: 1em;
+	margin-top: 0;
+	padding-right: 0;
+}
+
+.site-breadcrumbs .last span {
+	background-image: none;
+	padding: 0;
+}
 
 /* ---------- Hudcrumbs ---------- */
 
 .lfr-hudcrumbs {
 	position: fixed;
 	top: 0;
-	z-index: 200;
+	z-index: 440;
 }
 
 .lfr-hudcrumbs ul {
@@ -351,6 +440,10 @@ body #banner .logo a {
 
 /* ---------- Extras ---------- */
 
+#banner .site-name {
+	@include box-shadow(inset 0 0 5px rgba(0, 0, 0, 0.8), 1px 1px 1px #FFF);
+}
+
 .portlet-borderless-bar {
 	-moz-border-radius: 20px;
 	-moz-box-shadow: inset 0 1px 3px #000;
@@ -366,10 +459,13 @@ body #banner .logo a {
 	box-shadow: 1px 1px 0 #FFF;
 }
 
+#banner .site-name {
+	@include border-radius(4px);
+	@include box-shadow(inset 0 0 5px rgba(0, 0, 0, 0.8), 1px 1px 1px #FFF);
+                     }
+
 .logo .current-community {
-	-moz-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5), 1px 1px 0 #FFF;
+	@include box-shadow(inset 0 0 5px rgba(0, 0, 0, 0.8), 1px 1px 1px #FFF);
 }
 
 #navigation li.selected a {
@@ -538,14 +634,6 @@ pre code {
       background-color:transparent;
 }
 
-.aui-autocomplete-results-content,
-.aui-calendar-content,
-.aui-colorpicker-content,
-.aui-dialog-content,
-.aui-overlaycontext-content {
-    background:none repeat scroll 0 0 #FFFFFF;
-      color: #222;
-}
 
 .aui-underlay-content {
     background:url("../images/common/message_panel_shadow.png") repeat-x scroll 0 0 #F4F3F3;
@@ -705,3 +793,252 @@ pre code {
 	color: #222;
 	background-color: #fdd;
 }
+
+.portlet-dockbar {
+   background-color: #E0E7F1;
+   color: #222;
+}
+
+.delete-tab {
+   background: #333 url(../images/portlet/close_borderless.png) no-repeat 50%;
+   color: #fff;
+}
+
+.aui-form-trigger {
+   background: #C4C4C4 url(../images/application/button_bg.png) repeat-x 0 0;
+   color: #222;	
+
+   &:hover, &:focus {
+      background-color: #83B0CA;
+      background-image: url(../images/application/button_bg_over.png);
+      color: #222;
+   }
+}
+.aui-trigger-selected {
+	background-color: #EBEBEB;
+	background-image: url(../images/application/button_bg_selected.png);
+
+	&:hover, &:focus {
+		background-color: #B7DEF4;
+		background-image: url(../images/application/button_bg_selected_over.png);
+	}
+   color: #222;
+}
+/* ---------- Main ---------- */
+
+.aui-state-default {
+	background: #D4D4D4 url(../images/portlet/header_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+.aui-state-hover {
+	background: #B9CED9 url(../images/application/state_hover_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+.aui-state-active {
+	background: #EBEBEB url(../images/application/state_active_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+.results-grid {
+   background: #FFF;
+   color: #222;
+}
+
+
+.results-header {
+   color:#222;
+   background: #D1D6DC;
+}
+
+.results-row {
+   td {
+      &.sort-column {
+	 background: #E6ECEF;
+	 color: #222;
+      }
+   }
+
+	&.alt.selected td, &.alt.selected.hover td {
+		background-color: #00A2EA;
+	   color: #000;
+	}
+}
+
+/* ---------- Dragging/sorting indicators ---------- */
+
+.drop-area {
+   background-color: #D3DADD;
+   color: #222;
+}
+
+.active-area {
+   background: #FFC;
+   color: #222;
+}
+
+
+.aui-sortable-proxy {
+	background: #727C81;
+	margin-top: 1px;
+   color:#222;
+}
+
+.aui-tagselector-content {
+	.aui-textboxlistentry-holder {
+	   background: #EEF0F2;
+	   color: #222;
+	}
+}
+
+.aui-tagselector-focused .aui-textboxlistentry-holder {
+   background: #FFC none;
+   color: #222;
+}
+
+.aui-underlay-content {
+	background: #F4F3F3 url(../images/common/message_panel_shadow.png) repeat-x 0 0;
+   color: #222;
+}
+
+.aui-panel-hd {
+	background: #C0C2C5 url(../images/application/panel_header_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+
+.aui-menu-content, .lfr-menu-list ul {
+	background: #CCC9C9 url(../images/application/menu_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+.aui-menugroup-content .aui-menu-label {
+	background: #D2D6DE;
+	color: #5B677D;
+}
+
+
+.aui-loadingmask-content {
+   background: #CCC;
+   color: #222;
+}
+
+.aui-loadingmask-message {
+	background: #D4D4D4 url(../images/portlet/header_bg.png) repeat-x 0 0;
+   color: #222;
+}
+
+
+/* ---------- Page Customization ---------- */
+
+.aui-dragging .portlet-column.customizable {
+	background-color: #CFFCCF;
+   color: #222;
+}
+
+.customizable-layout-column-content {
+	background-color: #C92C3C;
+   color: #222;
+}
+
+.customizable .customizable-layout-column-content {
+	background-color: #9CC97B;
+   color: #222;
+}
+
+.layout-customizable-controls {
+	background-color: #FFF;
+   color: #222;
+}
+
+
+/* ---------- Header row ---------- */
+
+.lfr-header-row {
+	background: #8F8F8F url(../images/application/header_row_bg.png) 0 0 repeat-x;
+   color: #222;
+}
+
+
+@mixin input-field-default {
+   color: #222;
+}
+
+@mixin input-field-focus {
+	background: #FFC none;
+   color: #222;
+}
+
+
+
+input {
+	background: #FFF;
+   color: #222;
+}
+
+.portlet-msg-info,
+.portlet-msg-error,
+.portlet-msg-alert {
+   color: #222;
+}
+
+/* ---------- Miscellaneous portlet styles ---------- */
+
+.restricted {
+	&, & td {
+		background: #FDD;
+		border: none;
+	   color: #222;
+	}
+
+	* {
+		color: #727C81;
+	}
+}
+
+.alt.restricted td {
+	background-color: #FFC0C0;
+   color: #222;
+}
+
+.hover.restricted td {
+	background-color: #D3BDC0;
+   color: #222;
+}
+/* ---------- Actions button ---------- */
+
+
+.lfr-actions {
+	&.lfr-extended, &.lfr-extended ul {
+		background: #FFF url(../images/forms/button.png) repeat-x 0 100%;
+	   color: #222;
+	}
+
+}
+
+.taglib-calendar {
+	tr {
+		&.portlet-section-header th, & td {
+			border: none;
+		}
+
+		td {
+			a {
+				background-color: #F0F5F7;
+			   color:#222;
+			}
+		}
+	}
+	.calendar-current-day {
+		&, & a {
+			background-color: #FFF;
+		}
+	}
+}
+
+#_58_middleName,
+[for="_58_middleName"] {
+	display: none;
+}
+

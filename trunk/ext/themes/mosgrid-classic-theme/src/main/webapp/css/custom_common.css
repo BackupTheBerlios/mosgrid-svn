@@ -1,90 +1,46 @@
 /* ---------- Breadcrumbs ---------- */
 
-.breadcrumbs {
+.breadcrumbs-horizontal {
 	margin-bottom: 1.5em;
 }
 
-.breadcrumbs li {
+.breadcrumbs-horizontal li {
 	background: url(../images/arrows/05_right.png) no-repeat 100% 50%;
 	display: inline-block;
 	margin-right: 5px;
 	max-width: 50%;
 	padding-right: 15px;
-	vertical-align: middle;
 }
 
-.ie7 .breadcrumbs li, .ie6 .breadcrumbs li {
-	display: inline;
-	zoom: 1;
-}
-
-.ie6 .breadcrumbs {
-	zoom: 1;
+.breadcrumbs-vertical li {
+	background: url(../images/arrows/07_down.png) no-repeat 50% 100%;
+	padding: 0 0 9px;
+	max-width: auto;
 }
 
 .breadcrumbs a {
 	display: block;
 }
 
-.breadcrumbs .last {
-	background-image: none;
-	margin-top: 0.2em;
-}
-
-.breadcrumbs .last a, .aui-tree-node-selected a {
-	color: #555;
-}
-
-/* ---------- Site breadcrumbs ---------- */
-
-.site-breadcrumbs {
-	margin: 0 0 5px;
-	width: auto;
-}
-
-.site-breadcrumbs ul {
-	background-color: #FFF;
-	border: 1px solid #DEDEDE;
-	border-color: #C0C2C5;
-	margin: 0;
-}
-
-.site-breadcrumbs li {
-	background-image: none;
-	margin-right: 0;
-	padding-left: 0.75em;
-	padding-right: 0;
-}
-
-.site-breadcrumbs li span {
-	background: url(../images/common/breadcrumbs.png) no-repeat 100% 50%;
-	display: block;
-	padding: 0.5em 15px 0.5em 0;
-}
-
-.site-breadcrumbs li span a {
+.breadcrumbs-vertical a {
+	text-align: center;
 	text-decoration: none;
 }
 
-.site-breadcrumbs li.first a {
-	color: #369;
+.breadcrumbs .last {
+	background-image: none;
+}
+
+.breadcrumbs-horizontal .last {
+	margin-top: 0.2em;
+}
+
+.breadcrumbs-vertical .last {
 	font-weight: bold;
 }
 
-.site-breadcrumbs li.last a {
-	color: #4B5567;
-	font-size: 1.3em;
-}
-
-.site-breadcrumbs .last {
-	font-size: 1em;
-	margin-top: 0;
-	padding-right: 0;
-}
-
-.site-breadcrumbs .last span {
-	background-image: none;
-	padding: 0;
+.breadcrumbs-horizontal .last a, .aui-tree-node-selected a {
+	color: #555;
 }
 
 /* ---------- Hidden Accessible ---------- */
@@ -94,23 +50,19 @@
 	position: absolute;
 }
 
-/* ---------- Extras ---------- */
-
-.aui-tab-active:after {
-	border: 10px solid;
-	border-bottom-width: 0;
-	border-color: #333 transparent transparent;
-	bottom: -7px;
-	content: '-';
-	display: block;
-	height: 0;
-	left: 50%;
-	margin-left: -10px;
-	position: absolute;
+.opens-new-window-accessible {
+	background: url(../images/common/open_window.png) no-repeat 0 50%;
+	display: inline-block;
+	font-size: 0;
+	height: 11px;
+	margin-left: 2px;
+	overflow: hidden;
 	text-indent: -9999px;
-	width: 0;
-	z-index: 20;
+	vertical-align: top;
+	width: 11px;
 }
+
+/* ---------- Extras ---------- */
 
 .lfr-title-scope-selector {
 	-moz-border-radius-bottomleft: 4px;
@@ -124,7 +76,7 @@
 	border-bottom-right-radius: 4px;
 }
 
-.logo .current-community, #navigation, #navigation a, .portlet, .portlet-topper, .site-breadcrumbs ul {
+.logo .current-site, #navigation, #navigation a, .portlet, .portlet-topper, .site-breadcrumbs ul, .aui-form-validator-message {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;

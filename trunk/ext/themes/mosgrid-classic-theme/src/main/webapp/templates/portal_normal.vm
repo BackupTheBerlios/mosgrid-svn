@@ -12,7 +12,9 @@
 
 <body class="$css_class mosgridBG">
 
-#if($is_signed_in)
+$theme.include($body_top_include)
+
+#if ($is_signed_in)
 	#dockbar()
 #end
 
@@ -20,12 +22,12 @@
 	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>
 
 	<header id="banner" role="banner">
-		<hgroup id="heading">
-			<a class="logo" href="$company_url" title="#language("go-to") $company_name">
-				<span>$company_name</span>
+		<div id="heading">
+		        <a class="$logo_css_class" href="$site_default_url" title="#language("go-to") $site_name">
+				<img alt="$logo_description" height="$site_logo_height" src="$site_logo" width="$site_logo_width" />
 			</a>
 			<div id="banner-login">
-				#if(!$is_signed_in)
+				#if(!$is_signed_in && $layoutTypePortlet.getStateMaxPortletId() != "58")
 					#set ($locPortletId = "58")
 					$velocityPortletPreferences.setValue("portlet-setup-show-borders",
 						"false")
@@ -35,12 +37,19 @@
 					$velocityPortletPreferences.reset()
 				#end
 			</div>
-                             
-			<h2 class="company-title">
+                        #if ($show_site_name || 1)
+			         
+			       <h2 class="site-title">
+					<span class="site-name" title="#language("go-to") $site_name">
+						$site_name
+					</span>
+			       </h2>
+			#end     
+<!-- If we want to link the site name:			
 				<a class="logo-link" href="$company_url" title="#language("go-to") $company_name">
 					<span>$company_name</span>
 				</a>
-			</h2>
+-->
 
 			<h2 class="community-title">
 				<a href="$community_default_url" title="#language("go-to") $community_name">
@@ -51,20 +60,14 @@
 			<h1 class="page-title">
 				<span>$the_title</span>
 			</h1>
-		</hgroup>
+		</div>
 
 
 		#if(0 && !$is_signed_in)
 			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
 		#end
 
-		#if ($update_available_url)
-			<div class="popup-alert-notice">
-				<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
-			</div>
-		#end
-
-		#if ($has_navigation)
+		#if ($has_navigation || $is_signed_in)
 			#parse ("$full_templates_path/navigation.vm")
 		#end
 	</header>
@@ -100,6 +103,8 @@
         </footer>
 
 </div>
+
+$theme.include($body_bottom_include)
 
 </body>
 

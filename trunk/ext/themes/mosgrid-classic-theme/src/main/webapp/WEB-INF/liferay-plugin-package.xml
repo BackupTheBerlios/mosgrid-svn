@@ -3,12 +3,12 @@
 
 <plugin-package>
 	<name>MoSGrid classic Theme</name>
-	<module-id>liferay/mosgrid-classic-theme/6.0.6/war</module-id>
+	<module-id>liferay/mosgrid-classic-theme/6.1.0/war</module-id>
 	<types>
 		<type>theme</type>
 	</types>
 	<tags></tags>
-	<short-description>based on Liferay 6.0 Classic theme</short-description>
+	<short-description>based on Liferay 6.1 Classic theme</short-description>
 	<long-description></long-description>
 	<change-log></change-log>
 	<page-url>http://MoSGrid.de</page-url>
@@ -17,6 +17,6 @@
 		<license osi-approved="true">LGPL</license>
 	</licenses>
 	<liferay-versions>
-		<liferay-version>6.0.6+</liferay-version>
+		<liferay-version>6.1.0+</liferay-version>
 	</liferay-versions>
 </plugin-package>

@@ -3,7 +3,7 @@
 
 <look-and-feel>
 	<compatibility>
-		<version>6.0.6+</version>
+		<version>6.1.0+</version>
 	</compatibility>
 	<theme id="mosgrid-classic" name="MoSGrid classic" />
 </look-and-feel>

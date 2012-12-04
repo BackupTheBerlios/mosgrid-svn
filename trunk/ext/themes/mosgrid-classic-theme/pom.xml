@@ -22,7 +22,7 @@
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>theme-merge</goal>
-						<!--	<goal>build-thumbnail</goal> -->
+							<goal>build-thumbnail</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -105,8 +105,11 @@
 	</dependencies>
 	<properties>
 		<liferay.auto.deploy.dir>/home/schlemme/Portale/liferay-portal-6.1.0-ce-ga1/deploy</liferay.auto.deploy.dir>
+		<!--
+		    <liferay.theme.parent>_styled</liferay.theme.parent>
+		-->
 		<liferay.theme.parent>_styled</liferay.theme.parent>
 		<liferay.theme.type>vm</liferay.theme.type>
-		<liferay.version>6.0.6</liferay.version>
+		<liferay.version>6.1.0</liferay.version>
 	</properties>
 </project>

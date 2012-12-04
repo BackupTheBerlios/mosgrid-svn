@@ -4,8 +4,18 @@ AUI().ready(
 	loaded.
 	*/
 
-	'liferay-hudcrumbs',
+	'liferay-hudcrumbs', 'liferay-navigation-interaction',
 	function(A) {
+		var navigation = A.one('#navigation');
+
+		if (navigation) {
+			navigation.plug(Liferay.NavigationInteraction);
+		}
+
+
+/* Liferay 6.0.5 or earlier:
+
+
 		if (Liferay.Browser.isIe() && Liferay.Browser.getMajorVersion() < 7) {
 			var navigation = A.one('#navigation > ul');
 
@@ -26,7 +36,8 @@ AUI().ready(
 					'> li'
 				);
 			}
-		}
+		} 
+*/
 
 		var siteBreadcrumbs = A.one('.site-breadcrumbs');
 
