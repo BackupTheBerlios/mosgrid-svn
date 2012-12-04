@@ -1,0 +1,83 @@
+<project name="build-paths" basedir=".">
+
+	<dirname property="paths.basedir" file="${ant.file.build-paths}" />
+	
+	<property file="${paths.basedir}/build.properties"/>
+	<property name="loc.portlets.dir" location="${paths.basedir}/../portlets/" />
+	<property name="loc.ext.dir" location="${paths.basedir}/../ext/" />
+	
+	<property name="loc.asmapi" location="${loc.portlets.dir}/common/asmapi/api/" />
+	<property name="loc.cmlstruc" location="${loc.portlets.dir}/common/converter/" />
+	<property name="loc.msmlapi" location="${loc.portlets.dir}/common/msmlapi/" />
+	<property name="loc.portletapi" location="${loc.portlets.dir}/common/portletapi/" />
+	<property name="loc.xfscon" location="${loc.portlets.dir}/common/xfsconnection/" />
+	<property name="loc.dygraph" location="${loc.ext.dir}/widgets/dygraph/widget/" />
+	<property name="loc.chemdoodle" location="${loc.ext.dir}/widgets/chemdoodle/widget/" />
+	
+
+	<property name="loc.qcportlet" location="${loc.portlets.dir}/qc/" />
+	<property name="loc.mdportlet" location="${loc.portlets.dir}/md/" />
+	<property name="loc.dockingportlet" location="${loc.portlets.dir}/docking/" />
+	<property name="loc.tdportlet" location="${loc.portlets.dir}/templatedesigner/" />
+	<property name="loc.remdportlet" location="${loc.portlets.dir}/remd/" />
+	<property name="loc.xfsportlet" location="${loc.portlets.dir}/xtreemfs/" />
+	<property name="loc.parser" location="${loc.ext.dir}/genparser/" />
+	
+	<property name="loc.asmapi.jar" location="${loc.asmapi}/mg-asm-api.jar" />
+	<property name="loc.cmlstruc.jar" location="${loc.cmlstruc}/mg-cml-struc.jar" />
+	<property name="loc.msmlapi.jar" location="${loc.msmlapi}/mg-msml-api.jar" />
+	<property name="loc.portletapi.jar" location="${loc.portletapi}/mg-portlet-api.jar" />
+	<property name="loc.xfscon.jar" location="${loc.xfscon}/mg-xfscon.jar" />
+
+	<property name="val.qcportlet.war" value="QCPortletVAPI.war" />
+	<property name="val.mdportlet.war" value="MDPortletV2.war" />
+	<property name="val.dockingportlet.war" value="DockingPortletV2.war" />
+	<property name="val.tdportlet.war" value="TemplateDesigner.war" />
+	<property name="val.remdportlet.war" value="REMDPortlet.war" />
+	<property name="val.xfsportlet.war" value="XtreemFS-Portlet.war" />
+	<property name="loc.qcportlet.war" location="${loc.qcportlet}//${val.qcportlet.war}" />
+	<property name="loc.mdportlet.war" location="${loc.mdportlet}/${val.mdportlet.war}" />
+	<property name="loc.dockingportlet.war" location="${loc.dockingportlet}/${val.dockingportlet.war}" />
+	<property name="loc.tdportlet.war" location="${loc.tdportlet}/${val.tdportlet.war}" />
+	<property name="loc.remdportlet.war" location="${loc.remdportlet}/${val.remdportlet.war}" />
+	<property name="loc.xfsportlet.war" location="${loc.xfsportlet}/${val.xfsportlet.war}" />
+
+	<property name="loc.tomcat.ext" location="/usr/local/guseuser/tomcat/lib/ext" />
+
+	<property name="loc.deploy.local" location="/usr/local/guseuser/deploy/" />
+	<property name="loc.webapps.qc.local" location="/usr/local/guseuser/tomcat/webapps/QCPortletVAPI" />
+	<property name="loc.webapps.md.local" location="/usr/local/guseuser/tomcat/webapps/MDPortletV2" />
+	<property name="loc.webapps.docking.local" location="/usr/local/guseuser/tomcat/webapps/DockingPortletV2" />
+	<property name="loc.webapps.td.local" location="/usr/local/guseuser/tomcat/webapps/TemplateDesigner" />
+	<property name="loc.webapps.xtfsportlet.local" location="/usr/local/guseuser/tomcat/webapps/XtreemFS-Portlet" />
+
+	<property name="loc.xml" location="${paths.basedir}/../xml/" />
+	<property name="loc.adapdict" location="${loc.xml}/dictionaries/adapter/" />
+	<property name="loc.envdict" location="${loc.xml}/dictionaries/environment/" />
+	<property name="loc.parsdict" location="${loc.xml}/dictionaries/parser/" />
+	<property name="loc.qcdict" location="${loc.xml}/dictionaries/qc/" />
+	<property name="loc.mddict" location="${loc.xml}/dictionaries/md/" />
+	<property name="loc.dockingdict" location="${loc.xml}/dictionaries/docking/" />
+	<property name="loc.remddict" location="${loc.xml}/dictionaries/remd/" />
+
+	<property name="loc.adapdict.local" location="/usr/local/guseuser/guse/commondicts/adapter/dictionaries/" />
+	<property name="loc.envdict.local" location="/usr/local/guseuser/guse/commondicts/environment/dictionaries/" />
+	<property name="loc.parsdict.local" location="/usr/local/guseuser/guse/commondicts/parser/dictionaries/" />
+	<property name="loc.qcdict.local" location="/usr/local/guseuser/guse/qc/dictionaries/" />
+	<property name="loc.mddict.local" location="/usr/local/guseuser/guse/md/dictionaries/" />
+	<property name="loc.dockingdict.local" location="/usr/local/guseuser/guse/docking/dictionaries/" />
+	<property name="loc.remddict.local" location="/usr/local/guseuser/guse/remd/dictionaries/" />
+	
+	<property name="loc.qctempl" location="${loc.xml}/templates/qc/" />
+	<property name="loc.mdtempl" location="${loc.xml}/templates/md/" />
+	<property name="loc.dockingtempl" location="${loc.xml}/templates/docking/" />
+	<property name="loc.remdtempl" location="${loc.xml}/templates/remd/" />
+
+	<property name="loc.qctempl.local" location="/usr/local/guseuser/guse/qc/templates/" />
+	<property name="loc.mdtempl.local" location="/usr/local/guseuser/guse/md/templates/" />
+	<property name="loc.dockingtempl.local" location="/usr/local/guseuser/guse/docking/templates/" />
+	<property name="loc.remdtempl.local" location="/usr/local/guseuser/guse/remd/templates/" />
+
+	<property name="loc.urlinvoker" location="${paths.basedir}/urlinvoker.jar" />
+
+</project>

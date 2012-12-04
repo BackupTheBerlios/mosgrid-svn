@@ -1,0 +1,56 @@
+<!DOCTYPE project>
+<project name="cml-struktur" basedir="." default="clean-build">
+	
+	<import file="../../../buildscripts/build-paths.xml"/>
+	
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="bin"/>
+    <property name="classes.dir" value="${build.dir}"/>
+	<property name="lib.dir"     value="lib"/>
+	
+    <target name="clean">
+    	<ant antfile="${loc.msmlapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
+    </target>
+	
+    <target name="compile.cronjob">
+    	<ant antfile="${loc.msmlapi}/build.xml" target="jar.cronjob" inheritall="false" inheritrefs="false" />
+        <mkdir dir="${classes.dir}"/>
+        <javac encoding="utf-8" fork="on" executable="${javac.cronjob}" srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <fileset dir="${loc.msmlapi}" includes="*.jar"/>
+        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+    <target name="compile">
+    	<ant antfile="${loc.msmlapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <fileset dir="${loc.msmlapi}" includes="*.jar"/>
+        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+    <target name="jar.cronjob" depends="compile.cronjob">
+    	<dirname property="jar.dir" file="${loc.cmlstruc.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.cmlstruc.jar}" basedir="${classes.dir}"/>
+    </target>
+
+    <target name="jar" depends="compile">
+    	<dirname property="jar.dir" file="${loc.cmlstruc.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.cmlstruc.jar}" basedir="${classes.dir}"/>
+    </target>
+
+	<target name="clean-build" depends="clean,jar"/>
+</project>

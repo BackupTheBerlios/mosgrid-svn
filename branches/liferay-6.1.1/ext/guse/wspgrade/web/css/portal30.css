@@ -1,0 +1,122 @@
+.shape{
+/*    position:absolute;*/
+/*    left:0px;
+    top:0px;*/
+    width:100%;
+/*    height:10px; */
+    background:url(../img/overlay.png);
+    filter:alpha(opacity=90);
+    text-align:center;
+}
+
+.hdn_txt
+{
+    position:absolute;
+    width:500px;
+    background:#99aabb;
+    margin-left:50px;
+    margin-right:50px;
+    border: 1px solid #ffffff
+}
+
+.iodline
+{
+    display:block;
+    width:100%;
+    border-bottom:1px solid #e7e0d5;
+}
+
+.submitted{
+    color:#000000;
+    background-color:orange;
+}
+
+
+.running{
+    color:#000000;
+    background-color:red;
+}
+.suspended{
+    color:#000000;
+    background-color:yellow;
+}
+
+.finished{
+    color:#000000;
+    background-color:lime;
+}
+
+.error{
+    color:#000000;
+    background-color:dodgerblue;
+}
+
+.aborted{
+    color:#000000;
+    background-color:dodgerblue;
+}
+
+.init{
+    color:black;
+    background-color:white;
+}
+
+.scheduled{
+    color:black;
+    background-color:white;
+}
+
+.bback{
+    background:url(../img/overlay.png);
+    filter:alpha(opacity=90);
+}
+
+.kback
+{
+    background-color: #32cc99;
+    color:#ffffff;
+}
+
+.khead
+{
+    background-color: #138F6A;
+    color:#000000;
+}
+
+.kline0
+{
+    background-color:#e0eee0;
+    color:#000000;
+}
+.kline1
+{
+    background-color: #ffffff;
+    color:#000000;
+}
+.kline2
+{
+    background-color: #4f8bce;
+    color:#000000;
+}
+
+.ksline
+{
+    border-top:2px solid #4f8bce;
+}
+.kahead
+{
+    background-color: #4f8bce;
+}
+
+.bold
+{
+    font-weight:bold;
+    font-size:120%;
+    display:block;
+    float:left;
+}
+.clink
+{
+    font-style:italic;
+    color:red;
+}

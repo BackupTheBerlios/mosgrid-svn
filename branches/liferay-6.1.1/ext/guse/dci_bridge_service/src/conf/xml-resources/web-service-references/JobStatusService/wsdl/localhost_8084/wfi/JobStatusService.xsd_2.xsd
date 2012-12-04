@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://schemas.xmlsoap.org/soap/envelope/">
+
+<xs:element name="Body" nillable="true" type="tns:Body"></xs:element>
+
+<xs:element name="Envelope" nillable="true" type="tns:Envelope"></xs:element>
+
+<xs:element name="Fault" nillable="true" type="tns:Fault"></xs:element>
+
+<xs:element name="Header" nillable="true" type="tns:Header"></xs:element>
+
+<xs:complexType name="Fault">
+<xs:sequence>
+<xs:element name="faultcode" type="xs:QName"></xs:element>
+<xs:element name="faultstring" type="xs:string"></xs:element>
+<xs:element name="faultactor" type="xs:anyURI" minOccurs="0"></xs:element>
+<xs:element name="detail" type="tns:detail" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="detail">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="Header">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="Envelope">
+<xs:sequence>
+<xs:element name="Header" type="tns:Header" form="qualified" minOccurs="0"></xs:element>
+<xs:element name="Body" type="tns:Body" form="qualified"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="Body">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+</xs:schema>

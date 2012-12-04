@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0" targetNamespace="http://xml.netbeans.org/schema/configure">
+
+<xs:complexType name="serviceresource">
+<xs:sequence>
+<xs:element name="name" type="xs:string"></xs:element>
+<xs:element name="inputs" type="xs:string"></xs:element>
+</xs:sequence>
+<xs:attribute name="port" type="xs:string"></xs:attribute>
+</xs:complexType>
+</xs:schema>

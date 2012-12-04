@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bes-factory="http://schemas.ggf.org/bes/2006/08/bes-factory" xmlns:wsa="http://www.w3/org/2005/08/addressing" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="BESFactory" targetNamespace="http://schemas.ggf.org/bes/2006/08/bes-factory">
+<wsdl:import namespace="http://schemas.ggf.org/bes/2006/08/bes-factory" location="bes-factory.wsdl"/>
+<wsdl:service name="BESFactoryService">
+<wsdl:port name="BESFactoryPort" binding="bes-factory:BESFactoryBinding">
+<soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

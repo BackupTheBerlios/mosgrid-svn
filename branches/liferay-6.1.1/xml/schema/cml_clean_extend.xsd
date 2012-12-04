@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://www.xml-cml.org/schema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+	targetNamespace="http://www.xml-cml.org/schema"
+	elementFormDefault="qualified"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml" id="cmlschema">
+
+	<xsd:import schemaLocation="cmlx_extension.xsd" namespace="http://www.xml-cml.org/schema/cmlx"></xsd:import>
+	
+	<xsd:element name="cml" id="el.cml">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="module" type="moduleType"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attributeGroup ref="convention" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="molecule" type="moleculeType" />
+	<xsd:complexType name="moleculeType" id="el.moleculeType">
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element ref="molecule" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element ref="cmlx:customProperty" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:sequence>
+						<xsd:element name="atomArray" type="atomArrayType" />
+						<xsd:element name="bondArray" type="bondArrayType" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="dictRef" />
+			<xsd:attributeGroup ref="convention" />
+			<xsd:attributeGroup ref="title" />
+			<xsd:attributeGroup ref="id" />
+			<xsd:attributeGroup ref="ref" />
+			<xsd:attributeGroup ref="process" />
+			<xsd:attributeGroup ref="formula" />
+			<xsd:attributeGroup ref="count" />
+			<xsd:attributeGroup ref="chirality" />
+			<xsd:attributeGroup ref="formalCharge" />
+			<xsd:attributeGroup ref="spinMultiplicity" />
+			<xsd:attributeGroup ref="symmetryOriented" />
+			<xsd:attributeGroup ref="role" />
+			<xsd:attributeGroup ref="cmlx:fileRef" />
+			<xsd:attributeGroup ref="cmlx:origin" />
+			<xsd:attributeGroup ref="cmlx:moleculeClass" />
+			<xsd:attributeGroup ref="cmlx:customId" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="moduleType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element ref="cmlx:parserConfiguration" minOccurs="0" maxOccurs="1" />
+			<xsd:element ref="cmlx:adapterConfiguration" minOccurs="0" maxOccurs="1" />
+			<xsd:element ref="cmlx:uploadList" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="propertyList" type="propertyListType" minOccurs="0" />
+			<xsd:element ref="molecule" minOccurs="0" />
+			<xsd:element name="parameterList" type="parameterListType" minOccurs="0" />
+			<xsd:element name="module" type="moduleType" minOccurs="0" />
+			<xsd:element name="atomArray" type="atomArrayType" minOccurs="0" />
+			<xsd:element name="description" type="descriptionType" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="cmlx:workflowNotes" />
+		<xsd:attributeGroup ref="cmlx:displayName" />
+		<xsd:attributeGroup ref="cmlx:workflowGraph" />
+	</xsd:complexType>
+	<xsd:complexType name="propertyListType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="property" type="propertyType" />
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="role" />
+	</xsd:complexType>
+	<xsd:complexType name="propertyType">
+		<xsd:choice>
+			<xsd:element name="scalar" type="scalarType" />
+			<xsd:element name="array" type="arrayType" />
+			<xsd:element name="matrix" type="matrixType" />
+		</xsd:choice>
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="cmlx:editable" />
+	</xsd:complexType>
+	<xsd:complexType name="parameterListType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="parameter" type="parameterType" />
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="role" />
+	</xsd:complexType>
+	<xsd:complexType name="parameterType">
+		<xsd:choice>
+			<xsd:element name="scalar" type="scalarType" />
+			<xsd:element name="array" type="arrayType" />
+			<xsd:element name="matrix" type="matrixType" />
+		</xsd:choice>
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="value" />
+		<xsd:attributeGroup ref="name" />
+		<xsd:attributeGroup ref="cmlx:editable" />
+		<xsd:attributeGroup ref="cmlx:optional" />
+	</xsd:complexType>
+	<xsd:complexType name="scalarType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="dataType" />
+				<xsd:attributeGroup ref="title" />
+				<xsd:attributeGroup ref="ref" />
+				<xsd:attributeGroup ref="id" />
+				<xsd:attributeGroup ref="units" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="matrixType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="dataType" />
+				<xsd:attributeGroup ref="delimiter" />
+				<xsd:attributeGroup ref="rows" />
+				<xsd:attributeGroup ref="columns" />
+				<xsd:attributeGroup ref="units" />
+				<xsd:attributeGroup ref="title" />
+				<xsd:attributeGroup ref="id" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="arrayType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="title" />
+				<xsd:attributeGroup ref="id" />
+				<xsd:attributeGroup ref="dataType" />
+				<xsd:attributeGroup ref="delimiter" />
+				<xsd:attributeGroup ref="size" />
+				<xsd:attributeGroup ref="ref" />
+				<xsd:attributeGroup ref="units" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="bondArrayType">
+		<xsd:choice>
+			<xsd:element name="bond" type="bondType"
+				maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:choice>
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="bondIDArray" />
+		<xsd:attributeGroup ref="atomRef2Array" />
+		<xsd:attributeGroup ref="atomRef1Array" />
+		<xsd:attributeGroup ref="orderArray" />
+	</xsd:complexType>
+	<xsd:complexType name="bondType" id="bondType.content.id">
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="atomRefs2" />
+		<xsd:attributeGroup ref="order" />
+	</xsd:complexType>
+	<xsd:complexType name="atomArrayType">
+		<xsd:choice>
+			<xsd:element name="atom" type="atomType"
+				maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:choice>
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="atomIDArray" />
+		<xsd:attributeGroup ref="countArray" />
+		<xsd:attributeGroup ref="elementTypeArray" />
+		<xsd:attributeGroup ref="formalChargeArray" />
+		<xsd:attributeGroup ref="x2Array" />
+		<xsd:attributeGroup ref="y2Array" />
+		<xsd:attributeGroup ref="x3Array" />
+		<xsd:attributeGroup ref="y3Array" />
+		<xsd:attributeGroup ref="z3Array" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="cmlx:residueNumberArray" />
+		<xsd:attributeGroup ref="cmlx:residueNameArray" />
+		<xsd:attributeGroup ref="cmlx:chainNameArray" />
+		<xsd:attributeGroup ref="cmlx:atomNameArray" />
+		<xsd:attributeGroup ref="cmlx:altLocArray" />
+	</xsd:complexType>
+	<xsd:complexType name="atomType">
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="count" />
+		<xsd:attributeGroup ref="elementType" />
+		<xsd:attributeGroup ref="formalCharge" />
+		<xsd:attribute name="x2" type="xsd:float" id="el.atomType.x2" />
+		<xsd:attribute name="x3" type="xsd:float" id="el.atomType.x3" />
+		<xsd:attribute name="y2" type="xsd:float" id="el.atomType.y2" />
+		<xsd:attribute name="y3" type="xsd:float" id="el.atomType.y3" />
+		<xsd:attribute name="z3" type="xsd:float" id="el.atomType.z3" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="ref" />
+		<xsd:attributeGroup ref="cmlx:residueNumber" />
+		<xsd:attributeGroup ref="cmlx:residueName" />
+		<xsd:attributeGroup ref="cmlx:chainName" />
+		<xsd:attributeGroup ref="cmlx:atomName" />
+		<xsd:attributeGroup ref="cmlx:altLoc" />
+		<xsd:attributeGroup ref="cmlx:atomVelocities" />
+		<xsd:attributeGroup ref="cmlx:customId" />
+	</xsd:complexType>
+	<xsd:simpleType name="chiralityType" id="st.chiralityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="enantiomer" />
+			<xsd:enumeration value="racemate" />
+			<xsd:enumeration value="unknown" />
+			<xsd:enumeration value="other" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.chirality" name="chirality">
+		<xsd:attribute name="chirality" id="att.chirality"
+			type="chiralityType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="dataType" id="attGp.dataType">
+		<xsd:attribute name="dataType" type="dataTypeType"
+			default="xsd:string" id="att.dataType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="dataTypeType" id="st.dataTypeType">
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="xsd:string" />
+					<xsd:enumeration value="xsd:boolean" />
+					<xsd:enumeration value="xsd:float" />
+					<xsd:enumeration value="xsd:double" />
+					<xsd:enumeration value="xsd:decimal" />
+					<xsd:enumeration value="xsd:duration" />
+					<xsd:enumeration value="xsd:dateTime" />
+					<xsd:enumeration value="xsd:time" />
+					<xsd:enumeration value="xsd:date" />
+					<xsd:enumeration value="xsd:gYearMonth" />
+					<xsd:enumeration value="xsd:gYear" />
+					<xsd:enumeration value="xsd:gMonthDay" />
+					<xsd:enumeration value="xsd:gDay" />
+					<xsd:enumeration value="xsd:gMonth" />
+					<xsd:enumeration value="xsd:hexBinary" />
+					<xsd:enumeration value="xsd:base64Binary" />
+					<xsd:enumeration value="xsd:anyURI" />
+					<xsd:enumeration value="xsd:QName" />
+					<xsd:enumeration value="xsd:NOTATION" />
+					<xsd:enumeration value="xsd:normalizedString" />
+					<xsd:enumeration value="xsd:token" />
+					<xsd:enumeration value="xsd:language" />
+					<xsd:enumeration value="xsd:IDREFS" />
+					<xsd:enumeration value="xsd:ENTITIES" />
+					<xsd:enumeration value="xsd:NMTOKEN" />
+					<xsd:enumeration value="xsd:NMTOKENS" />
+					<xsd:enumeration value="xsd:Name" />
+					<xsd:enumeration value="xsd:NCName" />
+					<xsd:enumeration value="xsd:ID" />
+					<xsd:enumeration value="xsd:IDREF" />
+					<xsd:enumeration value="xsd:ENTITY" />
+					<xsd:enumeration value="xsd:integer" />
+					<xsd:enumeration value="xsd:nonPositiveInteger" />
+					<xsd:enumeration value="xsd:negativeInteger" />
+					<xsd:enumeration value="xsd:long" />
+					<xsd:enumeration value="xsd:int" />
+					<xsd:enumeration value="xsd:short" />
+					<xsd:enumeration value="xsd:byte" />
+					<xsd:enumeration value="xsd:nonNegativeInteger" />
+					<xsd:enumeration value="xsd:unsignedLong" />
+					<xsd:enumeration value="xsd:unsignedInt" />
+					<xsd:enumeration value="xsd:unsignedShort" />
+					<xsd:enumeration value="xsd:unsignedByte" />
+					<xsd:enumeration value="xsd:positiveInteger" />
+					<xsd:enumeration value="dataTypeType" />
+					<xsd:enumeration value="namespaceRefType" />
+					<xsd:enumeration value="unitsType" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType>
+				<xsd:restriction base="namespaceRefType" />
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.symmetryOriented"
+		name="symmetryOriented">
+		<xsd:attribute id="att.symmetryOriented" name="symmetryOriented"
+			type="xsd:boolean" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.spinMultiplicity"
+		name="spinMultiplicity">
+		<xsd:attribute id="att.spinMultiplicity" name="spinMultiplicity"
+			type="xsd:positiveInteger" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.count" name="count">
+		<xsd:attribute id="att.count" name="count"
+			type="positiveNumberType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.idgen" name="idgen">
+		<xsd:attribute id="att.idgen" name="idgen" type="xsd:string" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="delimiter" id="attGp.delimiter">
+		<xsd:attribute name="delimiter" type="delimiterType"
+			id="att.delimiter" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.rows" name="rows">
+		<xsd:attribute name="rows" id="att.rows" type="sizeType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.columns" name="columns">
+		<xsd:attribute name="columns" id="att.columns" type="sizeType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.process" name="process">
+		<xsd:attribute id="att.process" name="process"
+			type="xsd:string" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="delimiterType" id="st.delimiterType">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+	<xsd:attributeGroup name="id" id="attGp.id">
+		<xsd:attribute name="id" type="idType" id="att.id" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="idType" id="st.idType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="([A-Za-z][A-Za-z0-9_-]*:)?[A-Za-z][A-Za-z0-9_\-\.]*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="convention" id="attGp.convention">
+		<xsd:attribute name="convention" type="namespaceRefType"
+			id="att.convention" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="namespaceRefType" id="st.namespaceRefType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="([A-Za-z][A-Za-z0-9_]*:)?[A-Za-z][A-Za-z0-9_\.\-]*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="dictRef" id="attGp.dictRef">
+		<xsd:attribute name="dictRef" type="namespaceRefType"
+			id="att.dictRef" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.role" name="role">
+		<xsd:attribute id="att.role" name="role" type="xsd:string" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.elementType" name="elementType">
+		<xsd:attribute id="att.elementType" name="elementType"
+			type="elementTypeType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="elementTypeType" id="st.elementTypeType">
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="Ac" />
+					<xsd:enumeration value="Al" />
+					<xsd:enumeration value="Ag" />
+					<xsd:enumeration value="Am" />
+					<xsd:enumeration value="Ar" />
+					<xsd:enumeration value="As" />
+					<xsd:enumeration value="At" />
+					<xsd:enumeration value="Au" />
+					<xsd:enumeration value="B" />
+					<xsd:enumeration value="Ba" />
+					<xsd:enumeration value="Bh" />
+					<xsd:enumeration value="Bi" />
+					<xsd:enumeration value="Be" />
+					<xsd:enumeration value="Bk" />
+					<xsd:enumeration value="Br" />
+					<xsd:enumeration value="C" />
+					<xsd:enumeration value="Ca" />
+					<xsd:enumeration value="Cd" />
+					<xsd:enumeration value="Ce" />
+					<xsd:enumeration value="Cf" />
+					<xsd:enumeration value="Cl" />
+					<xsd:enumeration value="Cm" />
+					<xsd:enumeration value="Co" />
+					<xsd:enumeration value="Cr" />
+					<xsd:enumeration value="Cs" />
+					<xsd:enumeration value="Cu" />
+					<xsd:enumeration value="Db" />
+					<xsd:enumeration value="Dy" />
+					<xsd:enumeration value="Er" />
+					<xsd:enumeration value="Es" />
+					<xsd:enumeration value="Eu" />
+					<xsd:enumeration value="F" />
+					<xsd:enumeration value="Fe" />
+					<xsd:enumeration value="Fm" />
+					<xsd:enumeration value="Fr" />
+					<xsd:enumeration value="Ga" />
+					<xsd:enumeration value="Gd" />
+					<xsd:enumeration value="Ge" />
+					<xsd:enumeration value="H" />
+					<xsd:enumeration value="He" />
+					<xsd:enumeration value="Hf" />
+					<xsd:enumeration value="Hg" />
+					<xsd:enumeration value="Ho" />
+					<xsd:enumeration value="Hs" />
+					<xsd:enumeration value="I" />
+					<xsd:enumeration value="In" />
+					<xsd:enumeration value="Ir" />
+					<xsd:enumeration value="K" />
+					<xsd:enumeration value="Kr" />
+					<xsd:enumeration value="La" />
+					<xsd:enumeration value="Li" />
+					<xsd:enumeration value="Lr" />
+					<xsd:enumeration value="Lu" />
+					<xsd:enumeration value="Md" />
+					<xsd:enumeration value="Mg" />
+					<xsd:enumeration value="Mn" />
+					<xsd:enumeration value="Mo" />
+					<xsd:enumeration value="Mt" />
+					<xsd:enumeration value="N" />
+					<xsd:enumeration value="Na" />
+					<xsd:enumeration value="Nb" />
+					<xsd:enumeration value="Nd" />
+					<xsd:enumeration value="Ne" />
+					<xsd:enumeration value="Ni" />
+					<xsd:enumeration value="No" />
+					<xsd:enumeration value="Np" />
+					<xsd:enumeration value="O" />
+					<xsd:enumeration value="Os" />
+					<xsd:enumeration value="P" />
+					<xsd:enumeration value="Pa" />
+					<xsd:enumeration value="Pb" />
+					<xsd:enumeration value="Pd" />
+					<xsd:enumeration value="Pm" />
+					<xsd:enumeration value="Po" />
+					<xsd:enumeration value="Pr" />
+					<xsd:enumeration value="Pt" />
+					<xsd:enumeration value="Pu" />
+					<xsd:enumeration value="Ra" />
+					<xsd:enumeration value="Rb" />
+					<xsd:enumeration value="Re" />
+					<xsd:enumeration value="Rf" />
+					<xsd:enumeration value="Rh" />
+					<xsd:enumeration value="Rn" />
+					<xsd:enumeration value="Ru" />
+					<xsd:enumeration value="S" />
+					<xsd:enumeration value="Sb" />
+					<xsd:enumeration value="Sc" />
+					<xsd:enumeration value="Se" />
+					<xsd:enumeration value="Sg" />
+					<xsd:enumeration value="Si" />
+					<xsd:enumeration value="Sm" />
+					<xsd:enumeration value="Sn" />
+					<xsd:enumeration value="Sr" />
+					<xsd:enumeration value="Ta" />
+					<xsd:enumeration value="Tb" />
+					<xsd:enumeration value="Tc" />
+					<xsd:enumeration value="Te" />
+					<xsd:enumeration value="Th" />
+					<xsd:enumeration value="Ti" />
+					<xsd:enumeration value="Tl" />
+					<xsd:enumeration value="Tm" />
+					<xsd:enumeration value="U" />
+					<xsd:enumeration value="Uun" />
+					<xsd:enumeration value="Uuu" />
+					<xsd:enumeration value="Uub" />
+					<xsd:enumeration value="Uut" />
+					<xsd:enumeration value="Uuq" />
+					<xsd:enumeration value="Uup" />
+					<xsd:enumeration value="Uuh" />
+					<xsd:enumeration value="Uus" />
+					<xsd:enumeration value="Uuo" />
+					<xsd:enumeration value="V" />
+					<xsd:enumeration value="W" />
+					<xsd:enumeration value="Xe" />
+					<xsd:enumeration value="Y" />
+					<xsd:enumeration value="Yb" />
+					<xsd:enumeration value="Zn" />
+					<xsd:enumeration value="Zr" />
+					<xsd:enumeration value="Dummy" />
+					<xsd:enumeration value="Du" />
+					<xsd:enumeration value="R" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern
+						value="[A-Za-z]+:[A-Za-z][A-Za-z0-9\-]+" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:simpleType name="formalChargeType" id="st.formalChargeType">
+		<xsd:restriction base="xsd:integer" />
+	</xsd:simpleType>
+	<xsd:attributeGroup name="title" id="attGp.title">
+		<xsd:attribute name="title" type="xsd:string" id="att.title" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="ref" id="attGp.ref">
+		<xsd:attribute name="ref" type="refType" id="att.ref" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.formula" name="formula">
+		<xsd:attribute id="att.formula" name="formula"
+			type="formulaType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.formalCharge" name="formalCharge">
+		<xsd:attribute id="att.formalCharge" name="formalCharge"
+			type="formalChargeType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="value" id="attGp.value">
+		<xsd:attribute name="value" type="xsd:string" id="att.value" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="name" id="attGp.name">
+		<xsd:attribute name="name" type="xsd:string" id="att.name" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="refType" id="st.refType">
+		<xsd:restriction base="idType" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.atomRefs2" name="atomRefs2">
+		<xsd:attribute name="atomRefs2" id="att.atomRefs2"
+			type="atomRefs2Type" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="atomRefs2Type" id="st.atomRefs2Type">
+		<xsd:restriction>
+			<xsd:simpleType>
+				<xsd:list itemType="atomIDType" />
+			</xsd:simpleType>
+			<xsd:length value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="atomIDType" id="st.atomIDType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="[A-Za-z_][A-Za-z0-9_\-]*(:[A-Za-z0-9_\-]+)?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="formulaType" id="st.formulaType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="\s*([A-Z][a-z]?\s+(([0-9]+(\.[0-9]*)?)|(\.[0-9]*))?\s*)+(\s+[\-]?[0-9]+)?\s*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="orderType" id="st.orderType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="S" />
+			<xsd:enumeration value="1" />
+			<xsd:enumeration value="D" />
+			<xsd:enumeration value="2" />
+			<xsd:enumeration value="T" />
+			<xsd:enumeration value="3" />
+			<xsd:enumeration value="A" />
+			<xsd:enumeration value="unknown" />
+			<xsd:enumeration value="other" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="sizeType" id="st.sizeType">
+		<xsd:restriction base="xsd:nonNegativeInteger" />
+	</xsd:simpleType>
+	<xsd:simpleType name="unitsType" id="st.unitsType">
+		<xsd:restriction base="namespaceRefType" />
+	</xsd:simpleType>
+	<xsd:simpleType name="positiveNumberType" id="st.positiveNumberType"
+		xmlns="http://www.w3.org/1999/xhtml">
+		<xsd:restriction base="xsd:double">
+			<xsd:minExclusive value="0.0" />
+			<xsd:maxInclusive value="1.0E+99" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="unitType">
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="units" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="symbol" />
+		<xsd:attributeGroup ref="name" />
+		<xsd:attributeGroup ref="parentSI" />
+		<xsd:attributeGroup ref="isSI" />
+		<xsd:attributeGroup ref="unitType" />
+		<xsd:attributeGroup ref="multiplierToData" />
+		<xsd:attributeGroup ref="multiplierToSI" />
+		<xsd:attributeGroup ref="constantToSI" />
+		<xsd:attributeGroup ref="power" />
+	</xsd:complexType>
+	<xsd:attributeGroup id="attGp.order" name="order">
+		<xsd:attribute id="att.order" name="order" type="orderType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="symbol" id="attGp.symbol">
+		<xsd:attribute name="symbol" type="xsd:string" id="att.symbol" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="parentSI" id="attGp.parentSI">
+		<xsd:attribute name="parentSI" type="namespaceRefType"
+			id="att.parentSI" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="isSI" id="attGp.isSI">
+		<xsd:attribute name="isSI" type="xsd:boolean" id="att.isSI" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="units" id="attGp.units">
+		<xsd:attribute name="units" type="unitsType" id="att.units" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="size" id="attGp.size">
+		<xsd:attribute name="size" type="sizeType" id="att.size" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="unitType" id="attGp.unitType">
+		<xsd:attribute name="unitType" type="xsd:string"
+			id="att.unitType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="multiplierToData"
+		id="attGp.multiplierToData">
+		<xsd:attribute name="multiplierToData" type="xsd:double"
+			default="1.0" id="att.multiplierToData" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="multiplierToSI"
+		id="attGp.multiplierToSI">
+		<xsd:attribute name="multiplierToSI" type="xsd:double"
+			id="att.multiplierToSI" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="constantToSI" id="attGp.constantToSI">
+		<xsd:attribute name="constantToSI" type="xsd:double"
+			id="att.constantToSI" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="power" id="attGp.power">
+		<xsd:attribute name="power" type="xsd:double" id="att.power" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="coordinateComponentArrayType"
+		id="st.coordinateComponentArrayType">
+		<xsd:list itemType="xsd:double" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.x2Array" name="x2Array">
+		<xsd:attribute name="x2" id="att.x2Array"
+			type="coordinateComponentArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.y2Array" name="y2Array">
+		<xsd:attribute name="y2" id="att.y2Array"
+			type="coordinateComponentArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.x3Array" name="x3Array">
+		<xsd:attribute name="x3" id="att.x3Array"
+			type="coordinateComponentArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.y3Array" name="y3Array">
+		<xsd:attribute name="y3" id="att.y3Array"
+			type="coordinateComponentArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.z3Array" name="z3Array">
+		<xsd:attribute name="z3" id="att.z3Array"
+			type="coordinateComponentArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.elementTypeArray"
+		name="elementTypeArray">
+		<xsd:attribute id="att.elementTypeArray" name="elementType"
+			type="elementTypeArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="elementTypeArrayType"
+		id="st.elementTypeArrayType">
+		<xsd:list itemType="elementTypeType" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.countArray" name="countArray">
+		<xsd:attribute id="att.countArray" name="count"
+			type="countArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="countArrayType" id="st.countArrayType">
+		<xsd:list itemType="countType" />
+	</xsd:simpleType>
+	<xsd:simpleType name="countType" id="st.countType">
+		<xsd:restriction base="positiveNumberType" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.formalChargeArray"
+		name="formalChargeArray">
+		<xsd:attribute id="att.formalChargeArray" name="formalCharge"
+			type="formalChargeArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="formalChargeArrayType"
+		id="st.formalChargeArrayType">
+		<xsd:list itemType="formalChargeType" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.atomIDArray" name="atomIDArray">
+		<xsd:attribute name="atomID" id="att.atomIDArray"
+			type="atomRefArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="atomRefArrayType" id="st.atomRefArrayType">
+		<xsd:list itemType="atomIDType" />
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.bondIDArray" name="bondIDArray">
+		<xsd:attribute name="bondID" id="att.bondIDArray"
+			type="bondRefArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="bondRefArrayType" id="st.bondRefArrayType">
+		<xsd:list itemType="bondRefType" />
+	</xsd:simpleType>
+	<xsd:simpleType name="bondRefType" id="st.bondRefType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z0-9_\-]+(:[A-Za-z0-9_\-]+)?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup id="attGp.atomRef2Array" name="atomRef2Array">
+		<xsd:attribute name="atomRef2" id="att.atomRef2Array"
+			type="atomRefArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.atomRef1Array" name="atomRef1Array">
+		<xsd:attribute name="atomRef1" id="att.atomRef1Array"
+			type="atomRefArrayType" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup id="attGp.orderArray" name="orderArray">
+		<xsd:attribute name="order" id="att.orderArray"
+			type="orderArrayType" />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="orderArrayType" id="st.orderArrayType">
+		<xsd:list itemType="orderType" />
+	</xsd:simpleType>
+	<xsd:element name="dictionary" id="el.dictionary">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="1">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:any namespace="##other" processContents="lax" />
+				</xsd:sequence>
+				<xsd:element minOccurs="0" maxOccurs="unbounded"
+					name="description" type="descriptionType" />
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="entry" type="entryType" />
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="title" />
+			<xsd:attributeGroup ref="id" />
+			<xsd:attributeGroup ref="convention" />
+			<xsd:attributeGroup ref="dictRef" />
+			<xsd:attributeGroup ref="href" />
+			<xsd:attributeGroup ref="namespace" />
+			<xsd:attributeGroup ref="dictionaryPrefix" />
+			<xsd:attributeGroup ref="cmlx:toolsuite" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="definitionType">
+		<xsd:sequence>
+			<xsd:any minOccurs="0" maxOccurs="unbounded"
+				namespace="##other" processContents="skip" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="descriptionType">
+		<xsd:sequence>
+			<xsd:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="skip" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="dictRef" />
+		<xsd:attributeGroup ref="objectClass" />
+		<xsd:attributeGroup ref="cmlx:plainText" />
+	</xsd:complexType>
+	<xsd:complexType name="entryType">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" maxOccurs="1" name="definition"
+				type="definitionType" />
+			<xsd:element minOccurs="0" maxOccurs="1" name="description"
+				type="descriptionType" />
+			<xsd:element minOccurs="0" maxOccurs="unbounded"
+				ref="cmlx:restriction" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="title" />
+		<xsd:attributeGroup ref="id" />
+		<xsd:attributeGroup ref="convention" />
+		<xsd:attributeGroup ref="dataType" />
+		<xsd:attributeGroup ref="rows" />
+		<xsd:attributeGroup ref="columns" />
+		<xsd:attributeGroup ref="unitType" />
+		<xsd:attributeGroup ref="minExclusive" />
+		<xsd:attributeGroup ref="minInclusive" />
+		<xsd:attributeGroup ref="maxExclusive" />
+		<xsd:attributeGroup ref="maxInclusive" />
+		<xsd:attributeGroup ref="totalDigits" />
+		<xsd:attributeGroup ref="fractionDigits" />
+		<xsd:attributeGroup ref="length" />
+		<xsd:attributeGroup ref="minLength" />
+		<xsd:attributeGroup ref="maxLength" />
+		<xsd:attributeGroup ref="units" />
+		<xsd:attributeGroup ref="pattern" />
+		<xsd:attributeGroup ref="term" />
+		<xsd:attributeGroup ref="cmlx:flag" />
+	</xsd:complexType>
+	<xsd:simpleType name="dictionaryPrefixType"
+		id="st.dictionaryPrefixType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z][A-Za-z0-9_\.\-]*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="dimensionType" id="st.dimensionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="mass" />
+			<xsd:enumeration value="length" />
+			<xsd:enumeration value="time" />
+			<xsd:enumeration value="current" />
+			<xsd:enumeration value="amount" />
+			<xsd:enumeration value="luminosity" />
+			<xsd:enumeration value="temperature" />
+			<xsd:enumeration value="dimensionless" />
+			<xsd:enumeration value="angle" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="namespaceType" id="st.namespaceType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="http://[A-Za-z][A-Za-z0-9_\.\-]*(/[A-Za-z0-9_\.\-]+)+[/#]?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="abbreviation" id="attGp.abbreviation">
+		<xsd:attribute name="abbreviation" type="xsd:string"
+			id="att.abbreviation" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="dictionaryPrefix"
+		id="attGp.dictionaryPrefix">
+		<xsd:attribute name="dictionaryPrefix"
+			type="dictionaryPrefixType" id="att.dictionaryPrefix" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="dimensionBasis"
+		id="attGp.dimensionBasis">
+		<xsd:attribute name="dimensionBasis" type="dimensionType"
+			id="att.dimensionBasis" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="fractionDigits"
+		id="attGp.fractionDigits">
+		<xsd:attribute name="fractionDigits"
+			type="xsd:nonNegativeInteger" id="att.fractionDigits" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="href" id="attGp.href">
+		<xsd:attribute name="href" type="xsd:anyURI" id="att.href" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="length" id="attGp.length">
+		<xsd:attribute name="length" type="xsd:nonNegativeInteger"
+			id="att.length" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="maxExclusive" id="attGp.maxExclusive">
+		<xsd:attribute name="maxExclusive" type="xsd:double"
+			id="att.maxExclusive" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="maxInclusive" id="attGp.maxInclusive">
+		<xsd:attribute name="maxInclusive" type="xsd:double"
+			id="att.maxInclusive" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="maxLength" id="attGp.maxLength">
+		<xsd:attribute name="maxLength" type="xsd:positiveInteger"
+			id="att.maxLength" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="minExclusive" id="attGp.minExclusive">
+		<xsd:attribute name="minExclusive" type="xsd:double"
+			id="att.minExclusive" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="minInclusive" id="attGp.minInclusive">
+		<xsd:attribute name="minInclusive" type="xsd:double"
+			id="att.minInclusive" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="minLength" id="attGp.minLength">
+		<xsd:attribute name="minLength" type="xsd:nonNegativeInteger"
+			id="att.minLength" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="namespace" id="attGp.namespace">
+		<xsd:attribute name="namespace" type="namespaceType"
+			id="att.namespace" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="objectClass" id="attGp.objectClass">
+		<xsd:attribute name="objectClass" type="xsd:string"
+			id="att.objectClass" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="pattern" id="attGp.pattern">
+		<xsd:attribute name="pattern" type="xsd:string"
+			id="att.pattern" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="preserve" id="attGp.preserve">
+		<xsd:attribute name="preserve" type="xsd:boolean"
+			id="att.preserve" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="siNamespace" id="attGp.siNamespace">
+		<xsd:attribute name="siNamespace" type="namespaceType"
+			id="att.siNamespace" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="term" id="attGp.term">
+		<xsd:attribute name="term" type="xsd:string" id="att.term" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="totalDigits" id="attGp.totalDigits">
+		<xsd:attribute name="totalDigits" type="xsd:positiveInteger"
+			id="att.totalDigits" />
+	</xsd:attributeGroup>
+</xsd:schema>

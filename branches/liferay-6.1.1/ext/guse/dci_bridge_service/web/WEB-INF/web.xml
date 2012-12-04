@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>SettingsServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.dcibridge.settings.SettingsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfigServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.dcibridge.config.ConfigServlet</servlet-class>
+        </servlet>
+    <servlet>
+        <servlet-name>JobStatusServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.submitter.service.jobstatus.JobStatusServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BESFactoryService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        </servlet>
+    <servlet>
+
+        <servlet-name>InformationServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.dcibridge.config.InformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SystemInformationService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        </servlet>
+    <servlet-mapping>
+        <servlet-name>JobStatusServlet</servlet-name>
+        <url-pattern>/JobStatusServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingsServlet</servlet-name>
+        <url-pattern>/settings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigServlet</servlet-name>
+        <url-pattern>/conf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BESFactoryService</servlet-name>
+        <url-pattern>/BESFactoryService</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>InformationServlet</servlet-name>
+        <url-pattern>/information</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SystemInformationService</servlet-name>
+        <url-pattern>/SystemInformationService</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>information</welcome-file>
+    </welcome-file-list>
+    
+
+    
+    <security-constraint>
+        <display-name>configresource</display-name>
+        <web-resource-collection>
+            <web-resource-name>confservlet</web-resource-name>
+            <description/>
+            <url-pattern>/conf</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>manager</role-name>
+            </auth-constraint>
+        </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>manager</realm-name>
+        </login-config>
+    <security-role>
+        <description/>
+        <role-name>manager</role-name>
+    </security-role>
+    </web-app>

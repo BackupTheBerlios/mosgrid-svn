@@ -1,0 +1,95 @@
+<!DOCTYPE project>
+<project name="msml-api" basedir="." default="clean-build">
+	
+	<import file="../../../buildscripts/build-paths.xml"/>
+
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="bin"/>
+    <property name="classes.dir" value="${build.dir}"/>
+	<property name="lib.dir"     value="lib"/>
+		
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+	</path>
+	
+    <target name="clean">
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" classpathref="classpath" target="1.6" source="1.6" debug="on"/>
+    </target>
+	
+    <target name="compile.cronjob">
+        <mkdir dir="${classes.dir}"/>
+        <javac fork="on" executable="${javac.cronjob}" srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" classpathref="classpath" target="1.6" source="1.6" debug="on"/>
+    </target>
+	
+    <target name="jar.cronjob" depends="compile.cronjob">
+    	<dirname property="jar.dir" file="${loc.msmlapi.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.msmlapi.jar}" basedir="${classes.dir}">
+        	<zipfileset dir="${src.dir}/de/mosgrid/msml/enums/" prefix="de/mosgrid/msml/enums/" 
+        		includes="*.properties" />
+    	</jar>
+    </target>
+
+    <target name="jar" depends="compile">
+    	<dirname property="jar.dir" file="${loc.msmlapi.jar}"/>
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${loc.msmlapi.jar}" basedir="${classes.dir}">
+        	<zipfileset dir="${src.dir}/de/mosgrid/msml/enums/" prefix="de/mosgrid/msml/enums/" 
+        		includes="*.properties" />
+    	</jar>
+    </target>
+
+	<target name="clean-build" depends="clean,jar"/>
+	
+	<target name="copy.templates.local">
+		<delete dir="${loc.qctempl.local}"/>
+		<delete dir="${loc.mdtempl.local}"/>
+		<copy todir="${loc.qctempl.local}">
+			<fileset dir="${loc.qctempl}"/>
+		</copy>
+		<copy todir="${loc.mdtempl.local}">
+			<fileset dir="${loc.mdtempl}"/>
+		</copy>
+	</target>
+
+	<target name="copy.dictionaries.local">
+		<delete dir="${loc.adapdict.local}"/>
+		<delete dir="${loc.envdict.local}"/>
+		<delete dir="${loc.parsdict.local}"/>
+		<delete dir="${loc.qcdict.local}"/>
+		<delete dir="${loc.mddict.local}"/>
+		<copy todir="${loc.adapdict.local}">
+			<fileset dir="${loc.adapdict}"/>
+		</copy>
+		<copy todir="${loc.envdict.local}">
+			<fileset dir="${loc.envdict}"/>
+		</copy>
+		<copy todir="${loc.parsdict.local}">
+			<fileset dir="${loc.parsdict}"/>
+		</copy>
+		<copy todir="${loc.qcdict.local}">
+			<fileset dir="${loc.qcdict}"/>
+		</copy>
+		<copy todir="${loc.mddict.local}">
+			<fileset dir="${loc.mddict}"/>
+		</copy>
+	</target>
+	
+	<target name="copy.all.local.qc" depends="copy.templates.local,copy.dictionaries.local">
+		<ant inheritall="false" antfile="${loc.qcportlet}/build.xml" target="deploy"/>
+	</target>
+
+	<target name="copy.all.local.md" depends="copy.templates.local,copy.dictionaries.local">
+		<ant inheritall="false" antfile="${loc.mdportlet}/build.xml" target="deploy"/>
+	</target>
+</project>
