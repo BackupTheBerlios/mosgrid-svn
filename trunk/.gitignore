@@ -3,3 +3,5 @@
 
 ext/cas/target
 ext/themes/mosgrid-classic-theme/target
+private.properties
+private.xml
