@@ -2,550 +2,635 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>de.tudresden.zih.mosgrid.cas</groupId>
-    <artifactId>MoSGrid-cas</artifactId>
-    <packaging>war</packaging>
-    <version>1.0</version>
-    
-    <build>
-      <plugins>
-	<plugin>
-	  <groupId>org.apache.maven.plugins</groupId>
-	  <artifactId>maven-enforcer-plugin</artifactId>
-	  <executions>
-	    <execution>
-	      <id>enforce-versions</id>
-	      <goals>
-		<goal>enforce</goal>
-	      </goals>
-	      <configuration>
-		<rules>
-		  <requireMavenVersion>
-		    <version>2.0.9</version>
-		  </requireMavenVersion>
-		  <requireJavaVersion>
-		    <version>1.5</version>
-		  </requireJavaVersion>
-		</rules>
-	      </configuration>
-	    </execution>
-	  </executions>
-	</plugin>
-	<plugin>
-	  <groupId>org.apache.maven.plugins</groupId>
-	  <artifactId>maven-enforcer-plugin</artifactId>
-	  <executions>
-	    <execution>
-	      <id>enforce-banned-dependencies</id>
-	      <goals>
-		<goal>enforce</goal>
-	      </goals>
-	      <configuration>
-		<rules>
-		  <bannedDependencies>
-		    <excludes>
-		      <!-- renamed (decrecated) groupids -->
-		      <exclude>struts</exclude>
-		      <exclude>wss4j</exclude>
-		      <exclude>acegisecurity</exclude>
-		      <exclude>xstream</exclude>
-		      <exclude>uk.ltd.getahead</exclude>
-<!--
-		      <exclude>jdom</exclude>
--->
-		      <exclude>groovy</exclude>
-		      <exclude>bouncycastle</exclude>
-		      <exclude>quartz</exclude>
-		      <exclude>org.opensymphony.quartz</exclude>
-		      <exclude>opensymphony:quartz</exclude>
-		    </excludes>
-<!--
-		    <includes>
-		      <- -only 1.0 of badArtifact is allowed- ->
-		      <include>org.apache.maven:badArtifact:1.0</include>
-		    </includes>
--->
-		  </bannedDependencies>
-		</rules>
-		<fail>true</fail>
-	      </configuration>
-	    </execution>
-	  </executions>
-	</plugin>
-
-	<plugin>
-	  <artifactId>maven-war-plugin</artifactId>
-	  <configuration>
-	    <warName>cas</warName>
-<!--
-	    <packagingExcludes>WEB-INF/lib/quartz-1.6.1.jar</packagingExcludes>
--->
-	  </configuration>
-	</plugin>
-	<plugin>
-	  <groupId>org.apache.maven.plugins</groupId>
-	  <artifactId>maven-compiler-plugin</artifactId>
-	  <configuration>
-	    <source>1.5</source>
-	    <target>1.5</target>
-	  </configuration>
-	</plugin>
-
-      </plugins>
-    </build>
-
-    <profiles>
-      <profile>
-	<id>liferay</id>
-
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.tudresden.zih.mosgrid.cas</groupId>
+	<artifactId>MoSGrid-cas</artifactId>
+	<packaging>war</packaging>
+	<version>1.0</version>
+	
 	<build>
-	  <plugins>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-dependency-plugin</artifactId>
-	      <version>2.4</version>
-	      <executions>
-		<execution>
-		  <id>unpack-service</id>
-		  <phase>generate-sources</phase>
-		  <goals>
-		    <goal>unpack</goal>
-		  </goals>
-		  <configuration>
-		    <artifactItems>
-		      <artifactItem>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-impl</artifactId>
-			<version>${liferay.version}</version>
-			<type>jar</type>
-			<overWrite>false</overWrite>
-			<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		      </artifactItem>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>2.0.9</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>1.5</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-banned-dependencies</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedDependencies>
+									<excludes>
+										<!-- renamed (decrecated) groupids -->
+										<exclude>struts</exclude>
+										<exclude>wss4j</exclude>
+										<exclude>acegisecurity</exclude>
+										<exclude>xstream</exclude>
+										<exclude>uk.ltd.getahead</exclude>
+										<!--
+										    <exclude>jdom</exclude>
+										-->
+										<exclude>groovy</exclude>
+										<exclude>bouncycastle</exclude>
+										<exclude>quartz</exclude>
+										<exclude>org.opensymphony.quartz</exclude>
+										<exclude>opensymphony:quartz</exclude>
+										<exclude>org.slf4j:slf4j-log4j12</exclude>
+									</excludes>
+									<!--
+									    <includes>
+									    <- -only 1.0 of badArtifact is allowed- ->
+									    <include>org.apache.maven:badArtifact:1.0</include>
+									    </includes>
+									-->
+								</bannedDependencies>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-		      <artifactItem>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<version>${liferay.version}</version>
-			<type>jar</type>
-			<overWrite>false</overWrite>
-			<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		      </artifactItem>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<!--
+					    Exclude JCL and LOG4J since all logging should go through SLF4J.
+					    Note that we're excluding log4j-<version>.jar but keeping
+					    log4j-over-slf4j-<version>.jar
+					-->
+					<packagingExcludes>
+						WEB-INF/lib/commons-logging*.jar,
+						WEB-INF/lib/log4j*.jar,
+						WEB-INF/lib/slf4j-log4j*.jar,
+						WEB-INF/lib/slf4j-api-1.5.*.jar,
+						WEB-INF/lib/jcl-over-slf4j-1.5.8.jar
+					</packagingExcludes>
+					<warName>cas</warName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
 
-<!-- The following jar file is taken from the liferay implementation using 
-mvn install:install-file -Dfile=$HOME/liferay-portal-6.0.6/tomcat-6.0.29/webapps/ROOT/WEB-INF/lib/crypt.jar -DgroupId=org.vps -DartifactId=crypt -Dversion=1.0-SNAPSHOT -Dpackaging=jar
--->
-		      <artifactItem>
-			<groupId>org.vps</groupId>
-			<artifactId>crypt</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>jar</type>
-			<overWrite>false</overWrite>
-			<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		      </artifactItem>
-		      <artifactItem>
-			<groupId>easyconf</groupId>
-			<artifactId>easyconf</artifactId>
-			<version>${easyconf.version}</version>
-			<type>jar</type>
-			<overWrite>false</overWrite>
-			<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		      </artifactItem>
-		    </artifactItems>
-		    <includes>**/Base64.class,**/CharPool.class,**/ClassLoaderObjectInputStream.class,**/ComponentProperties.class,**/ConfigurationImpl.class,**/Crypt.class,**/Digester.class,**/DigesterImpl.class,**/PropsUtil.class,**/PropsValues.class,**/StringBundler.class,**/StringPool.class,**/UnsyncByteArrayInputStream.class,**/UnsyncByteArrayOutputStream.class,**/Validator.class</includes>
-		    <excludes>**/*.properties</excludes>
-		    <overWriteReleases>false</overWriteReleases>
-		    <overWriteSnapshots>true</overWriteSnapshots>
-		    <excludeTransitive>true</excludeTransitive>
-		  </configuration>
-		</execution>
-	      </executions>
-            
-	    </plugin>
-	    <plugin>
-	      <groupId>org.codehaus.mojo</groupId>
-	      <artifactId>build-helper-maven-plugin</artifactId>
-	      <version>1.5</version>
-	      <executions>
-		<execution>
-		  <id>add-sources</id>
-		  <phase>generate-sources</phase>
-		  <goals>
-		    <goal>add-source</goal>
-		  </goals>
-		  <configuration>
-		    <sources>
-		      <source>${basedir}/src/liferay/java</source>
-		    </sources>
-		  </configuration>
-		</execution>
-	      </executions>
-	    </plugin>
-	  </plugins> 
+		</plugins>
 	</build>
-      </profile>
-    </profiles>
 
-    <dependencies>
-      <dependency>
-	<groupId>org.jasig.cas</groupId>
-	<artifactId>cas-server-webapp</artifactId>
-	<version>${cas.version}</version>
-	<type>war</type>
-	<scope>runtime</scope>
-<!--
-	<exclusions>
-	  <exclusion>
-	    <groupId>opensymphony</groupId>
-	    <artifactId>quartz</artifactId>
-	  </exclusion>
-	</exclusions>
+	<profiles>
+		<profile>
+			<id>liferay</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>unpack-service</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>com.liferay.portal</groupId>
+											<artifactId>portal-impl</artifactId>
+											<version>${liferay.version}</version>
+											<type>jar</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}/classes</outputDirectory>
+										</artifactItem>
+
+										<artifactItem>
+											<groupId>com.liferay.portal</groupId>
+											<artifactId>portal-service</artifactId>
+											<version>${liferay.version}</version>
+											<type>jar</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}/classes</outputDirectory>
+										</artifactItem>
+
+										<!-- The following jar file is taken from the liferay implementation using 
+										     mvn install:install-file -Dfile=$HOME/liferay-portal-6.0.6/tomcat-6.0.29/webapps/ROOT/WEB-INF/lib/crypt.jar -DgroupId=org.vps -DartifactId=crypt -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+										-->
+										<artifactItem>
+											<groupId>org.vps</groupId>
+											<artifactId>crypt</artifactId>
+											<version>1.0-SNAPSHOT</version>
+											<type>jar</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}/classes</outputDirectory>
+										</artifactItem>
+										<artifactItem>
+											<groupId>easyconf</groupId>
+											<artifactId>easyconf</artifactId>
+											<version>${easyconf.version}</version>
+											<type>jar</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}/classes</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+									<includes>**/Base64.class,**/CharPool.class,**/ClassLoaderObjectInputStream.class,**/ComponentProperties.class,**/ConfigurationImpl.class,**/Crypt.class,**/Digester.class,**/DigesterImpl.class,**/PropsUtil.class,**/PropsValues.class,**/StringBundler.class,**/StringPool.class,**/UnsyncByteArrayInputStream.class,**/UnsyncByteArrayOutputStream.class,**/Validator.class</includes>
+									<excludes>**/*.properties</excludes>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+									<excludeTransitive>true</excludeTransitive>
+								</configuration>
+							</execution>
+						</executions>
+						
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>add-sources</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${basedir}/src/liferay/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins> 
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-webapp</artifactId>
+			<version>${cas.version}</version>
+			<type>war</type>
+			<scope>runtime</scope>
+			<!--
+			    <exclusions>
+			    <exclusion>
+			    <groupId>opensymphony</groupId>
+			    <artifactId>quartz</artifactId>
+			    </exclusion>
+			    </exclusions>
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-support-generic</artifactId>
+			<version>${cas.version}</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-support-x509</artifactId>
+			<version>${cas.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-core</artifactId>
+			<version>${cas.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<!--
+			    <exclusions>
+			    <exclusion>
+			    <groupId>jdom</groupId>
+			    <artifactId>jdom</artifactId>
+			    </exclusion>
+			    <exclusion>
+			    <groupId>jdom</groupId>
+			    <artifactId>quartz</artifactId>
+			    </exclusion>
+			    </exclusions>
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-support-jdbc</artifactId>
+			<version>${cas.version}</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>util-java</artifactId>
+			<version>${liferay.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>		
+		<!--
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>			
 -->
-      </dependency>
+		
+		<!--
+		    <dependency>
+		    <groupId>com.liferay.portal</groupId>
+		    <artifactId>portal-impl</artifactId>
+		    <version>${liferay.version}</version>
+		    <scope>provided</scope>
+		    </dependency>
 
-      <dependency>
-	<groupId>org.jasig.cas</groupId>
-	<artifactId>cas-server-support-generic</artifactId>
-	<version>${cas.version}</version>
-	<type>jar</type>
-	<scope>runtime</scope>
-      </dependency>
+<dependency>
+<groupId>com.liferay.portal</groupId>
+<artifactId>portal-service</artifactId>
+<version>${liferay.version}</version>
+<scope>provided</scope>
+</dependency>
 
-      <dependency>
-	<groupId>org.jasig.cas</groupId>
-	<artifactId>cas-server-support-x509</artifactId>
-	<version>${cas.version}</version>
-	<type>jar</type>
-	<scope>compile</scope>
-      </dependency>
+<dependency>
+<artifactId>vt-crypt</artifactId>
+<groupId>edu.vt.middleware</groupId>
+<version>${vtcrypt.version}</version>
+</dependency>
 
-      <dependency>
-	<groupId>org.jasig.cas</groupId>
-	<artifactId>cas-server-core</artifactId>
-	<version>${cas.version}</version>
-	<type>jar</type>
-	<scope>compile</scope>
-<!--
-	<exclusions>
-	  <exclusion>
-	    <groupId>jdom</groupId>
-	    <artifactId>jdom</artifactId>
-	  </exclusion>
-	  <exclusion>
-	    <groupId>jdom</groupId>
-	    <artifactId>quartz</artifactId>
-	  </exclusion>
-	</exclusions>
--->
-      </dependency>
+<dependency>
+<groupId>javax.validation</groupId>
+<artifactId>validation-api</artifactId>
+<version>${javax.validation.version}</version>
+<scope>compile</scope>
+</dependency>
 
-      <dependency>
-            <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-support-jdbc</artifactId>
-            <version>${cas.version}</version>
-            <type>jar</type>
-            <scope>runtime</scope>
-        </dependency>
+<dependency>
+<groupId>easyconf</groupId>
+<artifactId>easyconf</artifactId>
+<version>${easyconf.version}</version>
+<scope>runtime</scope>
+<exclusions>
+<exclusion>
+<groupId>struts</groupId>
+<artifactId>struts</artifactId>
+</exclusion>
+<exclusion>
+<groupId>xstream</groupId>
+<artifactId>xstream</artifactId>
+</exclusion>
+</exclusions>
+</dependency>
 
-<!--
-	<dependency>
-	  <groupId>com.liferay.portal</groupId>
-	  <artifactId>portal-impl</artifactId>
-	  <version>${liferay.version}</version>
-	  <scope>provided</scope>
-	</dependency>
+<dependency>
+<groupId>xpp3</groupId>
+<artifactId>xpp3_min</artifactId>
+<version>${xpp3.version}</version>
+</dependency>
 
-	<dependency>
-	  <groupId>com.liferay.portal</groupId>
-	  <artifactId>portal-service</artifactId>
-	  <version>${liferay.version}</version>
-	  <scope>provided</scope>
-	</dependency>
+<dependency>
+<groupId>xdoclet</groupId>
+<artifactId>xdoclet</artifactId>
+<version>${xdoclet.version}</version>
+</dependency>            
+<dependency>
+<groupId>xdoclet</groupId>
+<artifactId>xdoclet-web-module</artifactId>
+<version>${xdoclet.version}</version>
+</dependency>
 
-	<dependency>
-	  <artifactId>vt-crypt</artifactId>
-	  <groupId>edu.vt.middleware</groupId>
-	  <version>${vtcrypt.version}</version>
-	</dependency>
+<dependency>
+<groupId>javax.sql</groupId>
+<artifactId>jdbc-stdext</artifactId>
+<version>${javax.sql.version}</version>
+</dependency>
 
-	<dependency>
-	  <groupId>javax.validation</groupId>
-	  <artifactId>validation-api</artifactId>
-	  <version>${javax.validation.version}</version>
-	  <scope>compile</scope>
-	</dependency>
+<dependency>
+<groupId>javax.servlet</groupId>
+<artifactId>servlet-api</artifactId>
+<version>${servlet-api.version}</version>
+<scope>provided</scope>
+</dependency>
+<dependency>
+<groupId>commons-collections</groupId>
+<artifactId>commons-collections</artifactId>
+<version>${commons.version}</version>
+</dependency>
+		-->
+		<!-- override versions -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-	<dependency>
-	  <groupId>easyconf</groupId>
-	  <artifactId>easyconf</artifactId>
-	  <version>${easyconf.version}</version>
-	  <scope>runtime</scope>
-	  <exclusions>
-	    <exclusion>
-	      <groupId>struts</groupId>
-	      <artifactId>struts</artifactId>
-	    </exclusion>
-	    <exclusion>
-	      <groupId>xstream</groupId>
-	      <artifactId>xstream</artifactId>
-	    </exclusion>
-	  </exclusions>
-	</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>${jaxb-impl.version}</version>
+		</dependency>
 
-	<dependency>
-	  <groupId>xpp3</groupId>
-	  <artifactId>xpp3_min</artifactId>
-	  <version>${xpp3.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>xdoclet</groupId>
-	  <artifactId>xdoclet</artifactId>
-	  <version>${xdoclet.version}</version>
-	</dependency>            
-	<dependency>
-	  <groupId>xdoclet</groupId>
-	  <artifactId>xdoclet-web-module</artifactId>
-	  <version>${xdoclet.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>javax.sql</groupId>
-	  <artifactId>jdbc-stdext</artifactId>
-	  <version>${javax.sql.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>javax.servlet</groupId>
-	  <artifactId>servlet-api</artifactId>
-	  <version>${servlet-api.version}</version>
-	  <scope>provided</scope>
-	</dependency>
-	<dependency>
-	  <groupId>commons-collections</groupId>
-	  <artifactId>commons-collections</artifactId>
-	  <version>${commons.version}</version>
-	</dependency>
--->
-	<!-- override versions -->
-	<dependency>
-	  <groupId>commons-lang</groupId>
-	  <artifactId>commons-lang</artifactId>
-	  <version>${commons-lang.version}</version>
-	  <scope>provided</scope>
-	</dependency>
-
-	<dependency>
-	  <groupId>com.sun.xml.bind</groupId>
-	  <artifactId>jaxb-impl</artifactId>
-	  <version>${jaxb-impl.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-expression</artifactId>
-	  <version>${spring-expression.version}</version>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring-expression.version}</version>
+		</dependency>
 
 
-	<dependency>
-	  <groupId>commons-dbcp</groupId>
-	  <artifactId>commons-dbcp</artifactId>
-	  <version>${commons-dbcp.version}</version>
-	</dependency>            
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons-dbcp.version}</version>
+		</dependency>            
 
-<!--
 
+		<!-- trying to figure out what's wrong with naloxon -->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--
+
+
+<dependency>
+<groupId>dom4j</groupId>
+<artifactId>dom4j</artifactId>
+<version>${dom4j.version}</version>
+</dependency>
+
+<dependency>
+<groupId>javax.xml.bind</groupId>
+<artifactId>jaxb-api</artifactId>
+<version>${jaxb-api.version}</version>
+</dependency>
+
+
+
+
+
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-core</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-orm</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-jdbc</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-beans</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-context</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-context-support</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-tx</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework.security</groupId>
+<artifactId>spring-security-core</artifactId>
+<version>${spring-security.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework.security</groupId>
+<artifactId>spring-security-cas-client</artifactId>
+<version>${spring-security-cas-client.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework.security</groupId>
+<artifactId>spring-security-config</artifactId>
+<version>${spring-security.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework.security</groupId>
+<artifactId>spring-security-web</artifactId>
+<version>${spring-security.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-web</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-webmvc</artifactId>
+<version>${spring.version}</version>
+</dependency>
+<dependency>
+<groupId>org.springframework.webflow</groupId>
+<artifactId>spring-webflow</artifactId>
+<version>${spring-webflow.version}</version>
+</dependency>
+<dependency>  
+<groupId>org.quartz-scheduler</groupId>  
+<artifactId>quartz</artifactId>  
+<version>${quartz.version}</version>  
+</dependency> 
+
+
+
+<dependency>
+<groupId>org.apache.struts</groupId>
+<artifactId>struts-core</artifactId>
+<version>${struts.version}</version>
+<exclusions>
+<exclusion>
+<groupId>antlr</groupId>
+<artifactId>antlr</artifactId>
+</exclusion>
+</exclusions>
+</dependency>
+<dependency>
+<groupId>org.apache.struts</groupId>
+<artifactId>struts-taglib</artifactId>
+<version>${struts.version}</version>
+</dependency>
+<dependency>
+<groupId>org.apache.struts</groupId>
+<artifactId>struts-extras</artifactId>
+<version>${struts.version}</version>
+</dependency>
+
+<dependency>
+<groupId>com.thoughtworks.xstream</groupId>
+<artifactId>xstream</artifactId>
+<version>${xstream.version}</version>
+</dependency>
+		-->            
+	</dependencies>
 	
-	<dependency>
-	  <groupId>dom4j</groupId>
-	  <artifactId>dom4j</artifactId>
-	  <version>${dom4j.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>javax.xml.bind</groupId>
-	  <artifactId>jaxb-api</artifactId>
-	  <version>${jaxb-api.version}</version>
-	</dependency>
-
-
+	<properties>
+		<cas.version>3.4.11</cas.version>
+		<cas-client.version>3.1.2</cas-client.version>
+		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<commons-lang.version>2.4</commons-lang.version>
+		<commons-logging.version>1.1.1</commons-logging.version>
+		<commons.version>3.2.1</commons.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<easyconf.version>0.9.5</easyconf.version>
+		<hibernate.version>3.6.0.Final</hibernate.version>
+		<javax.sql.version>2.0</javax.sql.version>
+		<javax.validation.version>1.0.0.GA</javax.validation.version>
+		<jaxb-api.version>2.1</jaxb-api.version>
+		<jaxb-impl.version>2.1.3</jaxb-impl.version>
+		<liferay.version>6.1.0</liferay.version>
+		<log4j.version>1.2.16</log4j.version>
+		<!--	<quartz.version>2.1.3</quartz.version> -->
+		<quartz.version>1.8.6</quartz.version>
+		<servlet-api.version>2.5</servlet-api.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring-expression.version>3.0.5.RELEASE</spring-expression.version>
+		<spring-security.version>3.0.5.RELEASE</spring-security.version>
+		<spring-security-cas-client.version>3.0.5.RELEASE</spring-security-cas-client.version>
+		<spring-webflow.version>2.2.1.RELEASE</spring-webflow.version>
+		<struts.version>1.3.10</struts.version>
+		<vtcrypt.version>2.1.4</vtcrypt.version>
+		<xdoclet.version>1.2.3</xdoclet.version>
+		<xpp3.version>1.1.3.4.O</xpp3.version>
+		<xstream.version>1.4.2</xstream.version>
+	</properties>
 	
-	<dependency>
-	  <groupId>log4j</groupId>
-	  <artifactId>log4j</artifactId>
-	  <version>${log4j.version}</version>
-	  <exclusions>
-	    <exclusion>
-	      <groupId>javax.jms</groupId>
-	      <artifactId>jms</artifactId>
-	    </exclusion>
-	    <exclusion>
-	      <groupId>com.sun.jmx</groupId>
-	      <artifactId>jmxri</artifactId>
-	    </exclusion>
-	    <exclusion>
-	      <groupId>com.sun.jdmk</groupId>
-	      <artifactId>jmxtools</artifactId>
-	    </exclusion>
-	  </exclusions>
-	</dependency>
-
-
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-core</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-orm</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-jdbc</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-beans</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-context</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-context-support</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-tx</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework.security</groupId>
-	  <artifactId>spring-security-core</artifactId>
-	  <version>${spring-security.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework.security</groupId>
-	  <artifactId>spring-security-cas-client</artifactId>
-	  <version>${spring-security-cas-client.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework.security</groupId>
-	  <artifactId>spring-security-config</artifactId>
-	  <version>${spring-security.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework.security</groupId>
-	  <artifactId>spring-security-web</artifactId>
-	  <version>${spring-security.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-web</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-webmvc</artifactId>
-	  <version>${spring.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.springframework.webflow</groupId>
-	  <artifactId>spring-webflow</artifactId>
-	  <version>${spring-webflow.version}</version>
-	</dependency>
-	<dependency>  
-	  <groupId>org.quartz-scheduler</groupId>  
-	  <artifactId>quartz</artifactId>  
-	  <version>${quartz.version}</version>  
-	</dependency> 
-
-
-
-	<dependency>
-	  <groupId>org.apache.struts</groupId>
-	  <artifactId>struts-core</artifactId>
-	  <version>${struts.version}</version>
-	  <exclusions>
-	    <exclusion>
-	      <groupId>antlr</groupId>
-	      <artifactId>antlr</artifactId>
-	    </exclusion>
-	  </exclusions>
-	</dependency>
-	<dependency>
-	  <groupId>org.apache.struts</groupId>
-	  <artifactId>struts-taglib</artifactId>
-	  <version>${struts.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.apache.struts</groupId>
-	  <artifactId>struts-extras</artifactId>
-	  <version>${struts.version}</version>
-	</dependency>
-
-	<dependency>
-	  <groupId>com.thoughtworks.xstream</groupId>
-	  <artifactId>xstream</artifactId>
-	  <version>${xstream.version}</version>
-	</dependency>
--->            
-    </dependencies>
- 
-    <properties>
-        <cas.version>3.4.11</cas.version>
-	<cas-client.version>3.1.2</cas-client.version>
-	<commons-dbcp.version>1.4</commons-dbcp.version>
-	<commons-lang.version>2.4</commons-lang.version>
-	<commons.version>3.2.1</commons.version>
-	<dom4j.version>1.6.1</dom4j.version>
-	<easyconf.version>0.9.5</easyconf.version>
-	<javax.sql.version>2.0</javax.sql.version>
-	<javax.validation.version>1.0.0.GA</javax.validation.version>
-	<jaxb-api.version>2.1</jaxb-api.version>
-	<jaxb-impl.version>2.1.3</jaxb-impl.version>
-	<liferay.version>6.0.6</liferay.version>
-	<log4j.version>1.2.16</log4j.version>
-<!--	<quartz.version>2.1.3</quartz.version> -->
-	<quartz.version>1.8.6</quartz.version>
-	<servlet-api.version>2.5</servlet-api.version>
-	<spring.version>3.0.5.RELEASE</spring.version>
-	<spring-expression.version>3.0.5.RELEASE</spring-expression.version>
-	<spring-security.version>3.0.5.RELEASE</spring-security.version>
-	<spring-security-cas-client.version>3.0.5.RELEASE</spring-security-cas-client.version>
-	<spring-webflow.version>2.2.1.RELEASE</spring-webflow.version>
-	<struts.version>1.3.10</struts.version>
-	<vtcrypt.version>2.1.4</vtcrypt.version>
- 	<xdoclet.version>1.2.3</xdoclet.version>
-	<xpp3.version>1.1.3.4.O</xpp3.version>
-	<xstream.version>1.4.2</xstream.version>
-   </properties>
- 
         <repositories>
-             <repository>
-                  <id>ja-sig</id>
-                  <url>http://oss.sonatype.org/content/repositories/releases/ </url>
-             </repository>
+		<repository>
+			<id>ja-sig</id>
+			<url>http://oss.sonatype.org/content/repositories/releases/ </url>
+		</repository>
 
-	     <repository>
-	       <id>repository.springframework.maven.release</id>
-	       <name>Spring Framework Maven Release Repository</name>
-	       <url>http://maven.springframework.org/release</url>
-	     </repository>
+		<repository>
+			<id>repository.springframework.maven.release</id>
+			<name>Spring Framework Maven Release Repository</name>
+			<url>http://maven.springframework.org/release</url>
+		</repository>
 
-	     <repository>
-	       <id>maven2-repository.dev.java.net</id>
-	       <name>Java.net Repository for Maven</name>
-	       <url>http://download.java.net/maven/2/</url>
-	       <layout>default</layout>
-	     </repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>
       </project>
