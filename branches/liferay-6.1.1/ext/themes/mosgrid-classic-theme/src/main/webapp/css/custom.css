@@ -7,15 +7,7 @@
 
 /* ---------- Base styles ---------- */
 
-body,
-.aui-autocomplete-results-content,
-.aui-calendar-content,
-.aui-colorpicker-content,
-.aui-dialog-content,
-.aui-overlaycontext-content,
-.lfr-panel-container,
-.aui-menu-content
-{
+body {
       background: #EEF0F2;
       color: #222;
 }
@@ -24,8 +16,7 @@ html {
       font-size: 100.01%;
 }
 
-a,
-.aui-dialog-content a {
+a {
 	color: #5B677D;
 	text-decoration: underline;
 }
@@ -34,7 +25,6 @@ a:hover {
 	color: #06C;
 	text-decoration: none;
 }
-
 
 hr, .separator {
 	border-color: #BFBFBF transparent #FFF;
@@ -634,6 +624,14 @@ pre code {
       background-color:transparent;
 }
 
+.aui-autocomplete-results-content,
+.aui-calendar-content,
+.aui-colorpicker-content,
+.aui-dialog-content,
+.aui-overlaycontext-content {
+    background:none repeat scroll 0 0 #FFFFFF;
+      color: #222;
+}
 
 .aui-underlay-content {
     background:url("../images/common/message_panel_shadow.png") repeat-x scroll 0 0 #F4F3F3;
@@ -842,7 +840,7 @@ pre code {
 }
 
 .results-grid {
-   background: #FFF;
+	background: #FFF;
    color: #222;
 }
 
@@ -887,7 +885,7 @@ pre code {
 
 .aui-tagselector-content {
 	.aui-textboxlistentry-holder {
-	   background: #EEF0F2;
+		background: #fff;
 	   color: #222;
 	}
 }
@@ -901,12 +899,20 @@ pre code {
 	background: #F4F3F3 url(../images/common/message_panel_shadow.png) repeat-x 0 0;
    color: #222;
 }
+.lfr-panel-container {
+	background: #FFF;
+   color: #222;
+}
 
 .aui-panel-hd {
 	background: #C0C2C5 url(../images/application/panel_header_bg.png) repeat-x 0 0;
    color: #222;
 }
 
+.aui-menu-content {
+	background: #FFF;
+   color: #222;
+}
 
 .aui-menu-content, .lfr-menu-list ul {
 	background: #CCC9C9 url(../images/application/menu_bg.png) repeat-x 0 0;
@@ -1041,4 +1047,3 @@ input {
 [for="_58_middleName"] {
 	display: none;
 }
-
