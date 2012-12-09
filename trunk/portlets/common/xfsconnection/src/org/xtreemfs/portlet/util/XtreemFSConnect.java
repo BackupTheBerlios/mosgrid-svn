@@ -82,29 +82,16 @@ public class XtreemFSConnect {
 		String type = SSLOptions.PKCS12_CONTAINER;
 		return connect(serviceCertFile, serviceCertPass, type);
 	}
-
-	/**
-	 * 
-	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
-	 * liferay user.
-	 * 
-	 * @throws CertificateException
-	 *             Throws an exception if the assertion can not be found or parsed
-	 */
-	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
-			throws CertificateException {
-		// remote user auslesen
-		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
-			throw new CertificateException("User not found!");
-		}
+	
+	public static String getValidAssertionFile(String userID, String userDir) throws CertificateException {
 
 		//set dir for current user
 		if (userDir.endsWith("/")) {
-			userDir += (request.getRemoteUser() + "/");
+			userDir += (userID + "/");
 		} else {
-			userDir += ("/" + request.getRemoteUser() + "/");
+			userDir += ("/" + userID + "/");
 		}
-
+		
 		java.io.File dir = new java.io.File(userDir);
 		if (dir != null && dir.exists()) {
 			FileFilter filter = new FileFilter() {
@@ -145,8 +132,7 @@ public class XtreemFSConnect {
 					message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 					throw new CertificateException(message);					
 				}
-				// assertion
-				return createUserCredentialsSAML(validAssertion);
+				return validAssertion;
 			}
 		} else {
 			String message = "UserDir could not be found on server.\n";
@@ -154,6 +140,26 @@ public class XtreemFSConnect {
 			message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 			throw new CertificateException(message);
 		}
+	}
+
+	/**
+	 * 
+	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
+	 * liferay user.
+	 * 
+	 * @throws CertificateException
+	 *             Throws an exception if the assertion can not be found or parsed
+	 */
+	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
+			throws CertificateException {
+		// remote user auslesen
+		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
+			throw new CertificateException("User not found!");
+		}
+
+
+		String assertion = getValidAssertionFile(request.getRemoteUser(), userDir);
+		return createUserCredentialsSAML(assertion);
 	}
 
 	/**
