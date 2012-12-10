@@ -82,16 +82,29 @@ public class XtreemFSConnect {
 		String type = SSLOptions.PKCS12_CONTAINER;
 		return connect(serviceCertFile, serviceCertPass, type);
 	}
-	
-	public static String getValidAssertionFile(String userID, String userDir) throws CertificateException {
+
+	/**
+	 * 
+	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
+	 * liferay user.
+	 * 
+	 * @throws CertificateException
+	 *             Throws an exception if the assertion can not be found or parsed
+	 */
+	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
+			throws CertificateException {
+		// remote user auslesen
+		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
+			throw new CertificateException("User not found!");
+		}
 
 		//set dir for current user
 		if (userDir.endsWith("/")) {
-			userDir += (userID + "/");
+			userDir += (request.getRemoteUser() + "/");
 		} else {
-			userDir += ("/" + userID + "/");
+			userDir += ("/" + request.getRemoteUser() + "/");
 		}
-		
+
 		java.io.File dir = new java.io.File(userDir);
 		if (dir != null && dir.exists()) {
 			FileFilter filter = new FileFilter() {
@@ -132,7 +145,8 @@ public class XtreemFSConnect {
 					message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 					throw new CertificateException(message);					
 				}
-				return validAssertion;
+				// assertion
+				return createUserCredentialsSAML(validAssertion);
 			}
 		} else {
 			String message = "UserDir could not be found on server.\n";
@@ -140,26 +154,6 @@ public class XtreemFSConnect {
 			message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 			throw new CertificateException(message);
 		}
-	}
-
-	/**
-	 * 
-	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
-	 * liferay user.
-	 * 
-	 * @throws CertificateException
-	 *             Throws an exception if the assertion can not be found or parsed
-	 */
-	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
-			throws CertificateException {
-		// remote user auslesen
-		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
-			throw new CertificateException("User not found!");
-		}
-
-
-		String assertion = getValidAssertionFile(request.getRemoteUser(), userDir);
-		return createUserCredentialsSAML(assertion);
 	}
 
 	/**
@@ -282,16 +276,9 @@ public class XtreemFSConnect {
 	protected static Client connect(String certFile, String certPass, String type) throws Exception {
 
 		// read the trusted.jks from within the jar
-		SSLOptions sslOptions = null;
 		InputStream trustedCAstream = null;
 		try {
 			trustedCAstream = new FileInputStream("trusted_xtreemfs.jks");
-
-			// SSLOptionen für XtreemFS: gridssl
-			String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
-			sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
-					trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
-
 		} catch (Exception e) {
 			trustedCAstream = XtreemFSConnect.class.getResourceAsStream("include/trusted_xtreemfs.jks");
 			if (trustedCAstream == null) {
@@ -325,6 +312,11 @@ public class XtreemFSConnect {
 				}
 			}
 		}
+
+		// SSLOptionen für XtreemFS: gridssl
+		String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
+		SSLOptions sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
+				trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
 
 		// Connection Timeout nach 2 Stunden
 		String url = XfsProperties.getProperty(XfsProperties.MRC_URL);
