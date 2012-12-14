@@ -342,6 +342,8 @@ public class DictionaryFactory {
 
 		private void init() {
 			entries = new HashMap<String, EntryType>();
+			if (dictElement == null)
+				return;
 			// iterate over entries and fill wrapper
 			for (EntryType entry : dictElement.getEntry()) {
 				addEntry(entry);
