@@ -82,29 +82,16 @@ public class XtreemFSConnect {
 		String type = SSLOptions.PKCS12_CONTAINER;
 		return connect(serviceCertFile, serviceCertPass, type);
 	}
-
-	/**
-	 * 
-	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
-	 * liferay user.
-	 * 
-	 * @throws CertificateException
-	 *             Throws an exception if the assertion can not be found or parsed
-	 */
-	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
-			throws CertificateException {
-		// remote user auslesen
-		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
-			throw new CertificateException("User not found!");
-		}
+	
+	public static String getValidAssertionFile(String userID, String userDir) throws CertificateException {
 
 		//set dir for current user
 		if (userDir.endsWith("/")) {
-			userDir += (request.getRemoteUser() + "/");
+			userDir += (userID + "/");
 		} else {
-			userDir += ("/" + request.getRemoteUser() + "/");
+			userDir += ("/" + userID + "/");
 		}
-
+		
 		java.io.File dir = new java.io.File(userDir);
 		if (dir != null && dir.exists()) {
 			FileFilter filter = new FileFilter() {
@@ -145,8 +132,7 @@ public class XtreemFSConnect {
 					message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 					throw new CertificateException(message);					
 				}
-				// assertion
-				return createUserCredentialsSAML(validAssertion);
+				return validAssertion;
 			}
 		} else {
 			String message = "UserDir could not be found on server.\n";
@@ -154,6 +140,26 @@ public class XtreemFSConnect {
 			message += "If you are sure that you have a valid assertion uploaded, then please contact support";
 			throw new CertificateException(message);
 		}
+	}
+
+	/**
+	 * 
+	 * Creates a UserCredentials from a SAML Assertion. The SAML assertion is extracted from the home folder of the
+	 * liferay user.
+	 * 
+	 * @throws CertificateException
+	 *             Throws an exception if the assertion can not be found or parsed
+	 */
+	public static RPC.UserCredentials createUserCredentialsSAML(PortletRequest request, String userDir)
+			throws CertificateException {
+		// remote user auslesen
+		if (request.getRemoteUser() == null || request.getRemoteUser().equals("")) {
+			throw new CertificateException("User not found!");
+		}
+
+
+		String assertion = getValidAssertionFile(request.getRemoteUser(), userDir);
+		return createUserCredentialsSAML(assertion);
 	}
 
 	/**
@@ -277,46 +283,42 @@ public class XtreemFSConnect {
 
 		// read the trusted.jks from within the jar
 		InputStream trustedCAstream = null;
+		SSLOptions sslOptions = null;
 		try {
-			trustedCAstream = new FileInputStream("trusted_xtreemfs.jks");
-		} catch (Exception e) {
-			trustedCAstream = XtreemFSConnect.class.getResourceAsStream("include/trusted_xtreemfs.jks");
-			if (trustedCAstream == null) {
-				trustedCAstream = XtreemFSConnect.class.getResourceAsStream("/include/trusted_xtreemfs.jks");
-				if (trustedCAstream == null) {
-					trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream(
-							"include/trusted_xtreemfs.jks");
-					if (trustedCAstream == null) {
-						trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream(
-								"/include/trusted_xtreemfs.jks");
-						if (trustedCAstream == null) {
-							trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream(
-									"trusted_xtreemfs.jks");
-							if (trustedCAstream == null) {
-								trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream(
-										"/trusted_xtreemfs.jks");
-								if (trustedCAstream == null) {
-									trustedCAstream = XtreemFSConnect.class.getResourceAsStream("trusted_xtreemfs.jks");
-									if (trustedCAstream == null) {
-										trustedCAstream = XtreemFSConnect.class
-												.getResourceAsStream("/trusted_xtreemfs.jks");
-										if (trustedCAstream == null) {
-											throw new CertificateException(
-													"Could not find truststore: trusted_xtreemfs.jks!");
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+			try {
+				trustedCAstream = new FileInputStream("trusted_xtreemfs.jks");				
+			} catch (Exception e) {
+				trustedCAstream = null;
 			}
-		}
+			
+			// try out different locations to find keystore.
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getResourceAsStream("include/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getResourceAsStream("/include/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream("include/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream("/include/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream("trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getClassLoader().getResourceAsStream("/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getResourceAsStream("trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				trustedCAstream = XtreemFSConnect.class.getResourceAsStream("/trusted_xtreemfs.jks");
+			if (trustedCAstream == null)
+				throw new CertificateException("Could not find truststore: trusted_xtreemfs.jks!");
 
-		// SSLOptionen für XtreemFS: gridssl
-		String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
-		SSLOptions sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
-				trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
+			// SSLOptionen für XtreemFS: gridssl
+			String trustedCAsPass = XfsProperties.getProperty(XfsProperties.XFS_PASS);
+			sslOptions = new SSLOptions(new FileInputStream(certFile), certPass, type, trustedCAstream,
+					trustedCAsPass, SSLOptions.JKS_CONTAINER, true, true, new SSLX509TrustManager());
+		} finally {
+			if (trustedCAstream != null)
+				trustedCAstream.close();
+		}
 
 		// Connection Timeout nach 2 Stunden
 		String url = XfsProperties.getProperty(XfsProperties.MRC_URL);
