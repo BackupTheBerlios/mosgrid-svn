@@ -406,6 +406,23 @@
 			</xhtml:p>
 		</cml:description>
 	</cml:entry>
+	
+	<cml:entry id="scrf-solvant" term="scrf-solvant" title="Solvant model for gaussian"
+		dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				TODO
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Spin
+			</xhtml:p>
+		</cml:description>
+		<cmlx:restriction id="scrf-ethanol" title="Ethanol">Ethanol</cmlx:restriction>
+		<cmlx:restriction id="scrf-methanol" title="Methanol">Methanol</cmlx:restriction>
+		<cmlx:restriction id="scrf-water" title="Water">Water</cmlx:restriction>
+	</cml:entry>
 
 	<!-- <cml:entry id="calctype" term="calctype" title="Type of Gaussian calculation" 
 		dataType="xsd:string" unitType="unitType:none" units="si:none"> <cml:definition> 
