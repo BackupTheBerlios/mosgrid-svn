@@ -1,7 +1,10 @@
 /*
+ * Copyright 2012 Tobias Schlemmer.
+ * based on X509CertificateCredentialsToIdentifierPrincipalResolver,
  * Copyright 2010 The JA-SIG Collaborative. All rights reserved. See license
  * distributed with this file and available online at
  * http://www.uportal.org/license.html
+ * 
  */
 package de.tudresden.zih.mosgrid.cas.adaptors.x509.authentication.principal;
 
@@ -25,17 +28,14 @@ import org.jasig.cas.adaptors.x509.authentication.principal.AbstractX509Certific
 
 /**
  * Credential to principal resolver that extracts one or more attribute values
- * from the certificate subject DN and combines them with intervening delimiters.
+ * from the certificate subject Alternative Names and combines them with intervening delimiters.
  * 
  * <p>
- * This class is a replacement for the following deprecated resolvers:
- * <ol>
- * <li>X509CertificateCredentialsToIdentifierPrincipalResolver</li>
- * </ol>
+ * This class is based on source code from X509CertificateCredentialsToSubjectPrinciplalResolver.
  *
- * @author Marvin S. Addison
+ * @author Tobias Schlemmer
  * @version $Revision$ $Date$
- * @since 3.4.4
+ * @since 
  *
  */
 public class X509CertificateCredentialsToAlternativeNamesPrincipalResolver
@@ -44,15 +44,28 @@ public class X509CertificateCredentialsToAlternativeNamesPrincipalResolver
     /** Pattern used to extract attribute names from descriptor */
     private static final Pattern ATTR_PATTERN = Pattern.compile("\\$(\\w+)");
     
-    private static final int ATTR_OTHERNAME     = 0;
-    private static final int ATTR_RFC822NAME    = 1;
-    private static final int ATTR_DNSNAME       = 2;
-    private static final int ATTR_X400ADDRESS   = 3;
-    private static final int ATTR_DIRECTORYNAME = 4;
-    private static final int ATTR_EDIPARTYNAME  = 5;
-    private static final int ATTR_URI           = 6;
-    private static final int ATTR_IPADDRESS     = 7;
-    private static final int ATTR_REGISTEREDID  = 8;
+    /** alternative name types per RFC 3280 */ 
+    public enum NameTypes {
+        OTHERNAME, 
+        RFC822NAME,
+        DNSNAME,
+        X400ADDRESS,
+        DIRECTORYNAME,
+        EDIPARTYNAME,
+        URI,
+        IPADDRESS,
+        REGISTEREDID;
+        
+        public static NameTypes fromCode(final int code) {
+            for (int i = 0; i < NameTypes.values().length; i++) {
+                if (i == code) {
+                    return NameTypes.values()[i];
+                }
+            }
+            throw new IllegalArgumentException("Unknown CRL reason code.");
+        }
+    }
+
 
     
     /** Descriptor representing an abstract format of the principal to be resolved.*/
@@ -104,88 +117,120 @@ public class X509CertificateCredentialsToAlternativeNamesPrincipalResolver
      * @see org.jasig.cas.adaptors.x509.authentication.principal.AbstractX509CertificateCredentialsToPrincipalResolver#resolvePrincipalInternal(java.security.cert.X509Certificate)
      */
     protected String resolvePrincipalInternal(final X509Certificate certificate) {
-        this.log.debug("Resolving principal \"" + this.descriptor + "\" for " + certificate);
+        this.log.debug("Resolving principal \"{}\" for {}", 
+                       this.descriptor, certificate);
         final StringBuffer sb = new StringBuffer ();
         final Matcher m = ATTR_PATTERN.matcher(this.descriptor);
         final Map<String, AttributeContext> attrMap = new HashMap<String, AttributeContext>();
-	//	Map<String,int> 
+        //        Map<String,int> 
         String name = "";
         String[] values;
         AttributeContext context;
-	try {
-	    this.log.debug("certificate.getSubjectAlternativeNames() = " 
-			   + certificate.getSubjectAlternativeNames());
-	    Collection<List<?>> subjAltNames = certificate.getSubjectAlternativeNames();
-	    this.log.debug("subjAltNmaes = " + subjAltNames);
+        try {
+            this.log.debug("certificate.getSubjectAlternativeNames() = {}",
+                           certificate.getSubjectAlternativeNames());
+            Collection<List<?>> subjAltNames = certificate.getSubjectAlternativeNames();
+            this.log.debug("subjAltNmaes = {}", subjAltNames);
 
-	    if (subjAltNames != null) {
-		for ( List<?> next : subjAltNames) {
-		    
-		    switch (((Integer)next.get(0)).intValue())
-		    {
-		    case ATTR_OTHERNAME: 
-			name = "OTHERNAME";
-			break;
-		    case ATTR_RFC822NAME:
-			name = "RFC822NAME";
-			break;
-		    case ATTR_DNSNAME:
-			name = "DNSNAME";
-			break;
-		    case ATTR_X400ADDRESS:
-			name = "X400ADDRESS";
-			break;
-		    case ATTR_DIRECTORYNAME:
-			name = "DIRECTORYNAME";
-			break;
-		    case ATTR_EDIPARTYNAME:
-			name = "EDIPARTYNAME";
-			break;
-		    case ATTR_URI:
-			name = "URI";
-			break;
-		    case ATTR_IPADDRESS:
-			name = "IPADDRESS";
-			break;
-		    case ATTR_REGISTEREDID:
-			name = "REGISTEREDID";
-			break;
-		    default:
-			this.log.error("Unknown alternative name No. " + (Integer)next.get(0) 
-				       + " in certificate" + certificate );
-		    }
+            if (subjAltNames != null) {
+                for ( List<?> next : subjAltNames) {
+                    String value = "";
+                    boolean implemented = false;
 
-		    if (!attrMap.containsKey(name)) {
-			values = new String[]{ (String) next.get(1) };
-			context = new AttributeContext(name, values);
-		    } else {
-			context = attrMap.get(name);
-			context.addValue((String) next.get(1));
-		    }
+                    int code = ((Integer)next.get(0)).intValue();
+                    if (code < NameTypes.values().length) {
+                        try {
+                            switch (NameTypes.fromCode(code))
+                            {
+                            case OTHERNAME: 
+                                name = "OTHERNAME";
+                                break;
+                            case RFC822NAME:
+                                name = "RFC822NAME";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            case DNSNAME:
+                                name = "DNSNAME";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            case X400ADDRESS:
+                                name = "X400ADDRESS";
+                                break;
+                            case DIRECTORYNAME:
+                                name = "DIRECTORYNAME";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            case EDIPARTYNAME:
+                                name = "EDIPARTYNAME";
+                                break;
+                            case URI:
+                                name = "URI";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            case IPADDRESS:
+                                name = "IPADDRESS";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            case REGISTEREDID:
+                                name = "REGISTEREDID";
+                                value = (String) next.get(1);
+                                implemented = true;
+                                break;
+                            default:
+                                // this code should not be executed at all. Otherwise we did something wrong.
+                                name = "<unknown>";
+                                this.log.error("Unknown alternative name No. {} in certificate {}",
+                                              (Integer)next.get(0) , certificate );
+                            }
+                        } catch ( final Exception e ) {
+                            name = "<invalid>";
+                            this.log.warn("Unknown alternative name No. {} in certificate {}", 
+                                             code, certificate);
+                        }
 
-		    attrMap.put(name,context);
-		}
-	    }
+                        if (implemented) {
+                            if (!attrMap.containsKey(name)) {
+                                values = new String[]{ value };
+                                context = new AttributeContext(name, values);
+                            } else {
+                                context = attrMap.get(name);
+                                context.addValue( value);
+                            }
 
-	    this.log.debug("Replacement map has been intitialized: " + attrMap);
+                            attrMap.put(name,context);
+                        } else {
+                            this.log.warn("Unsupported field detected {} in certificate {}",name, certificate);
+                        }
 
-	    while (m.find()) {
-		name = m.group(1);
-		this.log.debug("Searching for \"" + name + "\" in " + attrMap );
-		if (!attrMap.containsKey(name)) {
-		    m.appendReplacement(sb, "");
-		} else {
-		    context = attrMap.get(name);
-		    m.appendReplacement(sb,context.nextValue());
-		}
-	    }
+                       
+                    }
+                }
+            }
 
-	    m.appendTail(sb);
+            this.log.debug("Replacement map has been intitialized: {}",attrMap);
 
-	} catch (CertificateParsingException e) {
-	    this.log.error("Error parsing Certificate: " + e); 
-	    // @todo: check whether the debug level is appropriate
-	}
+            while (m.find()) {
+                name = m.group(1);
+                this.log.debug("Searching for \"{}\" in {}", name, attrMap );
+                if (!attrMap.containsKey(name)) {
+                    m.appendReplacement(sb, "");
+                } else {
+                    context = attrMap.get(name);
+                    m.appendReplacement(sb,context.nextValue());
+                }
+            }
+
+            m.appendTail(sb);
+
+        } catch (CertificateParsingException e) {
+            this.log.error("Error parsing Certificate: {}", e); 
+            // @todo: check whether the debug level is appropriate
+        }
         return sb.toString();
     }
     
@@ -206,12 +251,12 @@ public class X509CertificateCredentialsToAlternativeNamesPrincipalResolver
             return this.values[this.currentIndex++];
         }
 
-	public void addValue(String value) {
-	    int oldSize = values.length;
-	    String[] newValues = new String[oldSize+1];
-	    System.arraycopy (values,0,newValues,0,oldSize);
-	    newValues[oldSize+1] = value;
-	    values = newValues;
-	}
+        public void addValue(String value) {
+            int oldSize = values.length;
+            String[] newValues = new String[oldSize+1];
+            System.arraycopy (values,0,newValues,0,oldSize);
+            newValues[oldSize+1] = value;
+            values = newValues;
+        }
     }
 }
