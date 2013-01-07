@@ -28,7 +28,7 @@ public class MetaDataSearchComponent extends CustomComponent implements IUploadC
 	/* ui components */
 	private HorizontalLayout mainLayout;
 
-	protected MetaDataSearchComponent(ImportedWorkflow wkfImport, Job job, FileUpload uploadElement) {
+	public MetaDataSearchComponent(ImportedWorkflow wkfImport, Job job, FileUpload uploadElement) {
 		listenerList = new ArrayList<IUploadListener>();
 		buildMainLayout();
 	}
