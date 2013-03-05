@@ -17,19 +17,20 @@ import de.ukoeln.msml.genericparser.worker.StackTraceHelper.ON_EXCEPTION;
 
 public class ParameterHandler {
 	
-	private final static Hashtable<String, IParamHandler> _handler = new Hashtable<String, IParamHandler>();
+	private final static Hashtable<String, List<IParamHandler>> _handler = new Hashtable<String, List<IParamHandler>>();
 	private static boolean isInit = false;
 	
 	private static void Init() {
 		// add handler here
-		
+
 		if (isInit)
 			return;
 		try {
 			// TODO whole parameter-handling is crap. refactor!
 			add(new ConfigHandler());
 			add(new MoleculeInfoHandler());
-			add(new OutputLocationHandler());			
+			add(new OutputLocationHandler());
+			add(new JSONOutputHandler());
 		} finally {
 			isInit = true;
 		}
@@ -43,7 +44,7 @@ public class ParameterHandler {
 		// exists in the current MSML-document. otherwise the document would be malformed.
 		String parserPrefix = msmlEdit.getPrefixToNamespace(Namespaces.PARSER.getNamespace());
 		
-		boolean outputHandlerPresent = false;
+		boolean jsonHandlerPresent = false, outputHandlerPresent = false;
 		// search parserconfig for parameter with parser-prefix... right now all parameter
 		// should be parser parameter, but this might change.
 		for (ParameterType param : parmList.getListForGenParser().getParameter()) {
@@ -54,16 +55,24 @@ public class ParameterHandler {
 			String paramSuffix = XmlHelper.getInstance().getSuffix(param.getDictRef());
 			if (!_handler.containsKey(paramSuffix))
 				StackTraceHelper.handleException(new Throwable("Parameter " + paramSuffix + " not found."), ON_EXCEPTION.QUIT);
-			IParamHandler handlerInstance = _handler.get(paramSuffix).getInstance(param);
-			curHandler.add(handlerInstance);
 			
-			if (handlerInstance.getClass().equals(OutputLocationHandler.class))
-				outputHandlerPresent = true;
+			for (IParamHandler handler : _handler.get(paramSuffix)) {
+				IParamHandler handlerInstance = handler.getInstance(param);
+				curHandler.add(handlerInstance);
+				
+				if (handlerInstance.getClass().equals(OutputLocationHandler.class))
+					outputHandlerPresent = true;
+				else if (handlerInstance.getClass().equals(JSONOutputHandler.class))
+					jsonHandlerPresent = true;
+			}
 		}
 		
 		// since we always want output to be handled we push the outputlocation-handler to the handlerlist
 		if (!outputHandlerPresent)
 			curHandler.add(new OutputLocationHandler());
+		
+		if (!jsonHandlerPresent)
+			curHandler.add(new JSONOutputHandler());
 		
 		// sort handlers according to weight to ensure correct execution order
 		Collections.sort(curHandler, new Comparator<IParamHandler>() {
@@ -93,6 +102,11 @@ public class ParameterHandler {
 	}
 
 	private static void add(IParamHandler handler) {
-		_handler.put(handler.getParameterName(), handler);
+		List<IParamHandler> handlers = _handler.get(handler.getParameterName());
+		if (handlers == null) {
+			handlers = new ArrayList<IParamHandler>();
+			_handler.put(handler.getParameterName(), handlers);
+		}
+		handlers.add(handler);
 	}
 }
