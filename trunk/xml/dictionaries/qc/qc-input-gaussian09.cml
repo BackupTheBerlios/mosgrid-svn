@@ -286,8 +286,7 @@
 		<cmlx:restriction id="basisset.D95V_plus_d_" title="D95V+(d)">D95V+(d)</cmlx:restriction>
 		<cmlx:restriction id="basisset.D95V_plus_dp_" title="D95V+(d,p)">D95V+(d,p)</cmlx:restriction>
 		<cmlx:restriction id="basisset.D95V_plusplus_" title="D95V++">D95V++</cmlx:restriction>
-		<cmlx:restriction id="basisset.D95V_plusplus_dp_"
-			title="D95V++(d,p)">D95V++(d,p)</cmlx:restriction>
+		<cmlx:restriction id="basisset.D95V_plusplus_dp_" title="D95V++(d,p)">D95V++(d,p)</cmlx:restriction>
 		<cmlx:restriction id="basisset.D95" title="D95">D95</cmlx:restriction>
 		<cmlx:restriction id="basisset.D95_plus_d_" title="D95+(d)">D95+(d)</cmlx:restriction>
 		<cmlx:restriction id="basisset.D95_plus_dp_" title="D95+(d,p)">D95+(d,p)</cmlx:restriction>
