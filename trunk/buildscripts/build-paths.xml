@@ -14,7 +14,6 @@
 	<property name="loc.dygraph" location="${loc.ext.dir}/widgets/dygraph/widget/" />
 	<property name="loc.chemdoodle" location="${loc.ext.dir}/widgets/chemdoodle/widget/" />
 	
-
 	<property name="loc.qcportlet" location="${loc.portlets.dir}/qc/" />
 	<property name="loc.mdportlet" location="${loc.portlets.dir}/md/" />
 	<property name="loc.dockingportlet" location="${loc.portlets.dir}/docking/" />
