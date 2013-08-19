@@ -1,0 +1,23 @@
+.dygraph-label {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.dygraph-title { /* This rule only applies to the chart title */
+	font-size: 24px;
+	text-shadow: gray 2px 2px 2px;
+	/* color, delta-x, delta-y, blur radius */
+}
+
+.dygraph-ylabel { /* This rule only applies to the y-axis label */
+	font-size: 16px;
+}
+
+.dygraph-xlabel { /* This rule only applies to the y-axis label */
+	font-size: 16px;
+}
+
+.v-simplegraph{
+	border: 1px dashed black;
+	margin:1px;
+	background-color: white;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="var" path="VAADIN_DOWNLOAD/gwt-dependencies/2.3.0/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="var" path="VAADIN_DOWNLOAD/gwt-dependencies/2.3.0/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_29">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/XtreemFS.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/protobuf-java-2.3.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/Foundation.jar" sourcepath="/home/pschaefe/workspace_cpp/xtreemfs2/java/foundation/src"/>
+	<classpathentry kind="lib" path="/usr/local/guseuser/tomcat/lib/ext/portal-service.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/XtreemFS-Connection-0.1.jar"/>
+	<classpathentry kind="lib" path="lib/portlet.jar"/>
+	<classpathentry kind="lib" path="lib/vaadin.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-dev.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-user.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

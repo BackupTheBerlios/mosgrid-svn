@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="CoffeeCup HTML Editor (www.coffeecup.com)">
+    <meta name="created" content="Cs, 08 dec. 2011 16:07:16 GMT">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>gUSE v3.4 install manual</title>
+    
+    <!--[if IE]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<style>
+<!--
+ /* Style Definitions */
+h1
+	{
+	margin-left: 6pt;
+	font-size: 18px;
+	font-family:'Times New Roman', Times, serif;
+	color:black;
+	font-weight:bold;}
+h2
+	{
+	margin-left: 12pt;
+	font-size: 17px;
+	font-family:'Times New Roman', Times, serif;
+	color:black;
+	font-weight:bold;}
+h3
+	{
+	margin-left: 24pt;
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
+	color:black;
+	font-weight:bold;}
+h4
+	{
+	margin-left: 24pt;
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
+	color:black;
+	font-weight:bold;}
+code
+	{
+	font-size: 13px;
+	font-family: monospace;
+	color:black;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{
+	margin-left: 30pt;
+	font-size: 14px;
+	font-family: "Times New Roman", Times, serif;
+	color: black;}
+ol
+	{
+	margin-left: 60pt;
+	font-family:'Times New Roman', Times, serif;
+	font-size:14px;
+	}
+ul
+	{
+	margin-left: 60pt;
+	font-family:'Times New Roman', Times, serif;
+	font-size:14px;
+	}
+dl
+	{
+	margin-left: 60pt;
+	font-family:'Times New Roman', Times, serif;
+	font-size:14px;
+	}
+p.style1
+	{
+	margin-left: 30pt;
+	font-size: 14px;
+	font-family: "Times New Roman", Times, serif;
+	color: black;
+	font-weight:bold;
+	}
+p.style2
+	{
+	margin-left: 30pt;
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
+	color: black;
+	font-weight:bold;
+	}
+p.tablestyle
+	{
+	margin-left: 0pt;
+	font-size: 14px;
+	font-family: "Times New Roman", Times, serif;
+	color: black;}
+table.simple {
+	border-width: 1px;
+	border-spacing: 1px;
+	border-style: solid;
+	border-color: gray;
+	border-collapse: collapse;
+	font-size: 10px;
+	text-align: left;
+}
+
+table.simple th {
+	border-width: 1px;
+	padding: 3px;
+	border-style: inset;
+	border-color: gray;
+	text-align: middle;
+}
+
+table.simple td {
+	border-width: 1px;
+	padding: 3px;
+	border-style: inset;
+	border-color: gray;
+}
+-->
+  </style>
+	
+  </head>
+  <body>
+  
+<h1 style="text-align: center;" align="center"><img src="Images/gUSE_sztaki_lpds_hi-res_transparent.png" alt="gUSE" longdesc="http://guse.hu/"><br/>
+    WS-PGRADE Portal Admin Manual</h1>
+  <p style="text-align: center;" align="center">21 December, 2011<br>
+    Version 3.4</p>
+  <p style="text-align: center;" align="center">Copyright 2007-2012 MTA SZTAKI LPDS, Budapest</p>
+  <p>MTA SZTAKI LPDS accepts no responsibility for the actions of any user. All users accept full responsibility for their usage of software products. MTA SZTAKI LPDS makes no warranty as to its use or performance.</p>
+  <h1>Content</h1>
+  <p style="margin-left: 12pt;"><a href="#1_Prerequisites">1. Prerequisites</a></p>
+  <p><a href="#1_1_Hardware">1.1 Hardware</a></p>
+  <p><a href="#1_2_Software">1.2 Software</a></p>
+  <p><a href="#1_3_Install_submitter">1.3 Install submitter</a></p>
+  <p style="margin-left: 12pt;"><a href="#2_Before_installing">2. Before installing gUSE</a></p>
+  <p style="margin-left: 12pt;"><a href="#3_Installing">3. Installing gUSE</a></p>
+
+<hr align="center" size="1" />
+  
+<h1><a name="1_Prerequisites"></a>1. Prerequisites</h1>
+
+<p>Before proceeding the installation, make sure that all the following hardware and software requirements are met: <p>
+<h2><a name="1_1_Hardware"></a>1.1 Hardware</h2>
+	<ul>
+		<li>2 GB memory </li>
+		<li>x86 CPU (minimum 2.4 GHz, depends on usage) </li>
+		<li>storage: minimum 1GB (portal installation) and additional 20-100 GB HDD for user data </li>
+	</ul>
+<h2><a name="1_2_Software"></a>1.2 Software </h2>
+	<ul>
+		<li>Linux - Scientific or other (Ubuntu,...)</li> <br />
+		<li>J2SE 6.x - <a href = "http://www.oracle.com/technetwork/java/javase/downloads/jdk6-jsp-136632.html" target="blank">link</a></li><br />
+		<li>Apache Tomcat 6.x - <a href = "http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip" target="blank">link</a></li><br />
+		<li>mysql (5.1.41 tested) remote or local installed <br />
+			mysql-client and mysql-sever</li><br />
+		<li>Liferay 6.0.5 (Bundled with Tomcat works, but NOT recommended) <br />
+		<p><a href = "http://www.liferay.com/downloads/liferay-portal/available-releases" target="blank">Liferay</a> <br /> 
+		<a href = "http://www.liferay.com/documentation/liferay-portal/6.0/administration" target="blank">Liferay admin manual</a> <br /> 
+		<a href = "http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.0.5/liferay-portal-6.0.5.war/download -O liferay-portal-6.0.5.war" target="blank">Recommended version</a> <br /> 
+		<a href = "http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.0.5/liferay-portal-tunnel-web-6.0.5.war/download -O liferay-portal-tunnel-web-6.0.5.war" target="blank">Additional libraries</a> <br /> 
+		<a href = "http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.0.5/liferay-portal-dependencies-6.0.5.zip/download -O liferay-portal-dependencies-6.0.5.zip" target="blank">Dependencies</a> <br />
+		<a href = "http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.0.5/liferay-portal-sql-6.0.5.zip/download -O liferay-portal-sql-6.0.5.zip" target="blank">Additional scripts</a></p></li>
+	</ul>
+<h2><a name="1_3_Install_submitter"></a>1.3 Install submitter</h2> 
+<p>For submitter installation, please visit the recommended links:</p>
+	<ul>
+		<li>GT2 <a href = "http://globus.org/toolkit/docs/2.4/" target="blank">Documentation</a></li><br />
+		<li>GT4 <a href = "http://www.globus.org/toolkit/docs/4.2/4.2.1/" target="blank">Documentation</a> </li><br />
+		<li>GEMLCA<br />
+		<p><a href="http://dev.globus.org/wiki/Incubator/GEMLCA" target="_blank">Incubator description</a><br />
+	 	<a href="http://www.cpc.wmin.ac.uk/cpcsite/index.php/Gemlca" target="_blank">General description</a><br />
+	 	<a href="http://dev.globus.org/images/b/bf/Gemlca-r3.2-manual.pdf" target="_blank">Manual</a><br /></p>
+		For configuration deploy dci_bridge_service_gemlca.war</li><br />
+		<li>The DCI admin manual can be accessed <a href = "http://guse.hu/manual/dci/v1/dci_manual.html" target="blank">here</a></li><br />
+		<li>gLite<br />
+		<p><a href="https://twiki.cern.ch/twiki/bin/view/LCG/GenericInstallGuide320" target="_blank">General description</a><br />
+	 	<a href="http://lists.grid.sinica.edu.tw/apwiki/Installation/User_Interface_Installation_for_Glite_3.2" target="_blank">UI description</a></p>
+		To use DCI-BRIDGE set the gLite call back url in dci_bridge_service.war/WEB-INF/dci-bridge.xml</li><br />
+		<li>PBS <a href="http://www.clusterresources.com/torquedocs/" target="_blank">Documentation</a></li><br />
+		<li>GAE <a href="http://code.google.com/intl/hu-HU/appengine/" target="_blank">Documentation</a></li><br />
+		<li>Service <a href="http://axis.apache.org/axis/" target="_blank">Documentation</a></li><br />
+		<li>Unicore <a href="http://www.unicore.eu/" target="_blank">Website</a><br />
+	 	<p><a href="http://www.unicore.eu/documentation/" target="_blank">Documentation</a><br />
+	 	<a href="http://www.unicore.eu/download/unicore6/" target="_blank">Clients</a><br /></p>
+		For configuration deploy dci_bridge_service_unicore.war</li><br />
+		<li>ARC <a href="http://www.nordugrid.org/documents/arc-client-install.html" target="_blank">Documentation</a><br />
+		For ARC submitter do not reload/deploy the DCI Bridge after any changes. Just restart the tomcat.</li><br />
+		<li>LSF <a href="http://www.platform.com/workload-management/high-performance-computing/lp" target="_blank">Documentation</a></li><br />
+		<li>BOINC <a href="http://edges-3g-bridge.sf.net/" target="_blank">Documentation</a></li><br />
+			</ul>
+<h1><a name="2_Before_installing"></a>2. Before installing gUSE</h1>
+<ol>
+
+	<li>Download gUSE: <a href="http://sourceforge.net/projects/guse/files/guse_3.4_binary/" target="_blank">link</a></li><br />
+	
+	<li>Create a user for Liferay and create database tables <br /><br />
+		<u>Create a user for Liferay and guse:</u> <br />
+		<code>mysql -u root -p <br />
+		CREATE USER 'liferay'@'localhost' IDENTIFIED BY 'change_it!'; <br />
+		CREATE USER 'guse'@'localhost' IDENTIFIED BY 'change_it!'; <br /><br />
+
+		GRANT ALL PRIVILEGES ON *.* TO 'guse'@'localhost'  WITH GRANT OPTION; <br />
+		GRANT ALL PRIVILEGES ON *.* TO 'liferay'@'localhost'  WITH GRANT OPTION;<br /><br />
+
+	 	$ mysql --host=host.hu --user=guseDBuser --password=guseDBpass pgportal < guse_tables.sql <br />
+ 		$ mysql --host=host.hu --user=guseDBuser --password=guseDBpass pgportal < guse_table_mess.sql <br />
+ 		$ mysql --host=host.hu --user=guseDBuser --password=guseDBpass pgportal < guse_tables_index.sql </code></li><br />
+		
+	
+	<li>Edit tomcat-users.xml file<br />
+		<code>$ cd tomcat/conf/tomcat-users.xml<br />
+		user username="tomcat" password="tomcat"<br />
+		roles="manager,manager-gui,manager-script,manager-status"</code></li><br />
+		
+	<li>Parameterize runtime environment (edit catalina.sh)<br />
+		<code>export JAVA_OPTS="-server -Xms256m -Xmx1024m -XX:MaxPermSize=512m -Dfile.encoding=UTF8 -Duser.timezone=GMT"<br /></code>
+		WHERE 
+		<ul type="circle">
+    <li>server : JVM has to be run in server mode</li>
+    <li>Xms : initial heap size</li>
+    <li>Xmx : maximum heap size</li>
+    <li>XX:MaxPermSize=128m : memory to store long term object instances</li>
+    <li>Dfile.encoding=UTF8 : file encoding</li>
+    <li>Duser.timezone=GMT" : timezone</li><br />
+</ul>
+
+		<code>export X509_USER_PROXY=x509up<br /></code> If it is not set, voms extension cannot be set for the gLite proxy <br /><br />
+		<code>export CATALINA_OPTS="-DcrlUpdateInterval=0s -DcrlEnabled=false -Dorg.globus.tcp.port.range=20000,25000"</code><br />
+		WHERE 
+	<ul type="circle">
+    <li>Dorg.globus.tcp.port.range :Needed to run GT2/GT4, if not set, jobs will stay in PENDING status </li><br />
+  </ul>
+	</li>
+	
+	
+	<li>Copy from the /tomcatlibs to tomcat's lib folder the following .jar files:<br />
+    <code>cog-jglobus.jar<br />
+    commons-logging-1.1.1.jar<br />
+    cryptix-asn1.jar<br />
+    cryptix32.jar<br />
+    javaee-api-5.0-1.jar<br />
+    jce-jdk13-131.jar<br />
+    mysql-connector-java-5.1.6-bin.jar<br />
+    puretls.jar<br />
+    dsn.jar<br />
+    imap.jar<br />
+    mailapi.jar<br />
+    mail.jar<br />
+    pop3.jar<br />
+	smtp.jar</code></li><br />
+	 
+	<li>Edit portal-ext.properties file (create if does not exist) and move it to the same hierarchy level as tomcat's root folder. <br />
+    <code>jdbc.default.driverClassName= JDBC driver implementation<br />
+    jdbc.default.url= JDBC URL<br />
+    jdbc.default.username= user name to the database<br />
+    jdbc.default.password= user's password to the database<br />
+    jdbc.default.maxIdleTime= connections timeout<br />
+    portal.ctx= URL of liferay webapp</code>(If you installed a bundled version, remove the portal.ctx property)</li>
+</ol>
+
+<p><a href="sample_file.html" target="_blank">Sample file</a></p>
+
+<p><b>Useful hint:</b> to check if you have installed the right components and set the right values before installing gUSE, you can run our recommended <a href="guse_check_script.pl" target="_blank">checking script</a> (PERL package is needed).</p><br />
+
+<h1><a name="3_Installing"></a>3. Installing gUSE</h1>
+	<ol>
+		<li>Configure the installer package; set database connection (<code>Connection[password|database|URL]</code>) in <code>information.war/WEB-INF/classes/META-INF/persistence.xml</code> and service urls (surl) for wspgrade, wfs, portal, submitter, resource configure services in <code>information.war/WEB-INF/config/service.xml</code> (Note: if your instance is installed on more than one host, make sure you replace all localhost values with the public url of your service. These can be modified later on at Settings/Internal Services.)</li><br />
+		<li>Modify <code>dci_bridge.war/WEB-INF/dci_bridge.xml</code> file, at the end of the file set the java and callback urls. <a href="sample_dci.html" target="_blank">Sample file</a></li>
+		
+		<li>Start Tomcat with startup.sh and deploy on tomcat manager interface the following war files:<br />
+	Dci_bridge_service, wfi, wfs, information, storage, repository.<br />
+	To configure properly the DCI Bridge visit the <code>dci_bridge_service</code> configuration interface [<code>http://public_domain_name:port/dci_bridge_service/conf</code>] (user/pass same as for tomcat) and enable accepting jobs (<a href="Images/image001.jpg" target="_blank">see figure</a>)</li><br />
+	   <li>Log in to the Liferay portal, navigate to <b>Manage/Control Panel/Plugins Installation/Install More Portlets/Upload File</b> and deploy the <code>wspgrade.war</code> file.</li><br />
+	   <li>Navigate to <b>Manage/Control Panel/Communities/Actions(on a community)/Manage Pages/ExportImport/Import</b> and deploy <code>ws-pgrade.lar</code> file. Before deploying, check all checkboxes (<a href="Images/image003.png" target="_blank">see figure</a>)</li><br />
+	   <li>Initialize gUSE services at <code>http://localhost:8080/information/ </code><br />
+Make sure you set the right values for each property. Please note that initialization interface is protected by username and password for an administrator associated to tomcat's manager role that you can modify in the <code>tomcat-users.xml</code> file. <br /><br />
+
+It is necessary to initialize the portal after every tomcat restart. For further startups you only have to click clear to all 4 fields (where clear is an option). Also after each tomcat restart accepting jobs option has to be enabled in the dci config (see above with screenshot)</li>
+	</ol>
+
+<p><b>Hint:</b> To check if you have installed your gUSE instance properly, create a graph and save it. Then refresh the page. If it appears, welcome and enjoy gUSE! <p> 
+
+<p>For further questions, please visit the <a href="http://sourceforge.net/projects/guse/forums" target="_blank">gUSE message board</a> at Sourceforge.</p>
+
+<p>Also, please notify our user support team about any new successfully installed instances at <a href="mailto:portalreq@lpds.sztaki.hu?subject=gUSE portal installation">portalreq at lpds.sztaki.hu</a>. </p>
+
+<p><b>Further hints:</b> </p>
+	<ul>
+		<li>If you are NOT using BOINC/GBAC, the URLs in WS-PGRADE do not need to be set. If you do, URLs need to be set in storage and wfi. </li>
+		<li>If you see a blank page when clicking on a job at the configuration of the workflow, accepting jobs are not enabled in the DCI Bridge. To set this, see above, then log into Liferay again.</li>
+		<li>If you installed a bundled version, make sure you place the portal-ext.properties file under liferay root folder, to the same hierarchy level as tomcat's root folder. </li>
+		<li>After each modification at Settings/Internal Service tomcat needs to be restarted.</li>
+	</ul>
+  </body>
+</html>

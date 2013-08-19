@@ -1,0 +1,14 @@
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+    <service name="urn:wfisubmitterservice" provider="java:RPC">
+        <parameter name="className" value="hu.sztaki.lpds.wfi.net.wsaxis13.zen.WfiSubmitterServiceImpl"/>
+        <parameter name="allowedMethods" value="setStatus setCollectionStatus callJob"/>
+        <parameter name="scope" value="request"/>
+        <beanMapping qname="lpdsNS:JobStatusBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.wfs.com.JobStatusBean"/>
+
+	<typeMapping deserializer="org.apache.axis.encoding.ser.VectorDeserializerFactory"
+	    languageSpecificType="java:java.util.Vector" qname="ns1:AxisVector"
+	    serializer="org.apache.axis.encoding.ser.VectorSerializerFactory" 
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+    </service>
+</deployment>

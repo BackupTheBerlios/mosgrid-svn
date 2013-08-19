@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://www.shiwa-workflow.eu/documents/10753/45904/proxy+%26+callback+extension" uri="src/conf/xml-resources/jaxb/dci-extension/www.shiwa-workflow.eu/documents/10753/45904/proxy___callback_extension.xsd"/>
+    <system systemId="file:/home/krisztian/src/bes/wfi/../../../lpds/shiwa/jsdl.xsd" uri="src/conf/xml-resources/jaxb/jsdl/jsdl.xsd"/>
+    <system systemId="file:/home/krisztian/src/bes/wfi/../../../lpds/shiwa/jsdl-posix.xsd" uri="src/conf/xml-resources/jaxb/jsdl-posix/jsdl-posix.xsd"/>
+    <system systemId="file:/home/krisztian/src/bes/wfi/../../../lpds/shiwa/MB%20Scheduling%20Description%20Language.xml" uri="src/conf/xml-resources/jaxb/metabroker/MB%20Scheduling%20Description%20Language.xml.xsd"/>
+    <system systemId="file:/home/krisztian/src/bes/wfi/../../guse/JavaApplication23/src/callback.xsd" uri="src/conf/xml-resources/jaxb/dci-extension/callback.xsd"/>
+    <system systemId="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix" uri="src/conf/xml-resources/jaxb/jsdl-posix/schemas.ggf.org/jsdl/2005/11/jsdl-posix.xsd"/>
+    <system systemId="http://schemas.ggf.org/jsdl/2005/11/jsdl" uri="src/conf/xml-resources/jaxb/jsdl/schemas.ggf.org/jsdl/2005/11/jsdl.xsd"/>
+    <system systemId="http://www.shiwa-workflow.eu/documents/10753/45904/DCI-Bridge+Configuration+Schema" uri="src/conf/xml-resources/jaxb/dci-config/www.shiwa-workflow.eu/documents/10753/45904/dci-bridge_configuration_schema.xsd"/>
+    <system systemId="https://www.shiwa-workflow.eu/documents/10753/45904/callback+and+proxy+extension" uri="src/conf/xml-resources/jaxb/dci-extension/www.shiwa-workflow.eu/documents/10753/45904/callback_and_proxy_extension.xsd"/>
+    <system systemId="http://www.shiwa-workflow.eu/documents/10753/45904/DCI-Bridge_Configuration_schema_2012" uri="src/conf/xml-resources/jaxb/dci-config/www.shiwa-workflow.eu/documents/10753/45904/dci-bridge_configuration_schema_2012.xsd"/>
+    <system systemId="https://www.shiwa-workflow.eu/documents/10753/52033/MB+Scheduling+Description+Language" uri="src/conf/xml-resources/jaxb/metabroker/www.shiwa-workflow.eu/documents/10753/52033/mb_scheduling_description_language.xsd"/>
+</catalog>

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mvn install
+/usr/lib/jvm/java-6-openjdk/jre/../bin/jarsigner -keystore mosgrid-chain.jks target/td-applet-1.0.jar mosgrid
+appletviewer -J-Djava.security.policy=applet.policy -J-Djava.security.manager test.html

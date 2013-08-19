@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://hu.guse.services.monitoring/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://hu.guse.services.monitoring/">
+
+<xs:element name="getAllCommands" type="tns:getAllCommands"></xs:element>
+
+<xs:element name="getAllCommandsResponse" type="tns:getAllCommandsResponse"></xs:element>
+
+<xs:element name="getInformation" type="tns:getInformation"></xs:element>
+
+<xs:element name="getInformationResponse" type="tns:getInformationResponse"></xs:element>
+
+<xs:complexType name="getAllCommands">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAllCommandsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getInformation">
+<xs:sequence>
+<xs:element name="pCommands" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getInformationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:commandValueBean" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="commandValueBean">
+<xs:sequence>
+<xs:element name="command" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="value" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

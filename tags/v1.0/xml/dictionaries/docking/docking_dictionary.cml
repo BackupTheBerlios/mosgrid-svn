@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cml:dictionary xmlns:cml="http://www.xml-cml.org/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:convention="http://www.xml-cml.org/convention/"
+	xmlns:unit="http://www.xml-cml.org/unit/nonSi/"
+	xmlns:unitType="http://www.xml-cml.org/unit/unitType/"
+	xmlns:si="http://www.xml-cml.org/unit/si/"
+	xmlns:nonSi="http://www.xml-cml.org/unit/nonSi/"
+	xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+
+	convention="convention:dictionary"
+	title="Description for Docking with CADDSuite software suite."
+	namespace="http://www.xml-cml.org/dictionary/docking-input/"
+	dictionaryPrefix="caddsuite"
+	cmlx:toolsuite="CADDSuite">
+
+	<dc:author>Charlotta Schaerfe</dc:author>
+	<cml:description>
+		<xhtml:p>Dictionary terms created by Charlotta Schaerfe for the CADDSuite software suite.</xhtml:p>
+	</cml:description>
+    
+    <cml:entry id="PDBCutter.Chain" term="-lig_chain" title="Chain name of ligand" dataType="xsd:string"
+        unitType="unitType:none" units="si:none">
+        <cml:definition>
+            <xhtml:p>
+                The name of the chain in the pdb file in which the ligand is stored.
+                
+            </xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Pdb files often store information about the protein-ligand complex. In order to perform
+                docking techniques on this complex, the file has to be split into one file holding the 
+                data for the protein and one for the ligand. In order to do this, information about the 
+                pdb chain holding the ligand is needed.
+			</xhtml:p>
+		</cml:description>
+        <!-- restriction section needed for different chain names "A", "B", "C", ...? -->
+	</cml:entry>
+    
+    <cml:entry id="PDBCutter.LigName" term="-lig_name" title="Name of ligand as stated in pdb file" dataType="xsd:string"
+        unitType="unitType:none" units="si:none">
+        <cml:definition>
+            <xhtml:p>
+                The name/abbreviation of ligand in the pdb file.
+                
+            </xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Pdb files often store information about the protein-ligand complex. In order to perform
+                docking techniques on this complex, the file has to be split into one file holding the 
+                data for the protein and one for the ligand. In order to do this, information about the 
+                pdb chain holding the ligand is needed, but additionally to that the used abbreviation (name) of 
+                the ligand is required.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="PDBCutter.RemChains" term="-rm_ch" title="Protein Chains that are to be deleted" dataType="xsd:string"
+        unitType="unitType:none" units="si:none" cmlx:flag="true">
+        <cml:definition>
+            <xhtml:p>
+                Chains in the PDB file that shall be deleted.
+                
+            </xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Pdb files often store information about the protein-ligand complex. In order to perform
+                docking techniques on this complex, the file has to be split into one file holding the 
+                data for the protein and one for the ligand. All other chains have to be deleted in order
+                to get pure protein and ligand files.
+            </xhtml:p>
+		</cml:description>
+        <!-- restriction section needed for different chain names "A", "B", "C", ...? -->
+	</cml:entry>
+
+    <cml:entry id="PDBCutter.RemResidues" term="-rm_res" title="Residues that are to be deleted" dataType="xsd:string"
+        unitType="unitType:none" units="si:none" cmlx:flag="true">
+        <cml:definition>
+            <xhtml:p>
+                Residues in the PDB file that shall be deleted.
+                
+            </xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				PDB files often store information about other residues apart from the protein-ligand complex.             
+                These residues such as water molecules can be problematic and thus may be removed.
+            </xhtml:p>
+		</cml:description>
+        <!-- restriction section needed for different residues? -->
+	</cml:entry>
+
+	<cml:entry id="ph" term="-ph" title="pH-value for pH-dependent protonation" dataType="xsd:double" unitType="unitType:none" units="si:none" minInclusive="0.0" maxInclusive="14.0">
+		<cml:definition>
+			<xhtml:p>
+				Hydrogens are added to the structure according to the specified pH value
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				In order to produce a correct model of the protein or ligands it may be needed to add hydrogens to the
+                structure. This process is influenced by the pH value of the environment and thus a specific
+                pH value may be specified to guide the protonation.
+			</xhtml:p>
+		</cml:description>
+    </cml:entry>
+
+	<cml:entry id="LigandFileSplitter.Splits" term="-no" title="Number of splits to be created" dataType="xsd:integer" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				The number of splits to be created.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				The number of splits to be created from the ligand file input, i.e. the number of ligand-files to be produced.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="LigCheck.error" term="-ef" title="Error fraction" dataType="xsd:double" unitType="unitType:none" 
+    	units="si:none" minInclusive="0.0" maxInclusive="1.0">
+		<cml:definition>
+			<xhtml:p>
+				Error fraction
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Print the error if fraction of invalid molecules is larger than the specified value.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+	<cml:entry id="LigCheck.ut" term="-ut" title="Use Unique Tologies instead of Unique Conformations" dataType="xsd:string" unitType="unitType:none"
+        units="si:none" cmlx:flag="true">
+                <cml:definition>
+                        <xhtml:p>
+                                Check for unique topologies instead of unique conformations
+                        </xhtml:p>
+                </cml:definition>
+                <cml:description>
+                        <xhtml:p>
+                                Allow every topology to be present only once in the ligand input file.
+                        </xhtml:p>
+                </cml:description>
+        </cml:entry>
+        <cml:entry id="LigCheck.nc" term="-nc" title="No Unique Conformation Check" dataType="xsd:string" unitType="unitType:none"
+        units="si:none" cmlx:flag="true">
+                <cml:definition>
+                        <xhtml:p>
+				Exclude check for unique conformations
+                        </xhtml:p>
+                </cml:definition>
+                <cml:description>
+                        <xhtml:p>
+				If checked no test for uniqueness of conformation will be performed and even molecules that have the same conformation as other molecules in the input file will be passed on without failing the test. This must not be selected IN COMBINATION with "Unique Tolologies"!
+                        </xhtml:p>
+                </cml:description>
+        </cml:entry> 
+	<cml:entry id="LigCheck.ri" term="-ri" title="Remove invalid molecules" dataType="xsd:string" unitType="unitType:none"
+        units="si:none" cmlx:flag="true">
+                <cml:definition>
+                        <xhtml:p>
+                                Filter the ligand input	file for invalid molecules.
+                        </xhtml:p>
+                </cml:definition>
+                <cml:description>
+                        <xhtml:p>
+                                Set flag if ligand file shall be filtered for invalid molecules. If not set, the final docking output will contain a special field 'score_ligcheck' stating whether the specific molecule has passed the LigCheck tests (1=yes, 0=no).
+                        </xhtml:p>
+                </cml:description>
+        </cml:entry>
+   
+
+    <cml:entry id="DockResultMerger.Score" term="-score" title="Name of score property" dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Name of the property containing the docking score.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Name of the property containing the docking score in the result file from the docking procedure.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="DockResultMerger.Min" term="-min" title="Minimal score threshold" dataType="xsd:double" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Lower score threshold.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				A threshold can be applied to the docking result and only those compounds are kept whose scores are above
+                the specified threshold.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="DockResultMerger.Max" term="-max" title="Maximal score threshold" dataType="xsd:double" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Upper score threshold.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				A threshold can be applied to the docking result and only those compounds are kept whose scores are below
+                the specified threshold.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="DockResultMerger.K" term="-k" title="Number of output molecules" dataType="xsd:integer" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Keep only best k molecules in file.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Keep only the best k molecules in the results file for further processing.
+			</xhtml:p>
+		</cml:description>
+	</cml:entry>
+    
+    <cml:entry id="SimpleRescorer.Function" term="-function" title="Rescoring Function" dataType="xsd:string" unitType="unitType:none" units="si:none">
+		<cml:definition>
+			<xhtml:p>
+				Rescoring Functions.
+			</xhtml:p>
+		</cml:definition>
+		<cml:description>
+			<xhtml:p>
+				Use the specified function for rescoring of the best hits coming from the docking run in order to improve accuracy.
+			</xhtml:p>
+		</cml:description>
+        <cmlx:restriction id="docking.rescoring.mm" title="MM">MM</cmlx:restriction>
+        <cmlx:restriction id="docking.rescoring.plp" title="PLP">PLP</cmlx:restriction>
+        <cmlx:restriction id="docking.rescoring.pb" title="PB">PB</cmlx:restriction>
+	</cml:entry>
+	  
+</cml:dictionary>
