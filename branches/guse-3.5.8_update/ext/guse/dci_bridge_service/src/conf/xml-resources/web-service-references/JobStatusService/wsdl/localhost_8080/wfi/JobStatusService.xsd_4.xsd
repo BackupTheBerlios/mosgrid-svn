@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://schemas.ggf.org/bes/2006/08/bes-factory" xmlns:ns3="http://schemas.ggf.org/jsdl/2005/11/jsdl" xmlns:ns2="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.w3.org/2005/08/addressing" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0" targetNamespace="http://schemas.ggf.org/bes/2006/08/bes-factory">
+
+<xs:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2006/03/addressing/ws-addr.xsd"></xs:import>
+
+<xs:import namespace="http://schemas.xmlsoap.org/soap/envelope/" schemaLocation="http://localhost:8080/wfi/JobStatusService?xsd=2"></xs:import>
+
+<xs:import namespace="http://schemas.ggf.org/jsdl/2005/11/jsdl" schemaLocation="http://localhost:8080/wfi/JobStatusService?xsd=3"></xs:import>
+
+<xs:element name="ActivityDocument" nillable="true" type="tns:ActivityDocumentType"></xs:element>
+
+<xs:element name="ActivityStatus" nillable="true" type="tns:ActivityStatusType"></xs:element>
+
+<xs:element name="BasicResourceAttributesDocument" nillable="true" type="tns:BasicResourceAttributesDocumentType"></xs:element>
+
+<xs:element name="CantApplyOperationToCurrentStateFault" nillable="true" type="tns:CantApplyOperationToCurrentStateFaultType"></xs:element>
+
+<xs:element name="CreateActivity" nillable="true" type="tns:CreateActivityType"></xs:element>
+
+<xs:element name="CreateActivityResponse" nillable="true" type="tns:CreateActivityResponseType"></xs:element>
+
+<xs:element name="FactoryResourceAttributesDocument" nillable="true" type="tns:FactoryResourceAttributesDocumentType"></xs:element>
+
+<xs:element name="GetActivityDocuments" nillable="true" type="tns:GetActivityDocumentsType"></xs:element>
+
+<xs:element name="GetActivityDocumentsResponse" nillable="true" type="tns:GetActivityDocumentsResponseType"></xs:element>
+
+<xs:element name="GetActivityStatuses" nillable="true" type="tns:GetActivityStatusesType"></xs:element>
+
+<xs:element name="GetActivityStatusesResponse" nillable="true" type="tns:GetActivityStatusesResponseType"></xs:element>
+
+<xs:element name="GetFactoryAttributesDocument" nillable="true" type="tns:GetFactoryAttributesDocumentType"></xs:element>
+
+<xs:element name="GetFactoryAttributesDocumentResponse" nillable="true" type="tns:GetFactoryAttributesDocumentResponseType"></xs:element>
+
+<xs:element name="InvalidActivityIdentifierFault" nillable="true" type="tns:InvalidActivityIdentifierFaultType"></xs:element>
+
+<xs:element name="InvalidRequestMessageFault" nillable="true" type="tns:InvalidRequestMessageFaultType"></xs:element>
+
+<xs:element name="NotAcceptingNewActivitiesFault" nillable="true" type="tns:NotAcceptingNewActivitiesFaultType"></xs:element>
+
+<xs:element name="NotAuthorizedFault" nillable="true" type="tns:NotAuthorizedFaultType"></xs:element>
+
+<xs:element name="OperationWillBeAppliedEventuallyFault" nillable="true" type="tns:OperationWillBeAppliedEventuallyFaultType"></xs:element>
+
+<xs:element name="TerminateActivities" nillable="true" type="tns:TerminateActivitiesType"></xs:element>
+
+<xs:element name="TerminateActivitiesResponse" nillable="true" type="tns:TerminateActivitiesResponseType"></xs:element>
+
+<xs:element name="UnsupportedFeatureFault" nillable="true" type="tns:UnsupportedFeatureFaultType"></xs:element>
+
+<xs:complexType name="ActivityStatusType">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:attribute name="state" type="tns:ActivityStateEnumeration" use="required"></xs:attribute>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="TerminateActivitiesType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="NotAcceptingNewActivitiesFaultType">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="TerminateActivityResponseType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType"></xs:element>
+<xs:element name="Cancelled" type="xs:boolean"></xs:element>
+<xs:element name="Fault" type="ns2:Fault" minOccurs="0"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityDocumentResponseType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType"></xs:element>
+<xs:element name="JobDefinition" type="ns3:JobDefinition_Type" minOccurs="0"></xs:element>
+<xs:element name="Fault" type="ns2:Fault" minOccurs="0"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityStatusesResponseType">
+<xs:sequence>
+<xs:element name="Response" type="tns:GetActivityStatusResponseType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityStatusResponseType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType"></xs:element>
+<xs:element name="ActivityStatus" type="tns:ActivityStatusType" minOccurs="0"></xs:element>
+<xs:element name="Fault" type="ns2:Fault" minOccurs="0"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="InvalidActivityIdentifierFaultType">
+<xs:sequence>
+<xs:element name="Message" type="xs:string"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="BasicResourceAttributesDocumentType">
+<xs:sequence>
+<xs:element name="ResourceName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="OperatingSystem" type="ns3:OperatingSystem_Type" minOccurs="0"></xs:element>
+<xs:element name="CPUArchitecture" type="ns3:CPUArchitecture_Type" minOccurs="0"></xs:element>
+<xs:element name="CPUCount" type="xs:double" minOccurs="0"></xs:element>
+<xs:element name="CPUSpeed" type="xs:double" minOccurs="0"></xs:element>
+<xs:element name="PhysicalMemory" type="xs:double" minOccurs="0"></xs:element>
+<xs:element name="VirtualMemory" type="xs:double" minOccurs="0"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="UnsupportedFeatureFaultType">
+<xs:sequence>
+<xs:element name="Feature" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="ActivityDocumentType">
+<xs:sequence>
+<xs:element ref="ns3:JobDefinition"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityDocumentsType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityDocumentsResponseType">
+<xs:sequence>
+<xs:element name="Response" type="tns:GetActivityDocumentResponseType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="NotAuthorizedFaultType">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetFactoryAttributesDocumentResponseType">
+<xs:sequence>
+<xs:element name="FactoryResourceAttributesDocument" type="tns:FactoryResourceAttributesDocumentType"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="FactoryResourceAttributesDocumentType">
+<xs:sequence>
+<xs:element name="BasicResourceAttributesDocument" type="tns:BasicResourceAttributesDocumentType" minOccurs="0"></xs:element>
+<xs:element name="IsAcceptingNewActivities" type="xs:boolean"></xs:element>
+<xs:element name="CommonName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="LongDescription" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="TotalNumberOfActivities" type="xs:long"></xs:element>
+<xs:element name="ActivityReference" type="ns1:EndpointReferenceType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="TotalNumberOfContainedResources" type="xs:long"></xs:element>
+<xs:element name="ContainedResource" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="NamingProfile" type="xs:anyURI" maxOccurs="unbounded"></xs:element>
+<xs:element name="BESExtension" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="LocalResourceManagerType" type="xs:anyURI"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="CreateActivityResponseType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType"></xs:element>
+<xs:element name="ActivityDocument" type="tns:ActivityDocumentType" minOccurs="0"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="CreateActivityType">
+<xs:sequence>
+<xs:element name="ActivityDocument" type="tns:ActivityDocumentType"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetFactoryAttributesDocumentType">
+<xs:sequence>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="TerminateActivitiesResponseType">
+<xs:sequence>
+<xs:element name="Response" type="tns:TerminateActivityResponseType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="InvalidRequestMessageFaultType">
+<xs:sequence>
+<xs:element name="InvalidElement" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="Message" type="xs:string"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="CantApplyOperationToCurrentStateFaultType">
+<xs:sequence>
+<xs:element name="ActivityStatus" type="tns:ActivityStatusType"></xs:element>
+<xs:element name="Message" type="xs:string"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="GetActivityStatusesType">
+<xs:sequence>
+<xs:element name="ActivityIdentifier" type="ns1:EndpointReferenceType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:complexType name="OperationWillBeAppliedEventuallyFaultType">
+<xs:sequence>
+<xs:element name="ActivityStatus" type="tns:ActivityStatusType"></xs:element>
+<xs:element name="Message" type="xs:string"></xs:element>
+<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"></xs:any>
+</xs:sequence>
+<xs:anyAttribute namespace="##other" processContents="skip"></xs:anyAttribute>
+</xs:complexType>
+
+<xs:simpleType name="ActivityStateEnumeration">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Pending"></xs:enumeration>
+<xs:enumeration value="Running"></xs:enumeration>
+<xs:enumeration value="Cancelled"></xs:enumeration>
+<xs:enumeration value="Failed"></xs:enumeration>
+<xs:enumeration value="Finished"></xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

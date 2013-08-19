@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml 	convention="convention:compchem"
+	xmlns="http://www.xml-cml.org/schema"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:convention="http://www.xml-cml.org/convention/"
+	xmlns:units="http://www.xml-cml.org/units/units"
+	xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+	xmlns:compchem="http://www.xml-cml.org/dictionary/compchem/" 
+	xmlns:gromacs="http://www.xml-cml.org/dictionary/md-input/"
+	xmlns:parser="http://www.xml-cml.org/dictionary/parser/"
+	xmlns:env="http://www.xml-cml.org/dictionary/environment/"
+	xmlns:adapter="http://www.xml-cml.org/dictionary/adapter/jobref">
+
+	<module title="REMD (expert)" 
+            id="RemdSim" 
+            dictRef="compchem:jobList" 
+            cmlx:workflowNotes="Main REMD simulation workflow"
+            cmlx:displayName="REMD"
+			cmlx:workflowGraph="RemdSim.png">
+		<description>
+                        <xhtml:p>
+                        This workflow performs a Temperature-REMD simulation. 
+			It needs a solvated and minimized protein as input which can be obtained by executing the REMD preparation workflow. 
+			After providing all input files, the optimal number of replicas can be computed. 
+			Before starting the REMD simulation, all replicas are furthermore equilibrated on their individual temperature.
+                        </xhtml:p>
+                </description>
+		<module title="Uploads" id="RemdSimInput" dictRef="compchem:job">
+                        <description>
+                                <xhtml:p>
+                                You have to provide three input files before you can start the simulation. 
+				These can be created by executing the REMD preparation workflow which performs a solvation and minimization of your protein. The auto search mechanism lets you find previously submitted REMD jobs. All required input files are set automatically. You only have to select the root result directory of a previous simulation.
+                                </xhtml:p>
+				<xhtml:p>
+                                The *.pdb file contains the boxed and minimized protein with water and ions. 
+				The *.top file describes the systems topology and the *.itp is needed for equilibration with position restraints on the protein.
+                                </xhtml:p>
+                        </description>
+			 <module dictRef="compchem:initialization">
+                                <cmlx:uploadList>
+                                        <cmlx:moleculeUpload fileType="pdb" job="pc1" port="structure"></cmlx:moleculeUpload>
+					<cmlx:jobInputUpload fileType="top" job="pc1" port="topology"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="itp" job="pc1" port="posrestraints"></cmlx:jobInputUpload>
+                                </cmlx:uploadList>
+                        </module>
+		</module>
+		<module title="Temperature Distribution" id="RemdSimTempDist" dictRef="compchem:job">
+			<description>
+			<xhtml:p>
+			This step helps you to compute the optimal temperature distribution of your replicas.
+			</xhtml:p>
+			<xhtml:p>
+			At first the number of protein atoms and solvent molecules have to be parsed. 
+			Therefore the protein file which was set in the previous step is used. 
+			After providing some additional parameters you can finally compute the temperature distribution.
+			</xhtml:p>
+			<xhtml:p>
+			The used algorithm is described in:
+			Patriksson A. and van der Spoel D., "A temperature predictor for parallel tempering simulations", 
+			Phys. Chem. Chem. Phys., 10 pp. 2073-2077 (2008), DOI: 10.1039/B716554D
+			</xhtml:p>
+			</description>
+		</module>
+		<module title="EQ Preprocessor" id="pc1" dictRef="compchem:job">
+			<description>
+                	        <xhtml:p>
+                        	All replicas are equilibrated on their individual temperature before REMD simulation.
+				You may alter the maximum number of steps, but an extensive equilibration is recommended. 
+        	                </xhtml:p>
+	                </description>
+
+			<module dictRef="compchem:initialization">
+				<parameterList>
+					<!-- editable params -->
+					<parameter dictRef="gromacs:grompp.NumberOfSteps" cmlx:editable="true">
+						<scalar dataType="xsd:integer">200000</scalar>
+					</parameter>
+					<!-- fixed params -->
+					<parameter dictRef="gromacs:grompp.MinimizerAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">md</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.positionRestraints" cmlx:editable="false">
+						<scalar dataType="xsd:string">-DPOSRES, -DFLEXIBLE</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.Int.Timestep" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.001</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstxout" cmlx:editable="false">
+						<scalar dataType="xsd:int">5000</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstvout" cmlx:editable="false">
+						<scalar dataType="xsd:int">5000</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstfout" cmlx:editable="false">
+						<scalar dataType="xsd:int">0</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstlog" cmlx:editable="false">
+						<scalar dataType="xsd:int">500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstenergy" cmlx:editable="false">
+						<scalar dataType="xsd:int">500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstxtcout" cmlx:editable="false">
+						<scalar dataType="xsd:int">500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.xtc_precision" cmlx:editable="false">
+						<scalar dataType="xsd:int">1000</scalar>
+					</parameter>
+					<!-- Center of mass correction -->
+					<parameter dictRef="gromacs:grompp.comm_mode" cmlx:editable="false">
+						<scalar dataType="xsd:string">linear</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstcomm" cmlx:editable="false">
+						<scalar dataType="xsd:integer">100</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.comm_grps" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+					<!-- Electrostatics -->
+					<parameter dictRef="gromacs:grompp.NSA.radius" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.9</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.ElectrostaticsAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">PME</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.ESA.outerRadius" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.9</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.VdWA.outerRadius" cmlx:editable="false">
+						<scalar dataType="xsd:double">1.4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.NSA.updateFrequency" cmlx:editable="false">
+						<scalar dataType="xsd:int">5</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.fourierspacing" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.12</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.pme_order" cmlx:editable="false">
+						<scalar dataType="xsd:double">4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.optimize_fft" cmlx:editable="false">
+						<scalar dataType="xsd:string">yes</scalar>
+					</parameter>
+					<!-- Bond Constraints -->
+					<parameter dictRef="gromacs:grompp.ConstraintAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">lincs</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.Constraints" cmlx:editable="false">
+						<scalar dataType="xsd:string">all-bonds</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.lincs.order" cmlx:editable="false">
+						<scalar dataType="xsd:int">4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.lincs.iter" cmlx:editable="false">
+						<scalar dataType="xsd:int">1</scalar>
+					</parameter>
+					<!-- Temperature Coupling -->
+					<parameter dictRef="gromacs:grompp.TemperatureCouplingAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">V-rescale</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.TCA.couplingGroup" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.TCA.exchangeInterval" cmlx:editable="false">
+						<scalar dataType="xsd:string">0.1  0.1</scalar>
+					</parameter>
+					<!-- Energy Monitoring -->
+					<parameter dictRef="gromacs:grompp.energygrps" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+				</parameterList>
+
+				<!--The given init parameters above shall be converted to a .mdp file -->
+				<cmlx:adapterConfiguration adapterID="mdpAdapterForRemd" portName="mdp" fileExtension="mdp"/>
+			</module>
+		</module>
+		<module title="EQ" id="eq" dictRef="compchem:job">
+			<description>
+                                <xhtml:p>
+				You can change the requested computational resources for equilibration here. These are set per replica.
+                                </xhtml:p>
+                        </description>
+			<module dictRef="compchem:environment">
+				<propertyList>
+					<property dictRef="env:small.nodes" cmlx:editable="true">
+						<scalar dataType="xsd:integer">1</scalar>
+					</property>
+					<property dictRef="env:small.cores" cmlx:editable="true">
+						<scalar dataType="xsd:integer">4</scalar>
+					</property>
+					<property dictRef="env:small.walltime" cmlx:editable="true">
+						<scalar dataType="xsd:integer">180</scalar>
+					</property>
+					<property dictRef="env:small.memory" cmlx:editable="true">
+						<scalar dataType="xsd:integer">2000</scalar>
+					</property>
+				</propertyList>
+			</module>
+		</module>
+		<module title="REMD Preprocessor" id="pc2" dictRef="compchem:job">
+			<description>
+                                <xhtml:p>
+                                The preprocessor creates a run input file (*.tpr) for each replica.
+				You can set the length of your REMD simulation and the output frequency for the most important log files.
+                                </xhtml:p>
+                        </description>
+
+			<module dictRef="compchem:initialization">
+					<parameterList>
+					<parameter dictRef="gromacs:grompp.NumberOfSteps" cmlx:editable="true">
+						<scalar dataType="xsd:integer">25000000</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.MinimizerAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">md</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.Int.Timestep" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.002</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstxout" cmlx:editable="true">
+						<scalar dataType="xsd:int">250000</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstvout" cmlx:editable="true">
+						<scalar dataType="xsd:int">250000</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstfout" cmlx:editable="true">
+						<scalar dataType="xsd:int">0</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstlog" cmlx:editable="true">
+						<scalar dataType="xsd:int">2500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstenergy" cmlx:editable="true">
+						<scalar dataType="xsd:int">2500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstxtcout" cmlx:editable="true">
+						<scalar dataType="xsd:int">2500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.xtc_precision" cmlx:editable="true">
+						<scalar dataType="xsd:int">1000</scalar>
+					</parameter>
+					<!-- Center of mass correction -->
+					<parameter dictRef="gromacs:grompp.comm_mode" cmlx:editable="false">
+						<scalar dataType="xsd:string">linear</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.nstcomm" cmlx:editable="false">
+						<scalar dataType="xsd:integer">100</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.comm_grps" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+					<!-- Electrostatics -->
+					<parameter dictRef="gromacs:grompp.NSA.radius" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.9</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.ElectrostaticsAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">PME</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.ESA.outerRadius" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.9</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.VdWA.outerRadius" cmlx:editable="false">
+						<scalar dataType="xsd:double">1.4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.NSA.updateFrequency" cmlx:editable="false">
+						<scalar dataType="xsd:int">5</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.fourierspacing" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.12</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.pme_order" cmlx:editable="false">
+						<scalar dataType="xsd:double">4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.optimize_fft" cmlx:editable="false">
+						<scalar dataType="xsd:string">yes</scalar>
+					</parameter>
+					<!-- Bond Constraints -->
+					<parameter dictRef="gromacs:grompp.ConstraintAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">lincs</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.Constraints" cmlx:editable="false">
+						<scalar dataType="xsd:string">all-bonds</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.lincs.order" cmlx:editable="false">
+						<scalar dataType="xsd:int">4</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.lincs.iter" cmlx:editable="false">
+						<scalar dataType="xsd:int">1</scalar>
+					</parameter>
+					<!-- Temperature Coupling -->
+					<parameter dictRef="gromacs:grompp.TemperatureCouplingAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">V-rescale</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.TCA.couplingGroup" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.TCA.exchangeInterval" cmlx:editable="false">
+						<scalar dataType="xsd:string">0.1  0.1</scalar>
+					</parameter>
+					<!-- Energy Monitoring -->
+					<parameter dictRef="gromacs:grompp.energygrps" cmlx:editable="false">
+						<scalar dataType="xsd:string">Protein Water_and_ions</scalar>
+					</parameter>
+					<!-- Pressure Coupling -->
+					<parameter dictRef="gromacs:grompp.PressureCouplingAlgorithm" cmlx:editable="false">
+						<scalar dataType="xsd:string">berendsen</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.PCA.couplingType" cmlx:editable="false">
+						<scalar dataType="xsd:string">isotropic</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.PCA.exchangeInterval" cmlx:editable="false">
+						<scalar dataType="xsd:double">1.0</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.PCA.compressibility" cmlx:editable="false">
+						<scalar dataType="xsd:double">0.000045</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:grompp.PCA.pressure" cmlx:editable="false">
+						<scalar dataType="xsd:double">1.0</scalar>
+					</parameter>
+				</parameterList>
+				<!--The given init parameters above shall be converted to a .mdp file-->
+				<cmlx:adapterConfiguration adapterID="mdpAdapterForRemd" portName="mdp" fileExtension="mdp"/>
+			</module>			
+		</module>
+		<module title="REMD" id="remd-mdrun" dictRef="compchem:job">
+			<description>
+                <xhtml:p>
+                This job will run the REMD simulation. You should set one node per replica for optimal performance.
+				</xhtml:p>
+				<xhtml:p>
+                Beside exchange probability, it is also very important to set the exchange attempt frequency (EAF).
+				This is the number of exchange attempts per pico second.
+				GROMACS lets you set the number of steps after which an exchange attempt shall be done.
+                An exchange attempt of a particular pair will only happen at every second attempt, 
+				as the odd and even pairs attempt exchange on alternating occasions.
+				</xhtml:p>
+				<xhtml:p>
+				For example if you desire an exchange attempt every 500 steps, this corresponds to an EAF of only 0.5/ps (stepsize= 2 fs). Note that there is a bug in GROMACS which makes EAFs greater than 1/ps impossible.
+				</xhtml:p>
+				<xhtml:p>
+                You can read more on EAF in:
+				</xhtml:p>
+				<xhtml:p>
+				Daniel J. Sindhikara et al, Exchange Often and Properly in Replica Exchange Molecular Dynamics, 
+				J. Chem. Theory Comput, Vol. 6, No. 9. (28 July 2010), pp. 2804-2808 
+                </xhtml:p>
+			</description>
+			<module dictRef="compchem:initialization">
+				<parameterList>
+					<!-- editable params -->
+					<parameter dictRef="gromacs:mdrun.ExchangeFreq" cmlx:editable="true">
+						<scalar dataType="xsd:integer">500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:mdrun.NumberOfSystems" cmlx:editable="false">
+						<scalar dataType="xsd:integer"></scalar>
+					</parameter>
+					<parameter dictRef="gromacs:mdrun.MaxH" cmlx:editable="true" cmlx:optional="true">
+                                                <scalar dataType="xsd:double"/>
+                                        </parameter>
+				</parameterList>
+				<cmlx:adapterConfiguration adapterID="cmdadapter"/>
+			</module>
+			<module dictRef="compchem:environment">
+				<propertyList>
+					<property dictRef="env:nodes" cmlx:editable="true">
+						<scalar dataType="xsd:integer">2</scalar>
+					</property>
+					<property dictRef="env:cores" cmlx:editable="true">
+						<scalar dataType="xsd:integer">4</scalar>
+					</property>
+					<property dictRef="env:walltime" cmlx:editable="true">
+						<scalar dataType="xsd:integer">1440</scalar>
+					</property>
+					<property dictRef="env:memory" cmlx:editable="true">
+						<scalar dataType="xsd:integer">2000</scalar>
+					</property>
+				</propertyList>
+			</module>
+		</module>
+	</module>
+</cml> 
+ 
+

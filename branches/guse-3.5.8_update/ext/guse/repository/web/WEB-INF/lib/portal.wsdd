@@ -1,0 +1,26 @@
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+    <service name="urn:repositoryportalservice" provider="java:RPC">
+        <parameter name="className" value="hu.sztaki.lpds.repository.net.wsaxis13.RepositoryPortalServiceImpl"/>
+        <parameter name="allowedMethods" value="exportWorkflow deleteWorkflow importWorkflow getQuota"/>
+        <parameter name="scope" value="request"/>
+        <beanMapping qname="lpdsNS:RepositoryWorkflowBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.wfs.com.RepositoryWorkflowBean"/>
+<!--
+	<operation name="getQuota" returnQName="returnqname" returnType="ns1:AxisHashtable" > 
+    	    <parameter name="dh" type="ns1:AxisHashtable"/>
+        </operation>
+-->
+	<typeMapping deserializer="org.apache.axis.encoding.ser.VectorDeserializerFactory"
+	    languageSpecificType="java:java.util.Vector" qname="ns1:AxisVector"
+	    serializer="org.apache.axis.encoding.ser.VectorSerializerFactory" 
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+	<typeMapping
+	    xmlns:ns="http://soapinterop.org/"
+	    qname="ns1:AxisHashtable"
+	    type="java:java.util.Hashtable[]"
+	    serializer="org.apache.axis.encoding.ser.ArraySerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.ArrayDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+    </service>
+</deployment>

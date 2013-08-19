@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://data.dci/" xmlns:tns="http://data.dci/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="get" nillable="true" type="tns:get"/>
+
+  <xs:element name="getResponse" nillable="true" type="tns:getResponse"/>
+
+  <xs:complexType name="get">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:middleware" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="middleware">
+    <xs:sequence>
+      <xs:element name="enabled" type="xs:boolean"/>
+      <xs:element name="plugin" type="xs:string" minOccurs="0"/>
+      <xs:element name="threads" type="xs:short"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

@@ -1,0 +1,105 @@
+<!DOCTYPE project>
+<project name="docking-portlet" basedir="." default="clean-build">
+	
+	<import file="../../buildscripts/build-paths.xml"/>
+	
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+	
+    <property name="lib.dir"     value="lib"/>
+	<property name="webcontent.dir"     value="WebContent/WEB-INF/lib"/>
+
+    <target name="clean">
+    	<ant antfile="${loc.portletapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
+    </target>
+
+    <target name="compile">
+    	<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />
+
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <filelist>
+                	<file name="${loc.cmlstruc.jar}"/>
+                	<file name="${loc.asmapi.jar}"/>
+                	<file name="${loc.msmlapi.jar}"/>
+                	<file name="${loc.portletapi.jar}"/>
+                	<file name="${loc.xfscon.jar}"/>
+                </filelist>
+        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        		<fileset dir="${webcontent.dir}" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+	<target name="war" depends="clean, compile">
+    	<dirname property="war.dir" file="${loc.dockingportlet.war}"/>
+        <mkdir dir="${war.dir}"/>
+        <war destfile="${loc.dockingportlet.war}" 
+        	webxml="WebContent/WEB-INF/web.xml">
+        	
+        	<lib file="${loc.cmlstruc.jar}"/>
+        	<lib file="${loc.asmapi.jar}"/>
+        	<lib file="${loc.msmlapi.jar}"/>
+        	<lib file="${loc.portletapi.jar}"/>
+        	<lib file="${loc.xfscon.jar}"/>
+
+        	<classes dir="${classes.dir}"/>
+        	
+        	<fileset dir="WebContent/"/>
+        	<zipfileset dir="${src.dir}/de/mosgrid/docking/properties/" includes="*.properties" prefix="WEB-INF/classes/de/mosgrid/docking/properties/"/>
+        	<zipfileset dir="${src.dir}" includes="log4j.properties" prefix="WEB-INF/classes/"/>
+    	</war>
+    </target>
+	
+	<target name="copy.war">
+		<copy todir="${loc.deploy.local}" overwrite="true">
+			<fileset file="${loc.dockingportlet.war}"/>
+		</copy>
+	</target>
+	
+	<target name="copy.war.naloxon">
+		<java fork="true" jar="${loc.urlinvoker}">
+			<arg value="-scp"/>
+			<arg file="${loc.dockingportlet.war}"/>
+		</java>
+	</target>
+	
+	<target name="invoke.information">
+		<java fork="true" jar="${loc.urlinvoker}">
+			<arg value="localhost"/>
+		</java>
+	</target>
+	
+	<target name="invoke.information.naloxon">
+		<java fork="true" jar="${loc.urlinvoker}">
+			<arg value="naloxon.informatik.uni-tuebingen.de"/>
+		</java>
+	</target>
+	
+	<target name="deploy" depends="clean-build">
+		<antcall target="copy.war"/>
+		<sleep seconds="40"/>
+		<antcall target="invoke.information"/>
+	</target>
+	
+	<target name="undeploy">
+		<echo message="Deleting: ${loc.webapps.docking.local}"></echo>
+		<delete dir="${loc.webapps.docking.local}"/>
+	</target>
+	
+	<target name="deploy.naloxon" depends="clean-build">
+		<antcall target="copy.war.naloxon"/>
+		<sleep seconds="50"/>
+		<antcall target="invoke.information.naloxon"/>
+	</target>
+
+	<target name="clean-build" depends="clean,war"/>
+</project>

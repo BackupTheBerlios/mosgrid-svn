@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/frontendbase.jar"/>
+	<classpathentry kind="lib" path="libs/information_cli.jar"/>
+	<classpathentry kind="lib" path="libs/portal_cli.jar"/>
+	<classpathentry kind="lib" path="libs/repository_cli.jar"/>
+	<classpathentry kind="lib" path="libs/storage_cli.jar"/>
+	<classpathentry kind="lib" path="libs/wfi_cli.jar"/>
+	<classpathentry kind="lib" path="libs/wfs_cli.jar"/>
+	<classpathentry kind="lib" path="libs/axis-ant.jar"/>
+	<classpathentry kind="lib" path="libs/axis.jar"/>
+	<classpathentry kind="lib" path="libs/portlet-api-2.0.jar"/>
+	<classpathentry kind="lib" path="libs/servlet-api.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="libs/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+            *** GENERATED FROM xml_binding_cfg.xml - DO NOT EDIT  ***
+            *** Configure thru JAXB Wizard.                       ***
+        --><project name="dcibridge_cli_jaxb" default="default" basedir=".">
+    <target name="xjc-typedef-target" depends="-init-project">
+        <typedef classname="com.sun.tools.xjc.XJCTask" name="xjc" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig">
+            <classpath path="${jaxbwiz.xjcdef.classpath}"/>
+        </typedef>
+    </target>
+    <target name="jaxb-clean-code-generation" depends="clean,jaxb-code-generation"/>
+    <target name="jaxb-code-generation" depends="xjc-typedef-target,-do-init,-init-macrodef-javac">
+        <mkdir dir="build/generated/addons/jaxb" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="build/generated/jaxbCache" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="${build.classes.dir}" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="build/generated/jaxbCache/dci-config"/>
+        <xjc destdir="build/generated/jaxbCache/dci-config" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/dci-config/dci-bridge_configuration_schema_2012.xsd"/>
+            <depends file="xml-resources/jaxb/dci-config/dci-bridge_configuration_schema_2012.xsd"/>
+            <produces dir="build/generated/jaxbCache/dci-config"/>
+        </xjc>
+        <copy todir="build/generated/addons/jaxb">
+            <fileset dir="build/generated/jaxbCache/dci-config"/>
+        </copy>
+        <mkdir dir="build/generated/jaxbCache/jsdl-posix"/>
+        <xjc destdir="build/generated/jaxbCache/jsdl-posix" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/jsdl-posix/jsdl-posix.xsd"/>
+            <depends file="xml-resources/jaxb/jsdl-posix/jsdl-posix.xsd"/>
+            <produces dir="build/generated/jaxbCache/jsdl-posix"/>
+        </xjc>
+        <copy todir="build/generated/addons/jaxb">
+            <fileset dir="build/generated/jaxbCache/jsdl-posix"/>
+        </copy>
+        <mkdir dir="build/generated/jaxbCache/jsdl"/>
+        <xjc destdir="build/generated/jaxbCache/jsdl" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/jsdl/jsdl.xsd"/>
+            <depends file="xml-resources/jaxb/jsdl/jsdl.xsd"/>
+            <produces dir="build/generated/jaxbCache/jsdl"/>
+        </xjc>
+        <copy todir="build/generated/addons/jaxb">
+            <fileset dir="build/generated/jaxbCache/jsdl"/>
+        </copy>
+        <mkdir dir="build/generated/jaxbCache/metabroker"/>
+        <xjc destdir="build/generated/jaxbCache/metabroker" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/metabroker/mb_scheduling_description_language.xsd"/>
+            <depends file="xml-resources/jaxb/metabroker/mb_scheduling_description_language.xsd"/>
+            <produces dir="build/generated/jaxbCache/metabroker"/>
+        </xjc>
+        <copy todir="build/generated/addons/jaxb">
+            <fileset dir="build/generated/jaxbCache/metabroker"/>
+        </copy>
+        <ns0:javac xmlns:ns0="http://www.netbeans.org/ns/j2se-project/3" includes="" excludes="" destdir="${build.classes.dir}" srcdir="build/generated/addons/jaxb" classpath="${jaxbwiz.gensrc.classpath}" sourcepath="${src.dir}"/>
+    </target>
+</project>

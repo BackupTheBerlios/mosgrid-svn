@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.1-b02-RC1. --><xs:schema xmlns:tns="http://server/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://server/">
+
+<xs:element name="addBroker" type="tns:addBroker"></xs:element>
+
+<xs:element name="addBrokerResponse" type="tns:addBrokerResponse"></xs:element>
+
+<xs:element name="addVO" type="tns:addVO"></xs:element>
+
+<xs:element name="addVOResponse" type="tns:addVOResponse"></xs:element>
+
+<xs:element name="getBrokerNames" type="tns:getBrokerNames"></xs:element>
+
+<xs:element name="getBrokerNamesResponse" type="tns:getBrokerNamesResponse"></xs:element>
+
+<xs:element name="getBrokerPerf" type="tns:getBrokerPerf"></xs:element>
+
+<xs:element name="getBrokerPerfResponse" type="tns:getBrokerPerfResponse"></xs:element>
+
+<xs:element name="getVOLoad" type="tns:getVOLoad"></xs:element>
+
+<xs:element name="getVOLoadResponse" type="tns:getVOLoadResponse"></xs:element>
+
+<xs:element name="getVONames" type="tns:getVONames"></xs:element>
+
+<xs:element name="getVONamesResponse" type="tns:getVONamesResponse"></xs:element>
+
+<xs:element name="signalJobResult" type="tns:signalJobResult"></xs:element>
+
+<xs:element name="signalJobResultResponse" type="tns:signalJobResultResponse"></xs:element>
+
+<xs:element name="submitJSDL" type="tns:submitJSDL"></xs:element>
+
+<xs:element name="submitJSDLResponse" type="tns:submitJSDLResponse"></xs:element>
+
+<xs:complexType name="signalJobResult">
+<xs:sequence>
+<xs:element name="jobID" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="brokerName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="result" type="xs:boolean"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="signalJobResultResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBrokerNames">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBrokerNamesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBrokerPerf">
+<xs:sequence>
+<xs:element name="brokerName" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBrokerPerfResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVONames">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVONamesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVOLoad">
+<xs:sequence>
+<xs:element name="voName" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVOLoadResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="submitJSDL">
+<xs:sequence>
+<xs:element name="jsdl" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="submitJSDLResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addBroker">
+<xs:sequence>
+<xs:element name="bpdl" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addBrokerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addVO">
+<xs:sequence>
+<xs:element name="grid" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="voName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="accessData" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="type" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addVOResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

@@ -1,0 +1,7 @@
+user=<FILL>
+password=<FILL>
+gateway=sshgw-bs.informatik.uni-tuebingen.de
+naloxon=naloxon.informatik.uni-tuebingen.de
+deployparent=/usr/local/guseuser/
+rootpassword=<FILL>
+
