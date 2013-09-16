@@ -27,6 +27,9 @@ import java.util.ArrayList;
 public class WorkflowInstanceBean {
     /** ArrayList to store actual running job instances*/
     ArrayList<RunningJobDetailsBean> jobs;
+    
+
+    
     /**
      * Gets running job instances
      * @return list of job instances see @RunningJobDetailsBean

@@ -20,7 +20,7 @@ import com.vaadin.service.ApplicationContext.TransactionListener;
  * 
  * http://devblog.mycorner.fi/55/threadlocal-pattern-with-vaadin/
  * 
- * @author Patrick Schäfer
+ * @author Patrick Schaefer
  * 
  */
 public class VaadinXtreemFSSession implements TransactionListener {
@@ -197,5 +197,5 @@ public class VaadinXtreemFSSession implements TransactionListener {
 	public static void addDirectoryId(Object id) {
 		instance.get().directoryIds.add(id);
 	}
-
+	
 }

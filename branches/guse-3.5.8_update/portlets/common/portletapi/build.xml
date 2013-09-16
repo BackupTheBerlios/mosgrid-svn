@@ -39,8 +39,7 @@
                 	XTREEMFS-CONNECTION -->
                 	<file name="${loc.xfscon.jar}"/>
                 </filelist>
-        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-        		<fileset dir="${loc.cmlstruc}/lib" includes="**/*.jar"/>
+        		<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
         	</classpath>
     	</javac>
     </target>

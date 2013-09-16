@@ -13,15 +13,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xtreemfs.pbrpc.generatedinterfaces.MRC.DirectoryEntry;
 import org.xtreemfs.portlet.util.vaadin.VaadinFileDownloadResource;
 
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.HierarchicalContainer;
@@ -84,16 +93,18 @@ public class MonitoringTab extends CustomComponent {
 
 	/* tree item properties */
 	public enum ItemType {
-		WORKFLOW, DIRECTORY, FILE
+		WORKFLOW, DIRECTORY, FILE, JOB, JOB_DIRECTORY
 	};
 
 	// NAME = item display name
 	// TYPE = ItemType
 	// DATA = ASMWorkflow or DirectoryEntry
 	// ICON = icon to display
-	// XFS_PATH = full xfs path
+	// XFS_PATH = root path where job files are written
+	// WORKFLOW_UUID = uuid of the workflow
+	// IS_PRE_GUSE_358 = boolean flag that determines if an item uses the pre gUSE 3.5.8 structure
 	public enum ItemProperty {
-		NAME, TYPE, DATA, ICON, XFS_PATH
+		NAME, TYPE, DATA, ICON, XFS_PATH, WORKFLOW_UUID, IS_PRE_GUSE_358
 	};
 
 	public static final String CAPTION = "Monitoring";
@@ -120,7 +131,7 @@ public class MonitoringTab extends CustomComponent {
 	private MetaDataTab metaDataTab;
 
 	private DomainPortlet portlet;
-	private boolean isUpdating;
+	private volatile boolean isUpdating;
 	private AbstractContextMenuHandler contextMenuHandler;
 
 	public MonitoringTab(DomainPortlet portlet) {
@@ -292,6 +303,8 @@ public class MonitoringTab extends CustomComponent {
 		container.addContainerProperty(ItemProperty.DATA, Object.class, null);
 		container.addContainerProperty(ItemProperty.ICON, ThemeResource.class, null);
 		container.addContainerProperty(ItemProperty.XFS_PATH, String.class, null);
+		container.addContainerProperty(ItemProperty.WORKFLOW_UUID, String.class, null);
+		container.addContainerProperty(ItemProperty.IS_PRE_GUSE_358, Boolean.class, false);
 
 		return container;
 	}
@@ -368,15 +381,20 @@ public class MonitoringTab extends CustomComponent {
 					portlet.getMainWindow().showNotification(notif);
 				}
 
-				LOGGER.trace(portlet.getUser() + " Found " + workflows.size() + " workflow instances");
+				if (LOGGER.isTraceEnabled()) {
+					LOGGER.trace(portlet.getUser() + " Found " + workflows.size() + " workflow instances");
+				}
 				for (ASMWorkflow workflowInstance : workflows) {
 					// get user import name
 					String wkfImportName = WorkflowHelper.getInstance().getUserChosenName(workflowInstance);
-					LOGGER.trace(portlet.getUser() + " Updating " + wkfImportName + " ("
+					if (LOGGER.isTraceEnabled()) {
+						LOGGER.trace(portlet.getUser() + " Updating " + wkfImportName + " ("
 							+ workflowInstance.getStatusbean().getStatus() + ")");
-
+					}
 					// add tree item
-					Item item = newTreeContainer.addItem(wkfImportName);
+					final Item item = newTreeContainer.addItem(wkfImportName);
+					// when update is invoked, the tree is regenerated, make sure that all items are collapsed
+					tree.collapseItem(wkfImportName);
 
 					if (item != null) {
 						newTreeContainer.setChildrenAllowed(wkfImportName, true);
@@ -386,10 +404,18 @@ public class MonitoringTab extends CustomComponent {
 						// find status icon
 						updateWkfStatus(workflowInstance, item);
 						// set xfs root
-						String runtimeID = portlet.getAsmService().getRuntimeID(portlet.getUser().getUserID(),
+						final String runtimeID = portlet.getAsmService().getRuntimeID(portlet.getUser().getUserID(),
 								workflowInstance.getWorkflowName());
-						String wkfResultPath = portlet.getXfsBridge().getResultsDir() + "/" + runtimeID;
-						item.getItemProperty(ItemProperty.XFS_PATH).setValue(wkfResultPath);
+						String xfsRootPath = portlet.getXfsBridge().getResultsDir();
+						item.getItemProperty(ItemProperty.WORKFLOW_UUID).setValue(runtimeID);
+						if (isWorkflow_before_gUSE_358(runtimeID)) {
+							// the root will be "xtreemfs://.../results/<runtimeID>/
+							xfsRootPath = xfsRootPath + '/' + runtimeID;
+						}
+						if (LOGGER.isTraceEnabled()) {
+							LOGGER.trace("root path for workflow [" + wkfImportName + "] with uuid [" + runtimeID + "] is [" + xfsRootPath + ']');
+						}
+						item.getItemProperty(ItemProperty.XFS_PATH).setValue(xfsRootPath);
 					} else {
 						LOGGER.info(portlet.getUser() + " Failed to update " + wkfImportName);
 					}
@@ -407,24 +433,55 @@ public class MonitoringTab extends CustomComponent {
 	}
 
 	/**
+	 * @param runtimeID
+	 * @param xfsRootPath
+	 * @return
+	 * @throws IOException 
+	 */
+	private boolean isWorkflow_before_gUSE_358(final String runtimeID) throws IOException {
+		// determine if there is a folder under "results" named exactly like runtimeID
+		final String resultsDir = portlet.getXfsBridge().getResultsDir();
+		if (portlet.getXfsBridge().exists(resultsDir + '/' + runtimeID)) {
+			if (LOGGER.isTraceEnabled()) {
+				LOGGER.trace("Workflow with uuid [" + runtimeID + "] has the pre-3.5.8 structure");
+			}
+			return true;
+		} else {
+			if (LOGGER.isTraceEnabled()) {
+				LOGGER.trace("Workflow with uuid [" + runtimeID + "] has the post-3.5.8 structure");
+			}
+			return false;
+		}
+	}
+
+	/**
 	 * Helper method which sets the correct status icon for wkf items
 	 */
 	private ThemeResource updateWkfStatus(ASMWorkflow workflowInstance, Item item) {
 		ThemeResource newIcon = IconProvider.getIcon(ICONS.GRAY_DOT);
 		String wkfStatus = workflowInstance.getStatusbean().getStatus();
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace(portlet.getUser() + " status of workflow (" + WorkflowHelper.getInstance().getUserChosenName(workflowInstance) + ") is [" + wkfStatus + ']');
+		}
 		if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.RUNNING))
 				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.READY))
 				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.INIT))) {
+			LOGGER.trace("yellow");
 			newIcon = IconProvider.getIcon(ICONS.YELLOW_DOT);
 		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.FINISHED))) {
+			LOGGER.trace("green");
 			newIcon = IconProvider.getIcon(ICONS.GREEN_DOT);
 		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ERROR))
 				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ABORTED))
 				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.CANCELLED))) {
+			LOGGER.trace("red");
 			newIcon = IconProvider.getIcon(ICONS.RED_DOT);
 		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.SUSPENDED))
 				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDED))) {
+			LOGGER.trace("blue");
 			newIcon = IconProvider.getIcon(ICONS.BLUE_DOT);
+		} else {
+			LOGGER.trace("status for WF not found!");
 		}
 
 		item.getItemProperty(ItemProperty.ICON).setValue(newIcon);
@@ -467,42 +524,262 @@ public class MonitoringTab extends CustomComponent {
 	}
 
 	/**
-	 * Lazy loading of child items on expand
+	 * Loading of child items on expand
 	 */
 	private void loadChildItems(Object parentItemID) throws IOException {
-		LOGGER.trace(portlet.getUser() + " Loading child items for " + parentItemID);
-		Item parentItem = tree.getItem(parentItemID);
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace(portlet.getUser() + " Loading child items for " + parentItemID);
+		}
+		final Item parentItem = tree.getItem(parentItemID);
 		if (parentItem != null) {
-			String xfsFilePath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
-			// if item has no children add all you can get
-			if (!tree.hasChildren(parentItemID)) {
-
-				for (DirectoryEntry dirEntry : portlet.getXfsBridge().listEntries(xfsFilePath)) {
-					createTreeItem(dirEntry, xfsFilePath, parentItemID);
-				}
-			} else {
-				// only update missing stuff
-				Collection<?> childItemIDs = tree.getChildren(parentItemID);
-				for (DirectoryEntry dirEntry : portlet.getXfsBridge().listEntries(xfsFilePath)) {
-					boolean dirEntryExists = false;
-					// check if dirEntry was already added to child items
-					for (Object childID : childItemIDs) {
-						Item childItem = tree.getItem(childID);
-						if (childItem != null) {
-							String xfsFileName = (String) childItem.getItemProperty(ItemProperty.NAME).getValue();
-							if (dirEntry.getName().equals(xfsFileName)) {
-								dirEntryExists = true;
-								break;
-							}
-						}
-					}
-					if (!dirEntryExists) {
-						createTreeItem(dirEntry, xfsFilePath, parentItemID);
+			final String xfsParentPath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
+			// ALWAYS get the LATEST, don't do lazy loading
+			// get all items to remove, including children items and children of the children and so on...			
+			final Queue<Object> parentsToProcess = new LinkedList<Object>(Arrays.asList(parentItemID));
+			final Queue<Object> childrenToRemove = new LinkedList<Object>();			
+			while(!parentsToProcess.isEmpty()) {
+				final Collection<?> children = tree.getChildren(parentsToProcess.remove());
+				if (children != null) {
+					for (final Object id : children) {
+						childrenToRemove.add(id);
+						parentsToProcess.add(id);
 					}
 				}
 			}
+			// remove
+			for (final Object id : childrenToRemove) {
+				tree.removeItem(id);
+			}
+			// get all xfs entries
+			final Collection<CustomDirectoryEntry> customEntries = getChildrenEntriesForItem(parentItem);
+			// now process each entry iff it doesn't exist already
+			for (final CustomDirectoryEntry customEntry : customEntries) {
+				if (LOGGER.isTraceEnabled()) {
+					LOGGER.trace("loadChildItems - adding " + customEntry);
+				}
+				createTreeItem(customEntry, xfsParentPath, parentItemID);				
+			}
+		} else {
+			LOGGER.warn("parentItem == null!");
 		}
 		tree.requestRepaint();
+	}
+	
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForItem(final Item parentItem) throws IOException {
+		// first, assume that the old structure is present
+		final Collection<CustomDirectoryEntry> entries;
+		if (isWorkflowItem(parentItem)) {
+			entries = getChildrenEntriesForWorkflowItem(parentItem);
+		} else if (isJobItem(parentItem)) {
+			entries = getChildrenEntriesForJobItem(parentItem);
+		} else if (isJobFolderItem(parentItem)) {
+			entries = getChildrenEntriesForJobFolderItem(parentItem);
+		} else {
+			// no idea what it could be... maybe a folder that was generated... simply load everything underneath
+			final String xfsParentPath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
+			LOGGER.info("getCustomEntriesForItem - unexpected item type. Loading everything for item [" + parentItem + ']');
+			entries = convertDirectoryEntries(listEntriesIgnoreHiddenFiles(xfsParentPath), xfsParentPath);			
+		}
+		return entries;
+	}
+
+	// gUSE structure for a Job folder is as follows:
+	// JobName/
+	//   |
+	//   |- 0/
+	//   |  |
+	//   |  |- adf637-34827f-234cd-234de3
+	//   |       |
+	//   |       |- stdout.txt
+	//   |       |- stderr.txt
+	//   |       |...
+	//   |- 1/
+	//   |  |
+	//   |  |- ba4679-bead1-009889-99999
+	//   |       |...
+	//   |- N/
+	//      |
+	//      |...
+	// under each job folder, there's a numerated folder (0-N) for each job that was executed (in the case of jobs run after a generator job)
+	// under ach numerated folder, the guse-id of the run job is found and under this folder the generated files can be done
+	// this is true for pre 3.5.8 and 3.5.8 gUSE versions
+	// what we want is a simple logical structure where each job gets its own folder (i.e. JobName-0, JobName-1) and under these folders the
+	// generated files will be found
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForJobItem(final Item parentItem) throws IOException {
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("getChildrenEntriesForJobItem - getting children entries for [" + parentItem + ']');
+		}
+		final Collection<CustomDirectoryEntry> customEntries = new LinkedList<CustomDirectoryEntry>();
+		// first, we need to determine if several instances of this job were run. we want jobs with only one instance to display their
+		// results without that awkward "0/" folder
+		final String xfsPath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
+		final Collection<DirectoryEntry> entries = listEntriesIgnoreHiddenFiles(xfsPath);
+		// small trick: if there's only one entry, don't show the entry as Job/0/item, rather, Job/item
+		// if, however, there's more than one entry, load normally (Job/0/item, Job/0/item2, Job/1/item)
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("getChildrenEntriesForJobItem - obtained " + entries.size() + " entries for " + parentItem);
+		}
+		if (entries.size() == 1) {
+			customEntries.addAll(extractJobOutputs(xfsPath + '/' + entries.iterator().next().getName()));
+		} else {
+			customEntries.addAll(convertDirectoryEntries(entries, xfsPath));
+		}
+		return customEntries;
+	}
+	
+	// given JobName/X extracts all files under JobName/X/<hash>
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForJobFolderItem(final Item parentItem) throws IOException {
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("getChildrenEntriesForJobFolderItem - getting children entries for [" + parentItem + ']');
+		}
+		return extractJobOutputs((String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue());
+	}
+	
+	// from JobName/X extracts all files under JobName/X/<hash>/
+	private Collection<CustomDirectoryEntry> extractJobOutputs(final String jobSubFolderLocation) throws IOException {
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("extractJobOutputs - extracting job outputs for [" + jobSubFolderLocation + ']');
+		}
+		final Collection<DirectoryEntry> subFolders = listEntriesIgnoreHiddenFiles(jobSubFolderLocation);
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("extractJobOutputs - got " + subFolders.size() + " subfolders for [" + jobSubFolderLocation + ']');
+		}
+		final Collection<CustomDirectoryEntry> customEntries;
+		if (subFolders.size() == 1) {
+			// JobName/X should have only one entry, namely the folder with a hash-code containing all entries
+			final String jobOutputLocation = jobSubFolderLocation + '/' + subFolders.iterator().next().getName();
+			final Collection<DirectoryEntry> jobOutputs = listEntriesIgnoreHiddenFiles(jobOutputLocation);
+			customEntries = convertDirectoryEntries(jobOutputs, jobOutputLocation);
+		} else {
+			LOGGER.warn("extractJobOutpus - path [" + jobSubFolderLocation + "] contains more than one folder!");
+			customEntries = convertDirectoryEntries(subFolders, jobSubFolderLocation);
+		}
+		return customEntries;
+	}
+
+	// converts a collection of DirectoryEntry to CustomDirectoryEntry, nothing fancy
+	private Collection<CustomDirectoryEntry> convertDirectoryEntries(final Collection<DirectoryEntry> entries, final String parentPath) throws IOException {
+		final Collection<CustomDirectoryEntry> customEntries = new LinkedList<CustomDirectoryEntry>();
+		for (final DirectoryEntry entry : entries) {
+			final CustomDirectoryEntry customEntry = 
+					new CustomDirectoryEntry(entry.getName(), parentPath + '/' + entry.getName(), entry.getName(), portlet.getXfsBridge().isDirectory(entry));
+			customEntries.add(customEntry);
+		}
+		return customEntries;
+	}
+	
+	// list xfs entries ignoring hidden files
+	private Collection<DirectoryEntry> listEntriesIgnoreHiddenFiles(final String xfsPath) throws IOException {
+		final Collection<DirectoryEntry> entries = new LinkedList<DirectoryEntry>();
+		for (final DirectoryEntry entry : portlet.getXfsBridge().listEntries(xfsPath)) {
+			if (!isHiddenFile(entry.getName())) {
+				entries.add(entry);
+			}
+		}
+		return entries;
+	}
+	
+
+	private boolean isWorkflowItem(final Item item) {
+		final Property typeProperty = item.getItemProperty(ItemProperty.TYPE);
+		final boolean isWorkflow = (typeProperty != null) && (ItemType.WORKFLOW == (ItemType)typeProperty.getValue());
+		return isWorkflow;
+	}
+	
+	private boolean isJobItem(final Item item) {
+		final Property typeProperty = item.getItemProperty(ItemProperty.TYPE);
+		final boolean isJob = (typeProperty != null) && (ItemType.JOB == (ItemType)typeProperty.getValue());
+		return isJob;
+	}
+	
+	private boolean isJobFolderItem(final Item item) {
+		final Property typeProperty = item.getItemProperty(ItemProperty.TYPE);
+		final boolean isJobFolder = (typeProperty != null) && (ItemType.JOB_DIRECTORY == (ItemType)typeProperty.getValue());
+		return isJobFolder;
+	}
+	
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForWorkflowItem(final Item parentItem) throws IOException {
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("getChildrenEntriesForWorkflowItem - getting children entries for [" + parentItem + ']');
+		}
+		// first, assume that the old structure is present
+		Collection<CustomDirectoryEntry> entries = getChildrenEntriesForWorkflowItem_before_gUSE_358(parentItem);		
+		if (entries.isEmpty()) {
+			// if there's nothing, assume that the new folder structure is there
+			entries = getChildrenEntriesForWorkflowItem_after_gUSE_358(parentItem);
+		}
+		return entries;
+	}
+	
+	// this is the structure of the results folder before the 3.5.8 update
+	// results/
+	//     |
+	//     | - 5518344960123268zentest
+	//            |
+	//            |- 0/
+	//               |
+	//               | - Job01/
+	//               |     |
+	//               |     |...
+	//               | - Job02/
+    //               |     |
+    //               |     |...
+	// each workflow has its own folder and jobs are found under the subfolder '0' 
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForWorkflowItem_before_gUSE_358(final Item parentItem) throws IOException {
+		final String xfsFilePath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue() + "/0";
+		// xfsFilePath should be xtreemfs://.../results/5518344960123268zentest for workflows
+		final Collection<DirectoryEntry> entries = listEntriesIgnoreHiddenFiles(xfsFilePath);
+		final Collection<CustomDirectoryEntry> customEntries = new LinkedList<CustomDirectoryEntry>();
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("before_guse_358 - found " + entries.size() + " entries for item [" + parentItem + "]");
+		}
+		for (final DirectoryEntry entry : entries) {
+			final CustomDirectoryEntry customEntry = 
+					new CustomDirectoryEntry(entry.getName(), xfsFilePath + '/' + entry.getName(), entry.getName(), portlet.getXfsBridge().isDirectory(entry));
+			customEntries.add(customEntry);
+		}
+		return customEntries;
+	}
+	
+	// for version 3.5.8 of guse, the structure of the results folder looks like:
+	// results/
+	//     |
+	//     |- 5518344960123268zentest-Job01
+	//     |      |
+	//     |      |...
+	//     |- 5518344960123268zentest-Job02
+	//     |      |
+	//     |...   |...
+	// each job has a separate folder. there is no exclusive folder for a workflow. all job folder names start with the UUID of the workflow
+	private Collection<CustomDirectoryEntry> getChildrenEntriesForWorkflowItem_after_gUSE_358(final Item parentItem) throws IOException {
+		final String xfsFilePath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
+		// xfsFilePath should be xtreemfs://.../results
+		final String uuid = (String) parentItem.getItemProperty(ItemProperty.WORKFLOW_UUID).getValue();
+		final Collection<DirectoryEntry> entries =  getXfsEntriesStartingWith(xfsFilePath, uuid);
+		final Collection<CustomDirectoryEntry> customEntries = new LinkedList<CustomDirectoryEntry>();
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("after_guse_358 - found " + entries.size() + " entries for item [" + parentItem + "]");
+		}
+		for (final DirectoryEntry entry : entries) {
+			// the name of the entry is something like 5518344960123268zentest-Job02, but we need only "Job02"
+			final String fixedName = entry.getName().substring(uuid.length() + 1);
+			final CustomDirectoryEntry customEntry = 
+					new CustomDirectoryEntry(entry.getName(), xfsFilePath + '/' + entry.getName(), fixedName, portlet.getXfsBridge().isDirectory(entry));
+			customEntries.add(customEntry);
+		}
+		return customEntries;
+	}
+	
+	
+	// returns XFS entries that start with the given parameter
+	private Collection<DirectoryEntry> getXfsEntriesStartingWith(final String rootPath, final String start) throws IOException {
+		Collection<DirectoryEntry> matchingEntries = new LinkedList<DirectoryEntry>();
+		for (DirectoryEntry dirEntry : portlet.getXfsBridge().listEntries(rootPath)) {
+			if (dirEntry.getName().startsWith(start)) {
+				matchingEntries.add(dirEntry);
+			}
+		}
+		return matchingEntries;
 	}
 
 	/**
@@ -511,32 +788,47 @@ public class MonitoringTab extends CustomComponent {
 	 * @param dirEntry
 	 * @param parentPath
 	 * @param parentID
+	 * @throws IOException 
 	 */
-	private void createTreeItem(DirectoryEntry dirEntry, String parentPath, Object parentID) {
-		String filename = dirEntry.getName();
-		if (!filename.startsWith(".")) {
-			String fullFilePath = parentPath + "/" + filename;
+	private void createTreeItem(CustomDirectoryEntry dirEntry, String parentPath, Object parentID) throws IOException {
+		String filename = dirEntry.getName();		
+		if (!isHiddenFile(filename)) {
+			// we need to determine if we need to fix the name and path of the element, for this,
+			// it is easier if we examine the parent
+			final Item parentItem = tree.getItem(parentID);
+
 			try {
 				// add item to table
-				Item tableItem = tree.addItem(fullFilePath);
+				Item tableItem = tree.addItem(dirEntry.getFullPath());
 				if (parentID != null) {
-					tree.setParent(fullFilePath, parentID);
+					tree.setParent(dirEntry.getFullPath(), parentID);
 				}
 				// set type and icon
-				boolean isDir = portlet.getXfsBridge().isDirectory(dirEntry);
-				if (isDir) {
-					tree.setChildrenAllowed(fullFilePath, true);
-					tableItem.getItemProperty(ItemProperty.TYPE).setValue(ItemType.DIRECTORY);
+				if (dirEntry.isDirectory()) {
+					tree.setChildrenAllowed(dirEntry.getFullPath(), true);
+					if (isWorkflowItem(parentItem)) {
+						tableItem.getItemProperty(ItemProperty.TYPE).setValue(ItemType.JOB);
+					} else if (isJobItem(parentItem)){
+						tableItem.getItemProperty(ItemProperty.TYPE).setValue(ItemType.JOB_DIRECTORY);						
+					} else {
+						tableItem.getItemProperty(ItemProperty.TYPE).setValue(ItemType.DIRECTORY);
+					}
 					tableItem.getItemProperty(ItemProperty.ICON).setValue(ICON_DIR);
 				} else {
-					tree.setChildrenAllowed(fullFilePath, false);
+					tree.setChildrenAllowed(dirEntry.getFullPath(), false);
 					tableItem.getItemProperty(ItemProperty.TYPE).setValue(ItemType.FILE);
 					tableItem.getItemProperty(ItemProperty.ICON).setValue(ICON_FILE);
 				}
 				// set name, path
-				tableItem.getItemProperty(ItemProperty.NAME).setValue(filename);
+				if (LOGGER.isTraceEnabled()) {
+					LOGGER.trace("createTreeItem - parentId=" + parentID + 
+							", name=" + dirEntry.getName() + 
+							", type=" + tableItem.getItemProperty(ItemProperty.TYPE).getValue() + 
+							", path=" + dirEntry.getFullPath());
+				}
+				tableItem.getItemProperty(ItemProperty.NAME).setValue(dirEntry.getDisplayName());
+				tableItem.getItemProperty(ItemProperty.XFS_PATH).setValue(dirEntry.getFullPath());
 				tableItem.getItemProperty(ItemProperty.DATA).setValue(dirEntry);
-				tableItem.getItemProperty(ItemProperty.XFS_PATH).setValue(fullFilePath);
 
 			} catch (Exception e) {
 				String msg = "Error while retrieving content form XTreemFS!";
@@ -545,6 +837,10 @@ public class MonitoringTab extends CustomComponent {
 				LOGGER.error(portlet.getUser() + " " + msg, e);
 			}
 		}
+	}
+
+	private boolean isHiddenFile(final String fileName) {
+		return fileName.startsWith(".");
 	}
 
 	/**
@@ -1073,5 +1369,59 @@ public class MonitoringTab extends CustomComponent {
 				}
 			}
 		}
+	}
+	
+	private static class CustomDirectoryEntry {
+		private final String name;
+		private final String fullPath;
+		private final String displayName;
+		private final boolean isDirectory;
+		
+		/**
+		 * @param name
+		 * @param fullPath
+		 * @param displayName
+		 */
+		public CustomDirectoryEntry(final String name, final String fullPath, final String displayName, final boolean isDirectory) {
+			this.name = name;
+			this.fullPath = fullPath;
+			this.displayName = displayName;
+			this.isDirectory = isDirectory;
+		}
+		/**
+		 * @return the name
+		 */
+		public String getName() {
+			return name;
+		}
+		/**
+		 * @return the fullPath
+		 */
+		public String getFullPath() {
+			return fullPath;
+		}
+		/**
+		 * @return the displayName
+		 */
+		public String getDisplayName() {
+			return displayName;
+		}
+		/**
+		 * @return the isDirectory
+		 */
+		public boolean isDirectory() {
+			return isDirectory;
+		}
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "CustomDirectoryEntry [name=" + name + ", fullPath="
+					+ fullPath + ", displayName=" + displayName + "]";
+		}
+		
+		
+		
 	}
 }

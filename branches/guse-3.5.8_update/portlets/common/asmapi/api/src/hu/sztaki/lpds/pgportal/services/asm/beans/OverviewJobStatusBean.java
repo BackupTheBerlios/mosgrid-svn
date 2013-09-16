@@ -19,10 +19,13 @@ limitations under the License. */
 package hu.sztaki.lpds.pgportal.services.asm.beans;
 
 /**
+ * @deprecated 
  * Class to store overall status informations for a job (how many job instances are in a given status)
+ * This class is replaced by some specific variables in JobStatisticsBean
  * @author akos
  */
 public class OverviewJobStatusBean {
+
 
     private String statuscode="";
     private String numberofinstances="";
@@ -34,6 +37,7 @@ public class OverviewJobStatusBean {
     public void setNumberofinstances(String numberofinstances) {
         this.numberofinstances = numberofinstances;
     }
+
 
     public String getStatuscode() {
         return statuscode;

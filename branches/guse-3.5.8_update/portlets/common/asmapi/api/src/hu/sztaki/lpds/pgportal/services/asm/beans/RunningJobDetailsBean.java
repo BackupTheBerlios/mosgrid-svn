@@ -28,6 +28,8 @@ import java.util.ArrayList;
 public class RunningJobDetailsBean {
     private ArrayList<ASMJobInstanceBean> instances;
     private String name;
+    
+
     /*private ArrayList<OverviewStatusBean> overviewedstatuses;
 
     public ArrayList<OverviewStatusBean> getOverviewedstatuses() {

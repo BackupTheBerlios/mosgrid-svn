@@ -60,7 +60,7 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	private MosgridUser user;
 
 	// ASM service for handling gUSE workflows
-	private ASMService asmService;
+	private volatile ASMService asmService;
 	// XFS connection
 	private XfsBridge xfsBridge;
 	// ExecutorService enables the execution of subtasks without creating new threads all the time (Thread-Pool)
@@ -197,7 +197,8 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 			LOGGER.debug(getUser() + " Initializing ASM");
 
 			this.asmService = ASMService.getInstance();
-			this.asmService.init();
+			// ASMService.init has been deprecated
+			//this.asmService.init();
 		} catch (Exception e) {
 			String msg = " Error while initializing ASM service";
 			LOGGER.error(getUser() + msg, e);
@@ -402,13 +403,13 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 *            Use constants in StatusConstants
 	 */
 	public Collection<ASMWorkflow> getAllWorkflows(String status, boolean inclusive) {
+		String statusLiteral = StatusConstants.getStatus(status);		
 		if (inclusive) {
-			LOGGER.trace(getUser() + " Retrieving all ASMWorkflows which are in status: " + status);
+			LOGGER.trace(getUser() + " Retrieving all ASMWorkflows which are in status: " + status + " - " + statusLiteral);
 		} else {
-			LOGGER.trace(getUser() + " Retrieving all ASMWorkflows which are not in status: " + status);
+			LOGGER.trace(getUser() + " Retrieving all ASMWorkflows which are not in status: " + status + " - " + statusLiteral);
 		}
 		Collection<ASMWorkflow> workflowList = new ArrayList<ASMWorkflow>();
-		String statusLiteral = StatusConstants.getStatus(status);
 
 		// get all workflows first
 		Collection<ASMWorkflow> allWorkflows = getAllWorkflows();

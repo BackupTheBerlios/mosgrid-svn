@@ -16,18 +16,11 @@ public class DefaultContextMenuHandler extends AbstractContextMenuHandler{
 
 	@Override
 	public void initialize(MonitoringTab tab) {
-		getRawTextFormats().add("txt");
-		getRawTextFormats().add("jsdl");
-		
-		getChemdoodleFormats().add("pdb");
-		
-		getJmolFormats().add("pdb");
-		
-		getGraphFormats().add("xvg");
-		
-		getImageFormats().add("png");
-		getImageFormats().add("jpg");
-		getImageFormats().add("jpeg");
+		addRawTextFormats("txt", "jsdl");		
+		addChemdoodleFormats("pdb");		
+		addJmolFormats("pdb");		
+		addGraphFormats("xvg");		
+		addImageFormats("png", "jpg", "jpeg");
 		
 		super.initialize(tab);
 	}

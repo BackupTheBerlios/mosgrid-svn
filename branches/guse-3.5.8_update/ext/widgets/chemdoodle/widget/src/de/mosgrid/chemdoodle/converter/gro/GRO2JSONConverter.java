@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import de.mosgrid.chemdoodle.converter.AbstractJsonConverter;
 import de.mosgrid.chemdoodle.converter.IConverterParameters;
-import de.mosgrid.chemdoodle.converter.JsonAtom;
 import de.mosgrid.chemdoodle.converter.JsonConversionException;
 import de.mosgrid.chemdoodle.converter.JsonFormat;
 

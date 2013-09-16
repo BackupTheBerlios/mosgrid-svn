@@ -14,201 +14,174 @@ limitations under the License. */
 
 package hu.sztaki.lpds.pgportal.services.asm;
 
-import hu.sztaki.lpds.pgportal.services.asm.beans.OverviewJobStatusBean;
 import hu.sztaki.lpds.pgportal.services.asm.beans.WorkflowInstanceStatusBean;
 import hu.sztaki.lpds.pgportal.services.asm.beans.JobStatisticsBean;
 import java.util.Hashtable;
-import java.util.Map.Entry;
+
 
 /**
  * Class to store and manage workflows that generated from a specified published application
- * 
- * @author akos balasko MTA SZTAKI
+ * @author  akos balasko MTA SZTAKI
  */
-public class ASMWorkflow implements Comparable<ASMWorkflow> {
+ public class ASMWorkflow implements Comparable<ASMWorkflow>{
 
-	// WorkflowData workflow = null;
+	private final String userID;
+    private String workflowID = "";
+    private String workflowName = "";
+    private WorkflowInstanceStatusBean statusbean = null;
+    private JobStatisticsBean statisticsBean = null;
+     //WorkflowData workflow = null;
 
-	/** Stores jobs identified by jobNames as jobIDs */
-	private Hashtable<String, ASMJob> jobs = null; // jobid / portid / filename
+     /** Stores jobs identified by jobNames as jobIDs*/
+    private Hashtable<String,ASMJob> jobs = null; // jobid / portid / filename
+   /**
+    * Gets jobs identified by jobIDs
+    * @return hashtable that contains jobs
+    */
+    public Hashtable<String,ASMJob> getJobs() {
+        return jobs;
+    }
+    /**
+     * Sets jobs
+     * @param jobs
+     */
+    public void setJobs(Hashtable<String, ASMJob> jobs) {
+        this.jobs = jobs;
+    }
+    
+    private Hashtable<String,String> additionalInfo = null;
+    /**
+     * Gets additional informations
+     * @return information
+     */
+    public Hashtable<String, String> getAdditionalInfo() {
+        return additionalInfo;
+    }
+    /**
+     * Sets additional information
+     * @param additionalInfo
+     */
+    public void setAdditionalInfo(Hashtable<String, String> additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+    /**
+     * Gets
+     * @return
+     */
+    public JobStatisticsBean getStatisticsBean() {
+        return statisticsBean;
+    }
 
-	/**
-	 * Gets jobs identified by jobIDs
-	 * 
-	 * @return hashtable that contains jobs
-	 */
-	public Hashtable<String, ASMJob> getJobs() {
-		return jobs;
-	}
+    public void setStatisticsBean(JobStatisticsBean statisticsBean) {
+        this.statisticsBean = statisticsBean;
+    }
+     String workflow_instanceId = "";
+     
+    
+     
+    public String getWorkflowID() {
+        return workflowID;
+    }
 
-	/**
-	 * Sets jobs
-	 * 
-	 * @param jobs
-	 */
-	public void setJobs(Hashtable<String, ASMJob> jobs) {
-		this.jobs = jobs;
-	}
+    public void setWorkflowID(String workflowID) {
+        this.workflowID = workflowID;
+    }
 
-	private String userID;
-	private String workflowID = "";
-	private String workflowName = "";
-	private WorkflowInstanceStatusBean statusbean = null;
-	private JobStatisticsBean statisticsBean = null;
-	private Hashtable<String, String> additionalInfo = null;
+   
 
-	/**
-	 * Gets additional informations
-	 * 
-	 * @return information
-	 */
-	public Hashtable<String, String> getAdditionalInfo() {
-		return additionalInfo;
-	}
+    public String getWorkflowName() {
+        return workflowName;
+    }
 
-	/**
-	 * Sets additional information
-	 * 
-	 * @param additionalInfo
-	 */
-	public void setAdditionalInfo(Hashtable<String, String> additionalInfo) {
-		this.additionalInfo = additionalInfo;
-	}
+    public void setWorkflowName(String workflowName) {
+        this.workflowName = workflowName;
+    }
 
-	/**
-	 * Gets
-	 * 
-	 * @return
-	 */
-	public JobStatisticsBean getStatisticsBean() {
-		return statisticsBean;
-	}
+    
 
-	public void setStatisticsBean(JobStatisticsBean statisticsBean) {
-		this.statisticsBean = statisticsBean;
-	}
+    public String getWorkflow_instanceId() {
+        
+        return workflow_instanceId;
 
-	String workflow_instanceId = "";
+    }
 
-	public String getWorkflowID() {
-		return workflowID;
-	}
 
-	public void setWorkflowID(String workflowID) {
-		this.workflowID = workflowID;
-	}
+    public void setWorkflow_instanceId(String workflow_instanceId) {
+        this.workflow_instanceId = workflow_instanceId;
+    }
 
-	public String getWorkflowName() {
-		return workflowName;
-	}
+    public void setStatusbean(WorkflowInstanceStatusBean statusbean) {
+        this.statusbean = statusbean;
+    }
 
-	public void setWorkflowName(String workflowName) {
-		this.workflowName = workflowName;
-	}
+    public WorkflowInstanceStatusBean getStatusbean() {
+        return statusbean;
+    }
+   /*
+    public void setWorkflow(WorkflowData workflow) {
+        this.workflow = workflow;
+    }
 
-	public String getWorkflow_instanceId() {
+    public WorkflowData getWorkflow() {
+        return workflow;
+    }
+    */
+    
+     public ASMWorkflow(final String userID){
+         //jobs  = convertWorkflowData2Jobs(data,userID);
+    	 this.userID = userID;
+         statusbean = new WorkflowInstanceStatusBean();
+         jobs = new   Hashtable<String,ASMJob>();
+         statisticsBean = new JobStatisticsBean();
+         additionalInfo = new Hashtable<String,String>();
+         /*Enumeration hashKeys = data.getAllRuntimeInstance().keys();
+            // Application Specific Workflows contain one Instance only
+         if (hashKeys.hasMoreElements()){
+            String key = (String) hashKeys.nextElement();
+            System.out.println("key : " + key);
+            this.workflow_instanceId = key;
+         }
+          *
+          */
 
-		return workflow_instanceId;
+     }
+     
+     public String getUserID() {
+    	 return userID;
+     }
 
-	}
+    public int compareTo(ASMWorkflow t) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+/*
+    private  Hashtable<String,ArrayList<String>> convertWorkflowData2Jobs(WorkflowData data,String userID) {
+        workflowName = data.getWorkflowID();
+         Hashtable<String,ArrayList<String>> return_list = new  Hashtable<String,ArrayList<String>>();
 
-	public void setWorkflow_instanceId(String workflow_instanceId) {
-		this.workflow_instanceId = workflow_instanceId;
-	}
+        Iterator jobiter = data.getJobs(userID).keySet().iterator();
+        while (jobiter.hasNext()){
+            String jobid = (String)jobiter.next();
+            JobData job = (JobData)data.getJobs(userID).get(jobid);
+            
+             ArrayList<String> port_values = new ArrayList<String>();
+            for (int i=0;i<job.getPorts().size();++i)
+            {
 
-	public void setStatusbean(WorkflowInstanceStatusBean statusbean) {
-		this.statusbean = statusbean;
-	}
+                PortBean port = (PortBean)job.getPorts().get(i);
 
-	public WorkflowInstanceStatusBean getStatusbean() {
-		return statusbean;
-	}
+                String portId = port.getId();
+                String portnumber = port.getSeq();
 
-	/*
-	 * public void setWorkflow(WorkflowData workflow) { this.workflow = workflow; }
-	 * 
-	 * public WorkflowData getWorkflow() { return workflow; }
-	 */
+                String porttype = port.getType();
+                System.out.println("portid is : " + portId + " portseq is : " + portnumber + " porttype is : " + porttype + " port id : " + port.getId() + " port name : " + port.getName() + " port internal name : " + port.getInternalName() + " port externakl name : " + port.getExternalName());
+                if (porttype.equals("input"))
+                    port_values.add(portnumber);
 
-	public ASMWorkflow(String userID) {
-		// jobs = convertWorkflowData2Jobs(data,userID);
-		this.userID = userID;
-		statusbean = new WorkflowInstanceStatusBean();
-		jobs = new Hashtable<String, ASMJob>();
-		statisticsBean = new JobStatisticsBean();
-		additionalInfo = new Hashtable<String, String>();
-		/*
-		 * Enumeration hashKeys = data.getAllRuntimeInstance().keys(); // Application Specific Workflows contain one
-		 * Instance only if (hashKeys.hasMoreElements()){ String key = (String) hashKeys.nextElement();
-		 * System.out.println("key : " + key); this.workflow_instanceId = key; }
-		 */
-
-	}
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public int compareTo(ASMWorkflow t) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	/*
-	 * private Hashtable<String,ArrayList<String>> convertWorkflowData2Jobs(WorkflowData data,String userID) {
-	 * workflowName = data.getWorkflowID(); Hashtable<String,ArrayList<String>> return_list = new
-	 * Hashtable<String,ArrayList<String>>();
-	 * 
-	 * Iterator jobiter = data.getJobs(userID).keySet().iterator(); while (jobiter.hasNext()){ String jobid =
-	 * (String)jobiter.next(); JobData job = (JobData)data.getJobs(userID).get(jobid);
-	 * 
-	 * ArrayList<String> port_values = new ArrayList<String>(); for (int i=0;i<job.getPorts().size();++i) {
-	 * 
-	 * PortBean port = (PortBean)job.getPorts().get(i);
-	 * 
-	 * String portId = port.getId(); String portnumber = port.getSeq();
-	 * 
-	 * String porttype = port.getType(); System.out.println("portid is : " + portId + " portseq is : " + portnumber +
-	 * " porttype is : " + porttype + " port id : " + port.getId() + " port name : " + port.getName() +
-	 * " port internal name : " + port.getInternalName() + " port externakl name : " + port.getExternalName()); if
-	 * (porttype.equals("input")) port_values.add(portnumber);
-	 * 
-	 * //just the inputs } return_list.put(jobid, port_values); } return return_list; }
-	 */
-
-	public String dump() {
-		StringBuilder dump = new StringBuilder();
-		dump.append("\n\tGeneral workflow information:");
-		dump.append("\n\tWorkflow-Name: " + workflowName);
-		if(workflow_instanceId==null || workflow_instanceId.length()==0){
-			workflow_instanceId = "workflow_instanceId";
-		}
-		dump.append("\n\tWorkflow-InstanceID: " + workflow_instanceId);
-		dump.append("\n\tWorkflow-ID: " + workflowID);
-		if(workflowID==null || workflowID.length()==0){
-			workflowID = "workflowID";
-		}
-		dump.append("\n\tUser-ID: " + userID);
-
-		dump.append("\n\tAdditional information:");
-		additionalInfo.put("ADDITIONAL_TEST", "TESTVALUE");
-		for (Entry<String, String> info : additionalInfo.entrySet()) {
-			dump.append("\n\t" + info.getKey() + " -> " + info.getValue());
-		}
-
-		dump.append("\n\tStatus information:");
-		dump.append("\n\tStatus: " + statusbean.getStatus());
-		dump.append("\n\tColor: " + statusbean.getColor());
-
-		for (OverviewJobStatusBean statusBean : statisticsBean.getOverviewedstatuses()) {
-			dump.append("\n\tStatus-Code: " + statusBean.getStatuscode());
-			dump.append("\n\tNumber of instances: " + statusBean.getNumberofinstances());
-		}
-
-		dump.append("\n\tJob information:");
-		for (Entry<String, ASMJob> jobEntry : jobs.entrySet()) {
-			dump.append("\n\tJob: " + jobEntry.getKey());
-		}
-
-		return dump.toString();
-	}
-}
+                        //just the inputs
+            }
+            return_list.put(jobid, port_values);
+        }
+          return return_list;
+    }
+*/
+ }

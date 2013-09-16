@@ -27,6 +27,85 @@ import java.util.ArrayList;
  */
 public class JobStatisticsBean {
 
+    private long numberOfJobsInError;
+    private long numberOfJobsInFinished;
+    private long numberOfJobsInRunning;
+    private long numberOfJobsInSubmitted;
+    private long numberOfJobsInInit;
+    /**
+     * Returns the number of the jobs in init state
+     * @return number
+     */
+    public long getNumberOfJobsInInit() {
+        return numberOfJobsInInit;
+    }
+ 
+  /**
+   * Sets a number as number of jobs in init state
+   * @param numberOfJobsInInit
+   */
+    public void setNumberOfJobsInInit(long numberOfJobsInInit) {
+        this.numberOfJobsInInit = numberOfJobsInInit;
+    }
+/**
+     * Returns the number of the jobs in submitted state
+     * @return number
+     */
+    public long getNumberOfJobsInSubmitted() {
+        return numberOfJobsInSubmitted;
+    }
+/**
+ * Sets a number as number of jobs in submitted state
+ * @param numberOfJobsInSubmitted
+ */
+    public void setNumberOfJobsInSubmitted(long numberOfJobsInSubmitted) {
+        this.numberOfJobsInSubmitted = numberOfJobsInSubmitted;
+    }
+/**
+     * Returns the number of the jobs in error state
+     * @return number
+     */
+    public long getNumberOfJobsInError() {
+        return numberOfJobsInError;
+    }
+/**
+ * Sets a number as number of jobs in error state
+ * @param numberOfJobsInError
+ */
+    public void setNumberOfJobsInError(long numberOfJobsInError) {
+        this.numberOfJobsInError = numberOfJobsInError;
+    }
+/**
+     * Returns the number of the jobs in finished state
+     * @return number
+     */
+    public long getNumberOfJobsInFinished() {
+        return numberOfJobsInFinished;
+    }
+/**
+ * Sets a number as number of jobs in finished state
+ * @param numberOfJobsInFinished
+ */
+    public void setNumberOfJobsInFinished(long numberOfJobsInFinished) {
+        this.numberOfJobsInFinished = numberOfJobsInFinished;
+    }
+
+ /**
+     * Returns the number of the jobs in running state
+     * @return number
+     */
+    public long getNumberOfJobsInRunning() {
+        return numberOfJobsInRunning;
+    }
+/**
+ * Sets a number as number of jobs in running state
+ * @param numberOfJobsInRunning
+ */
+    public void setNumberOfJobsInRunning(long numberOfJobsInRunning) {
+        this.numberOfJobsInRunning = numberOfJobsInRunning;
+    }
+
+
     /* This list contains statuses and number of job instances in there*/
     private ArrayList<OverviewJobStatusBean> overviewedstatuses;
     /**
@@ -45,6 +124,8 @@ public class JobStatisticsBean {
     }
 
     /**
+     * 
+     * @deprecated use {@link #setNumberOfJobsInError} method instead
      * Sets the number of the error job instances
      * @param numberofjob instances
      */
@@ -55,6 +136,7 @@ public class JobStatisticsBean {
         }
     }
     /**
+     * @deprecated use {@link #getNumberOfJobsInError} method instead
      * Gets the number of the error job instances
      * @return number
      */
@@ -66,6 +148,7 @@ public class JobStatisticsBean {
         return 0;
     }
     /**
+     * @deprecated use {@link #setNumberOfJobsInRunning} method instead
      * Sets the number of the running job instances
      * @param number of job instances
      */
@@ -76,6 +159,7 @@ public class JobStatisticsBean {
         }
     }
     /**
+     * @deprecated use {@link #getNumberOfJobsInRunning} method instead
      * Gets the number of the running job instances
      * @return number
      */
@@ -87,6 +171,7 @@ public class JobStatisticsBean {
         return 0;
     }
     /**
+     *  @deprecated  use {@link #setNumberOfJobsInSubmitted} method instead
      * Sets the number of the error job instances
      * @param number of job instances
      */
@@ -97,6 +182,7 @@ public void setSubmittedJobs(long numberofjobs){
         }
     }
 /**
+ *  @deprecated use {@link #getNumberOfJobsInSubmitted} method instead
  * Gets the number of the error job instances
  * @return number
  */
@@ -108,6 +194,7 @@ public void setSubmittedJobs(long numberofjobs){
         return 0;
     }
     /**
+     *  @deprecated use {@link #setNumberOfJobsInFinished} method instead
      * Sets the number of the error job instances
      * @param number of job instances
      */
@@ -118,6 +205,7 @@ public void setSubmittedJobs(long numberofjobs){
         }
     }
     /**
+     *  @deprecated use {@link #getNumberOfJobsInFinished} method instead
      * Gets the number of the error job instances
      * @return number
      */

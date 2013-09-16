@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.slf4j.Logger;
@@ -143,7 +142,7 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 
 			LOGGER.trace(getUser() + " Loaded " + importableWorkflows.size() + " importable workflows");
 		} catch (Exception e) {
-			String msg = " Error while loading importable workflows";
+			String msg = " Error while loading importable workflows. Please make sure that gUSE has been initialized.";
 			LOGGER.error(getUser() + msg, e);
 			throw new PortletInitializationException(msg, e);
 		}
@@ -377,8 +376,9 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 					LOGGER.debug(getUser() + " Trying to submit workflow instance " + instanceId);
 
 					/*
-					 * 1) Starte Adapter und erzeuge für jeden job 1.1) falls input-file -> add to UploadCollector 1.2)
-					 * falls parameter-string -> direkt über asm für den job setzen (passiert in Schritt 4)
+					 * 1) Start the adaptor and generate for each job 
+					 * 1.1) in case input-file has to be added to uplaod collector 1. 
+					 * 1.2) in case parameter is a string -> directly set it over asm
 					 */
 					InputInfoHolder infos;
 					try {
@@ -409,8 +409,8 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 					}
 
 					/*
-					 * 2) Erzeuge MSML aus dem Template -> add to UploadCollector (Port und Job-Id aus dem
-					 * parserConfig-Block unter der JobList)
+					 * 2) Create MSML from the Template -> add to UploadCollector (Port and Job-Id from the
+					 * parserConfig-Block under the job list)
 					 */
 					createMSML(wkfImport, collector);
 					// update progress
@@ -418,8 +418,8 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 						progressIndicator.setValue(new Float(0.4));
 					}
 					/*
-					 * 3) Lade alle files des UploadCollectors ins Xfs und erhalte URLs welche den UploadBeans im
-					 * Collector hinzugefügt wird.
+					 * 3) Loads all UploadCollectors in XtreemFS and obtains all URLs added in 
+					 * the Collector.
 					 */
 					try {
 						uploadFilesToXfs(wkfImport.getAsmInstance(), collector);
@@ -439,7 +439,7 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 					}
 
 					/*
-					 * 4) Setze job Parameter, Remote Path, environment variables etc.
+					 * 4) Set job Parameter, Remote Path, environment variables etc.
 					 */
 					try {
 						// set remote urls of job ports
@@ -495,8 +495,6 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 							getAsmService().saveWorkflowSettings(getUser().getUserID(), wkfImport.getAsmInstance());
 						}
 						getAsmService().submit(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName());
-						// System.out.println(wkfImport.getAsmInstance().dump());
-						// getAsmService().test(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName());
 					} catch (ClassNotFoundException e) {
 						String message = " ClassNotFoundException while submitting workflow.";
 						LOGGER.error(getUser() + message, e);
@@ -538,7 +536,6 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 					// inform listeners
 					fireSubmissionFailed(wkfImport, new SubmissionFailedException(e.getMessage(), e));
 				} finally {
-
 					// delete temp files
 					collector.deleteTempFiles();
 				}
@@ -546,7 +543,6 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 
 		};
 		getExecutorService().execute(submissionTask);
-
 	}
 
 	/**
@@ -554,26 +550,38 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 	 * executions in parameter sweep case i.e. more than one input file for one port
 	 */
 	private void setPortEnvironment(ASMWorkflow wkfInstance, Collection<UploadBean> uploadBeansList)
-			throws SetURLException {
+			throws SetURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		// clean up remote settings first
 		cleanRemoteURLs(wkfInstance);
 
 		for (UploadBean uploadBean : uploadBeansList) {
+			LOGGER.debug("uploadBean=[" + uploadBean.toString() + ']');
 			if (uploadBean.getUrl() != null) {
 				ASMJob job = wkfInstance.getJobs().get(uploadBean.getJobname());
+				
 				if (job == null)
 					throw new SetURLException("Could not find job " + uploadBean.getJobname());
-				// TODO: refactor port mapping
-				String portNumber = null;
-				for (Entry<String, String> entry : job.getInput_ports().entrySet()) {
-					if (entry.getValue().equals(uploadBean.getPort())) {
-						portNumber = entry.getKey();
-					}
-				}
-				if (portNumber == null) {
-					throw new SetURLException("Could not find port " + uploadBean.getPort() + " on job "
-							+ job.getJobname());
-				}
+				
+				final String portNumber = Long.toString(getAsmService().getInputPortNumberByName(
+						getUser().getUserID(), 
+						wkfInstance.getWorkflowName(), 
+						uploadBean.getJobname(), 
+						uploadBean.getPort()));
+				
+//				// TODO: refactor port mapping
+//				String portNumber = null;
+//				for (Entry<String, String> entry : job.getInput_ports().entrySet()) {
+//					LOGGER.debug("jobName=" + job.getJobname() + ", entry.key=" + entry.getKey() + ", entry.value=" + entry.getValue());
+//					// UploadBean contains the name of the port, not its sequential number, however, ASMJob contains only 
+//					// the sequence numbers!					
+//					if (("PORT" + entry.getKey()).equals(uploadBean.getPort())) {
+//						portNumber = entry.getKey();
+//					}
+//				}
+//				if (portNumber == null) {
+//					throw new SetURLException("Could not find port " + uploadBean.getPort() + " on job "
+//							+ job.getJobname());
+//				}
 				LOGGER.trace(getUser() + " Setting Remote URL " + uploadBean);
 
 				getAsmService().setRemoteInputPath(getUser().getUserID(), wkfInstance.getWorkflowName(),

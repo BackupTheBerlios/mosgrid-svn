@@ -4,6 +4,8 @@ import hu.sztaki.lpds.pgportal.services.asm.ASMWorkflow;
 import hu.sztaki.lpds.pgportal.services.asm.constants.StatusConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.vaadin.data.Item;
@@ -47,26 +49,6 @@ public abstract class AbstractContextMenuHandler implements Handler {
 
 	public MonitoringTab getMonitoringTab() {
 		return monitoringTab;
-	}
-
-	public List<String> getRawTextFormats() {
-		return rawTextFormats;
-	}
-
-	public List<String> getChemdoodleFormats() {
-		return chemdoodleFormats;
-	}
-
-	public List<String> getJmolFormats() {
-		return jmolFormats;
-	}
-
-	public List<String> getGraphFormats() {
-		return graphFormats;
-	}
-
-	public List<String> getImageFormats() {
-		return imageFormats;
 	}
 
 	@Override
@@ -193,5 +175,50 @@ public abstract class AbstractContextMenuHandler implements Handler {
 		}
 		return new Action[] {};
 	}
-
+	
+	protected void addRawTextFormats(final String... formats) {
+		addRawTextFormats(Arrays.asList(formats));
+	}
+	
+	protected void addRawTextFormats(final Collection<String> formats) {
+		addFormats(rawTextFormats, formats);
+	}
+	
+	protected void addChemdoodleFormats(final String... formats) {
+		addChemdoodleFormats(Arrays.asList(formats));
+	}
+	
+	protected void addChemdoodleFormats(final Collection<String> formats) {
+		addFormats(chemdoodleFormats, formats);
+	}
+	
+	protected void addJmolFormats(final String... formats) {
+		addJmolFormats(Arrays.asList(formats));
+	}
+	
+	protected void addJmolFormats(final Collection<String> formats) {
+		addFormats(jmolFormats, formats);
+	}
+	
+	protected void addGraphFormats(final String... formats) {
+		addGraphFormats(Arrays.asList(formats));
+	}
+	
+	protected void addGraphFormats(final Collection<String> formats) {
+		addFormats(graphFormats, formats);
+	}
+	
+	protected void addImageFormats(final String... formats) {
+		addImageFormats(Arrays.asList(formats));
+	}
+	
+	protected void addImageFormats(final Collection<String> formats) {
+		addFormats(imageFormats, formats);
+	}
+	
+	private void addFormats(final List<String> formatList, final Collection<String> formats) {
+		for (final String format : formats) {
+			formatList.add(format);
+		}
+	}
 }

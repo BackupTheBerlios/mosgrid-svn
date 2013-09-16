@@ -19,7 +19,7 @@ limitations under the License. */
 package hu.sztaki.lpds.pgportal.services.asm.constants;
 
 /**
- * Class that contains constants representing different downloading types
+ * Class contains constants representing different downloading types
  * @author akos
  */
 public class DownloadTypeConstants {
@@ -30,4 +30,5 @@ public class DownloadTypeConstants {
     public final static int AllButLogs=1;
     public final static int AllInputs=2;
     public final static int AllOutputs=3;
+    public final static int JobOutputs=6;
 }

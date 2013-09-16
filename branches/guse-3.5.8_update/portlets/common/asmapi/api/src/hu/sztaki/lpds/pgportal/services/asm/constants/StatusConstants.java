@@ -19,6 +19,8 @@ limitations under the License. */
 package hu.sztaki.lpds.pgportal.services.asm.constants;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -56,49 +58,50 @@ public class StatusConstants {
     public static String BIG_WORKFLOW          = "37";
     public static String NOT_RUNNABLE          = "99";
 
-    private static HashMap<String,String> statuses;
-
-    static{
-        statuses = new HashMap<String,String>();
-        statuses.put("0", "INCOMPLETED");
-        statuses.put("1", "INIT");
-        statuses.put("2", "SUBMITTED");
-        statuses.put("3", "WAITING");
-        statuses.put("4", "SCHEDULED");
-        statuses.put("5", "RUNNING");
-        statuses.put("6", "FINISHED");
-        statuses.put("7", "ERROR");
-        statuses.put("8", "NO_FREE_SERVICE");
-        statuses.put("9", "ABORTED");
-        statuses.put("10", "READY");
-        statuses.put("11", "CANCELLED");
-        statuses.put("12", "CLEARED");
-        statuses.put("13", "DONE_FAILED");
-        statuses.put("14", "PENDING");
-        statuses.put("16", "ACTIVE");
-        statuses.put("17", "SUSPENDED");
-        statuses.put("18", "UNSUBMITTED");
-        statuses.put("19", "STAGE_IN");
-        statuses.put("20", "STAGE_OUT");
-        statuses.put("21", "UNKNOWN");
-        statuses.put("22", "TERM_IS_FALSE");
-        statuses.put("23", "WORKFLOW_SUSPENDED");
-        statuses.put("25", "NO_INPU");
-        statuses.put("28", "WORKFLOW_SUSPENDING");
-        statuses.put("29", "WORKFLOW_RESUMIMG");
-        statuses.put("37", "BIG_WORKFLOW");
-        statuses.put("99", "NOT_RUNNABLE");
-
+    private final static ConcurrentHashMap<String,String> STATUS_MAP;
+    
+    static {
+    	STATUS_MAP = new ConcurrentHashMap<String, String>();
+    	STATUS_MAP.put("0", "INCOMPLETED");
+        STATUS_MAP.put("1", "INIT");
+        STATUS_MAP.put("2", "SUBMITTED");
+        STATUS_MAP.put("3", "WAITING");
+        STATUS_MAP.put("4", "SCHEDULED");
+        STATUS_MAP.put("5", "RUNNING");
+        STATUS_MAP.put("6", "FINISHED");
+        STATUS_MAP.put("7", "ERROR");
+        STATUS_MAP.put("8", "NO_FREE_SERVICE");
+        STATUS_MAP.put("9", "ABORTED");
+        STATUS_MAP.put("10", "READY");
+        STATUS_MAP.put("11", "CANCELLED");
+        STATUS_MAP.put("12", "CLEARED");
+        STATUS_MAP.put("13", "DONE_FAILED");
+        STATUS_MAP.put("14", "PENDING");
+        STATUS_MAP.put("16", "ACTIVE");
+        STATUS_MAP.put("17", "SUSPENDED");
+        STATUS_MAP.put("18", "UNSUBMITTED");
+        STATUS_MAP.put("19", "STAGE_IN");
+        STATUS_MAP.put("20", "STAGE_OUT");
+        STATUS_MAP.put("21", "UNKNOWN");
+        STATUS_MAP.put("22", "TERM_IS_FALSE");
+        STATUS_MAP.put("23", "WORKFLOW_SUSPENDED");
+        STATUS_MAP.put("25", "NO_INPU");
+        STATUS_MAP.put("28", "WORKFLOW_SUSPENDING");
+        STATUS_MAP.put("29", "WORKFLOW_RESUMIMG");
+        STATUS_MAP.put("37", "BIG_WORKFLOW");
+        STATUS_MAP.put("99", "NOT_RUNNABLE");
     }
 
-//    public HashMap<String, String> getStatuses() {
-//        return statuses;
-//    }
-//
-//    public void setStatuses(HashMap<String, String> statuses) {
-//        this.statuses = statuses;
-//    }
+    public static Map<String, String> getStatuses() {
+        return new HashMap(STATUS_MAP);
+    }
+
+    public static void setStatuses(HashMap<String, String> statusMap) {
+        STATUS_MAP.clear();
+        STATUS_MAP.putAll(statusMap);
+    }
+    
     public static String getStatus(String status){
-        return statuses.get(status);
+        return STATUS_MAP.get(status);
     }
 }

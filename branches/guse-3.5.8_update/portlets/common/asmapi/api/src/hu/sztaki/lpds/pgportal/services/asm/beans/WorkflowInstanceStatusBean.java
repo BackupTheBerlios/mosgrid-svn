@@ -20,42 +20,35 @@ package hu.sztaki.lpds.pgportal.services.asm.beans;
 
 /**
  * Class to store statuscode and associated color for a workflow instance
- * 
  * @author akos
  */
 public class WorkflowInstanceStatusBean {
 
-	private String status = "";
-	private String color = "";
+    private String status = "";
+    private String color="";
 
-	public WorkflowInstanceStatusBean() {
+    public WorkflowInstanceStatusBean() {
 
-	}
+    }
+    public WorkflowInstanceStatusBean(String status,String color) {
+        this.status = status;
+        this.color = color;
+    }
 
-	public WorkflowInstanceStatusBean(String status, String color) {
-		this.status = status;
-		this.color = color;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public String getColor() {
-		return color;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	@Override
-	public String toString() {
-		return "STATUS: " + status + ", COLOR: " + color;
-	}
+    public String getStatus() {
+        return status;
+    }
 
 }
