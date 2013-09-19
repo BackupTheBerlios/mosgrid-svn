@@ -420,6 +420,7 @@ public class MonitoringTab extends CustomComponent {
 						LOGGER.info(portlet.getUser() + " Failed to update " + wkfImportName);
 					}
 				}
+				tree.requestRepaint();
 			} catch (Exception e) {
 				String msg = "Error while updating workflows!";
 				Notification notif = NotificationFactory.createFailedNotification(msg);
@@ -532,7 +533,6 @@ public class MonitoringTab extends CustomComponent {
 		}
 		final Item parentItem = tree.getItem(parentItemID);
 		if (parentItem != null) {
-			final String xfsParentPath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
 			// ALWAYS get the LATEST, don't do lazy loading
 			// get all items to remove, including children items and children of the children and so on...			
 			final Queue<Object> parentsToProcess = new LinkedList<Object>(Arrays.asList(parentItemID));
@@ -550,7 +550,9 @@ public class MonitoringTab extends CustomComponent {
 			for (final Object id : childrenToRemove) {
 				tree.removeItem(id);
 			}
+			tree.requestRepaint();
 			// get all xfs entries
+			final String xfsParentPath = (String) parentItem.getItemProperty(ItemProperty.XFS_PATH).getValue();
 			final Collection<CustomDirectoryEntry> customEntries = getChildrenEntriesForItem(parentItem);
 			// now process each entry iff it doesn't exist already
 			for (final CustomDirectoryEntry customEntry : customEntries) {

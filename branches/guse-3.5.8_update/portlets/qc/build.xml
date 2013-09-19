@@ -8,7 +8,6 @@
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
 	
-    <property name="lib.dir"     value="lib"/>
 	<property name="webcontent.dir"     value="WebContent/WEB-INF/lib"/>
 
     <target name="clean">
@@ -33,8 +32,7 @@
                 	<file name="${loc.portletapi.jar}"/>
                 	<file name="${loc.xfscon.jar}"/>
                 </filelist>
-        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-        		<fileset dir="${webcontent.dir}" includes="**/*.jar"/>
+        		<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
         	</classpath>
     	</javac>
     </target>
@@ -50,6 +48,9 @@
         	<lib file="${loc.msmlapi.jar}"/>
         	<lib file="${loc.portletapi.jar}"/>
         	<lib file="${loc.xfscon.jar}"/>
+        	
+        	<!-- use the libraries common to all portlets -->
+        	<lib refid="portlets.common.runtime.lib"/>
 
         	<classes dir="${classes.dir}"/>
         	
@@ -58,49 +59,5 @@
     	</war>
     </target>
 	
-	<target name="copy.war">
-		<copy todir="${loc.deploy.local}" overwrite="true">
-			<fileset file="${loc.qcportlet.war}"/>
-		</copy>
-	</target>
-	
-	<target name="copy.war.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="-scp"/>
-			<arg file="${loc.qcportlet.war}"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="localhost"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="naloxon.informatik.uni-tuebingen.de"/>
-		</java>
-	</target>
-	
-	<target name="deploy" depends="clean-build">
-		<antcall target="undeploy"/>
-		<sleep seconds="2"/>
-		<antcall target="copy.war"/>
-		<sleep seconds="30"/>
-		<antcall target="invoke.information"/>
-	</target>
-	
-	<target name="undeploy">
-		<echo message="Deleting: ${loc.webapps.qc.local}"></echo>
-		<delete dir="${loc.webapps.qc.local}"/>
-	</target>
-	
-	<target name="deploy.naloxon" depends="clean-build">
-		<antcall target="copy.war.naloxon"/>
-		<sleep seconds="50"/>
-		<antcall target="invoke.information.naloxon"/>
-	</target>
-
 	<target name="clean-build" depends="clean,war"/>
 </project>

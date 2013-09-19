@@ -59,36 +59,5 @@
 		</war>
 	</target>
 
-	<target name="copy.war">
-		<copy todir="${loc.deploy.local}" overwrite="true">
-			<fileset file="${loc.dockingportlet.war}"/>
-		</copy>
-	</target>
-
-	<target name="copy.war.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="-scp"/>
-			<arg file="${loc.dockingportlet.war}"/>
-		</java>
-	</target>
-
-	<target name="invoke.information">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="localhost"/>
-		</java>
-	</target>
-
-	<target name="deploy" depends="clean-build">
-		<antcall target="copy.war"/>
-		<sleep seconds="40"/>
-		<antcall target="invoke.information"/>
-	</target>
-
-	<target name="undeploy">
-		<echo message="Deleting: ${loc.webapps.docking.local}">
-		</echo>
-		<delete dir="${loc.webapps.docking.local}"/>
-	</target>
-
 	<target name="clean-build" depends="clean,war"/>
 </project>

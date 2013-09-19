@@ -8,7 +8,6 @@
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
 	
-    <property name="lib.dir"     value="lib"/>
 	<property name="webcontent.dir"     value="WebContent/WEB-INF/lib"/>
 
     <target name="clean">
@@ -31,11 +30,9 @@
                 	<file name="${loc.asmapi.jar}"/>
                 	<file name="${loc.msmlapi.jar}"/>
                 	<file name="${loc.portletapi.jar}"/>
-                	<file name="${loc.xfscon.jar}"/>
-                	
+                	<file name="${loc.xfscon.jar}"/>                	
                 </filelist>
-        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-        		<fileset dir="${webcontent.dir}" includes="**/*.jar"/>
+        		<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
         	</classpath>
     	</javac>
     </target>
@@ -43,14 +40,16 @@
 	<target name="war" depends="clean, compile">
     	<dirname property="war.dir" file="${loc.mdportlet.war}"/>
         <mkdir dir="${war.dir}"/>
-        <war destfile="${loc.mdportlet.war}" 
-        	webxml="WebContent/WEB-INF/web.xml">
+        <war destfile="${loc.mdportlet.war}" webxml="WebContent/WEB-INF/web.xml">
         	
         	<lib file="${loc.cmlstruc.jar}"/>
         	<lib file="${loc.asmapi.jar}"/>
         	<lib file="${loc.msmlapi.jar}"/>
         	<lib file="${loc.portletapi.jar}"/>
         	<lib file="${loc.xfscon.jar}"/>
+        	
+        	<!-- use the libraries common to all portlets -->
+        	<lib refid="portlets.common.runtime.lib"/>
 
         	<classes dir="${classes.dir}"/>
         	
@@ -59,48 +58,6 @@
         	<zipfileset dir="${src.dir}" includes="log4j.properties" prefix="WEB-INF/classes/"/>
     	</war>
     </target>
-	
-	<target name="copy.war">
-		<copy todir="${loc.deploy.local}" overwrite="true">
-			<fileset file="${loc.mdportlet.war}"/>
-		</copy>
-	</target>
-	
-	<target name="copy.war.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="-scp"/>
-			<arg file="${loc.mdportlet.war}"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="localhost"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="naloxon.informatik.uni-tuebingen.de"/>
-		</java>
-	</target>
-	
-	<target name="deploy" depends="clean-build">
-		<antcall target="copy.war"/>
-		<sleep seconds="40"/>
-		<antcall target="invoke.information"/>
-	</target>
-	
-	<target name="undeploy">
-		<echo message="Deleting: ${loc.webapps.md.local}"></echo>
-		<delete dir="${loc.webapps.md.local}"/>
-	</target>
-	
-	<target name="deploy.naloxon" depends="clean-build">
-		<antcall target="copy.war.naloxon"/>
-		<sleep seconds="50"/>
-		<antcall target="invoke.information.naloxon"/>
-	</target>
 
 	<target name="clean-build" depends="clean,war"/>
 </project>

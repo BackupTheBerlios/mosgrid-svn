@@ -16,12 +16,12 @@ public class CustomContextMenuHandler extends AbstractContextMenuHandler {
 		super();
 		MonitoringProperties p = new MonitoringProperties();
 		
-		getRawTextFormats().addAll(p.getRawTextFormats());
-		getImageFormats().addAll(p.getImageFormats());
+		addRawTextFormats(p.getRawTextFormats());
+		addImageFormats(p.getImageFormats());
 		
-		getChemdoodleFormats().addAll(p.getChemdoodleFormats());
-		getGraphFormats().addAll(p.getGraphFormats());
-		getJmolFormats().addAll(p.getJmolFormats());
+		addChemdoodleFormats(p.getChemdoodleFormats());
+		addGraphFormats(p.getGraphFormats());
+		addJmolFormats(p.getJmolFormats());
 	}
 	
 }
