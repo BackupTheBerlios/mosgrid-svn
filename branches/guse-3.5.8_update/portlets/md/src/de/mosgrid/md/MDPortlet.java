@@ -55,7 +55,7 @@ public class MDPortlet extends DomainPortlet {
 
 	@Override
 	public AboutInfo getAboutInfo() {
-		AboutInfo info = new AboutInfo("1.1", "Andreas Zink, Jens Krüger, Martin Kruse");
+		AboutInfo info = new AboutInfo("1.1", "Andreas Zink, Jens Kr√ºger, Martin Kruse");
 		return info;
 	}
 

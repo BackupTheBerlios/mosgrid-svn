@@ -31,7 +31,7 @@ public class DockingPortlet extends DomainPortlet {
 
 	@Override
 	public AboutInfo getAboutInfo() {
-		AboutInfo info = new AboutInfo("0.6 alpha", "Luis de la Garza, Charlotta Schärfe, Andreas Zink");
+		AboutInfo info = new AboutInfo("0.6 alpha", "Luis de la Garza, Charlotta Sch√§rfe, Andreas Zink");
 		return info;
 	}
 
