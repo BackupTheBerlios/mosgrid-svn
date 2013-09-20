@@ -70,7 +70,12 @@
         <servlet-name>CredentialProvider</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
-        </servlet>
+    </servlet>
+    <servlet>
+        <servlet-name>WorkflowStatusHandlerService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>InitServices</servlet-name>
@@ -148,7 +153,11 @@
   <servlet-mapping>
         <servlet-name>CredentialProvider</servlet-name>
         <url-pattern>/CredentialProvider</url-pattern>
-    </servlet-mapping>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>WorkflowStatusHandlerService</servlet-name>
+        <url-pattern>/WorkflowStatusHandlerService</url-pattern>
+  </servlet-mapping>
   <session-config>
         <session-timeout>
             30

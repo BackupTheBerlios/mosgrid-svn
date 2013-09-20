@@ -8,8 +8,6 @@
 	<property name="build.dir"   value="build"/>
 	<property name="classes.dir" value="${build.dir}/classes"/>
 
-	<property name="webcontent.dir"     value="WebContent/WEB-INF/lib"/>
-
 	<target name="clean">
 		<ant antfile="${loc.portletapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
 		<delete includeemptydirs="true">
