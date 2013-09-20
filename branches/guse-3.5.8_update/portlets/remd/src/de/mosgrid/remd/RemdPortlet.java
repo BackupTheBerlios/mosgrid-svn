@@ -49,7 +49,7 @@ public class RemdPortlet extends DomainPortlet {
 
 	@Override
 	public AboutInfo getAboutInfo() {
-		AboutInfo info = new AboutInfo("1.0 beta", "Andreas Zink, Jens Kr√ºger");
+		AboutInfo info = new AboutInfo("1.2 beta", "Andreas Zink, Jens Krüger");
 		return info;
 	}
 

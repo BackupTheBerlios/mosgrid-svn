@@ -32,7 +32,7 @@ public class QCPortletApplication extends DomainPortlet {
 
 	@Override
 	public AboutInfo getAboutInfo() {
-		AboutInfo info = new AboutInfo("0.1", "Martin Kruse");
+		AboutInfo info = new AboutInfo("0.2", "Martin Kruse");
 		return info;
 	}
 
