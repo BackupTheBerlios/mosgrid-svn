@@ -81,7 +81,6 @@
 	<classpathentry exported="true" kind="lib" path="validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="validation-api-1.0.0.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="animator-1.6.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="XtreemFS-Connection-0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="bcprov-jdk15-1.45.jar"/>
 	<classpathentry exported="true" kind="lib" path="commons-collections-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="commons-lang-2.1.jar"/>
