@@ -128,7 +128,7 @@ public class DefaultTemplateManager implements ITemplateManager {
 			mapTemplate(newTemplate);
 			filename2template.put(file.getName(), newTemplate);
 		} catch (Exception e) {
-			LOGGER.error("Parsing of: " + file.getAbsolutePath() + " to MSML Template failed.");
+			LOGGER.error("Parsing of: " + file.getAbsolutePath() + " to MSML Template failed: " + e.toString());
 		}
 
 	}

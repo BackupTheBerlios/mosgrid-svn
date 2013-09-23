@@ -2,8 +2,8 @@
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
 
     <portlet>
-        <portlet-name>Quantum Chemistry portlet</portlet-name>
-        <display-name>QCPortletVAPI</display-name>
+        <portlet-name>QCPortletVAPI</portlet-name>
+        <display-name>Quantum Chemistry Portlet</display-name>
         
         <portlet-class>com.vaadin.terminal.gwt.server.ApplicationPortlet2</portlet-class>
         <init-param>
@@ -34,8 +34,8 @@
         
         <!-- Not always required but Liferay uses these. -->
         <portlet-info>
-            <title>QCPortletVAPI</title>
-            <short-title>QCPortletVAPI</short-title>
+            <title>Quantum Chemistry Portlet</title>
+            <short-title>Quantum Chemistry Portlet</short-title>
         </portlet-info>
     </portlet>
 </portlet-app>
