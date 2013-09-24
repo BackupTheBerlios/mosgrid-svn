@@ -44,7 +44,7 @@ public interface ITemplateManager {
 	/**
 	 * @return All templates which use given dictionary
 	 */
-	Collection<MSMLTemplate> getTemplatesByDicitonary(IDictionary dict);
+	Collection<MSMLTemplate> getTemplatesByDictionary(IDictionary dict);
 
 	/**
 	 * @return All templates which use given namespace

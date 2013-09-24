@@ -127,6 +127,9 @@ public class DefaultTemplateManager implements ITemplateManager {
 			MSMLTemplate newTemplate = new MSMLTemplate(file);
 			mapTemplate(newTemplate);
 			filename2template.put(file.getName(), newTemplate);
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("createTemplate - created template from file " + file.getAbsolutePath());
+			}
 		} catch (Exception e) {
 			LOGGER.error("Parsing of: " + file.getAbsolutePath() + " to MSML Template failed: " + e.toString());
 		}
@@ -151,7 +154,11 @@ public class DefaultTemplateManager implements ITemplateManager {
 				@Override
 				public boolean accept(File fileName) {
 					String name = fileName.getName();
-					return name.endsWith(".xml") || name.endsWith(".cml") || name.endsWith(".msml");
+					final boolean accept = name.endsWith(".xml") || name.endsWith(".cml") || name.endsWith(".msml");
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("getTemplateFiles - " + (accept ? "Accepting" : "Rejecting") + " file " + fileName);
+					}
+					return accept;
 				}
 			});
 		} else {
@@ -383,12 +390,12 @@ public class DefaultTemplateManager implements ITemplateManager {
 				}
 			}
 
-			return getTemplatesByDicitonary(toolsuite2Dict.get(toolSuite));
+			return getTemplatesByDictionary(toolsuite2Dict.get(toolSuite));
 		}
 	}
 
 	@Override
-	public synchronized Collection<MSMLTemplate> getTemplatesByDicitonary(IDictionary dict) {
+	public synchronized Collection<MSMLTemplate> getTemplatesByDictionary(IDictionary dict) {
 		return getTemplatesByNamespace(dict.getNamespace());
 	}
 

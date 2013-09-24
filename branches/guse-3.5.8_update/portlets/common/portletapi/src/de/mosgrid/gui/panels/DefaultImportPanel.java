@@ -153,7 +153,7 @@ public class DefaultImportPanel extends AbstractImportPanel {
 		if (selectedToolSuite != null) {
 			selectableTemplates = new ArrayList<ImportableWorkflow>();
 			// find templates for selected toolsuite
-			Collection<MSMLTemplate> templates = portlet.getTemplateManager().getTemplatesByDicitonary(
+			Collection<MSMLTemplate> templates = portlet.getTemplateManager().getTemplatesByDictionary(
 					selectedToolSuite);
 			for (ImportableWorkflow importable : portlet.getImportableWorkflows()) {
 				for (MSMLTemplate template : templates) {

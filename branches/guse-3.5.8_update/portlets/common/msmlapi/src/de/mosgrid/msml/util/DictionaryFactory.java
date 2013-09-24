@@ -169,7 +169,11 @@ public class DictionaryFactory {
 				@Override
 				public boolean accept(File fileName) {
 					String name = fileName.getName();
-					return name.endsWith(".xml") || name.endsWith(".cml") || name.endsWith(".msml");
+					final boolean accept = name.endsWith(".xml") || name.endsWith(".cml") || name.endsWith(".msml");
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("getDictionaryFiles - " + (accept ? "Accepting" : "Rejecting") + " file " + fileName);
+					}
+					return accept;
 				}
 			});
 		} else {

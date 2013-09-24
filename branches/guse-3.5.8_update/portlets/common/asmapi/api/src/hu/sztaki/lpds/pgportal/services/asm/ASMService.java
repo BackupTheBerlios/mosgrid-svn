@@ -1892,9 +1892,9 @@ public class ASMService {
             } else {
 
                 for (RepositoryWorkflowBean repbean : wfList) {
-                    if (repbean.getUserID().equals(owner)) {
+                    //if (repbean.getUserID().equals(owner)) {
                         ret_list.add(repbean);
-                    }
+                    //}
                 }
 
                 return ret_list;
@@ -1932,7 +1932,7 @@ public class ASMService {
         Vector<ASMRepositoryItemBean> repitemlist = new Vector<ASMRepositoryItemBean>();
         for (int i = 0; i < wfList.size(); ++i) {
             RepositoryWorkflowBean rwbean = wfList.get(i);
-            if (rwbean.getUserID().equals(owner)) {
+            //if (rwbean.getUserID().equals(owner)) {
                 ASMRepositoryItemBean itembean = new ASMRepositoryItemBean();
                 itembean.setExportText(rwbean.getExportText());
                 itembean.setExportType(rwbean.getExportType());
@@ -1940,7 +1940,7 @@ public class ASMService {
                 itembean.setUserID(rwbean.getUserID());
                 itembean.setItemID(rwbean.getWorkflowID());
                 repitemlist.add(itembean);
-            }
+            //}
         }
 
 
