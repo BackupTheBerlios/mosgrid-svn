@@ -2208,7 +2208,11 @@ public class ASMService {
     private void cleanAllWorkflowInstances(String userID, String workflowName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         WorkflowData workflow = PortalCacheService.getInstance().getUser(userID).getWorkflow(workflowName);
         for (final Map.Entry<String, WorkflowRunTime> entry : workflow.getAllRuntimeInstance().entrySet()) {
-            RealWorkflowUtils.getInstance().deleteWorkflowInstance(userID, workflowName, entry.getKey());
+        	try {
+        		RealWorkflowUtils.getInstance().deleteWorkflowInstance(userID, workflowName, entry.getKey());
+        	} catch (Exception e) {
+        		System.err.println("Could not delete instance " + entry.getKey() + ", from workflow " + workflowName + ", reason " + e.toString());        		
+        	}
         }
     }
 

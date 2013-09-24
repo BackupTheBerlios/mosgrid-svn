@@ -676,7 +676,8 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 			JobListParserConfig parserConfig = wkfImport.getTemplate().getJobListElement().getParserConfig();
 			if (parserConfig == null) {
 				LOGGER.warn(getUser()
-						+ " No ParserConfig element given below JobList element! MSML will not be passed into workflow!");
+						+ " No ParserConfig element given below JobList element! MSML will not be passed into workflow!"
+						+ " Template file: " + wkfImport.getTemplate().getPath());
 				try {
 					// delete temporary template file
 					msmlFile.delete();
