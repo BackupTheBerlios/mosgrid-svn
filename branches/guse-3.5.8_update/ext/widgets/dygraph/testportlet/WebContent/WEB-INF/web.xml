@@ -8,7 +8,7 @@
 		<param-value>false</param-value>
 	</context-param>
 	<servlet>
-		<servlet-name>DygraphTestPortlet</servlet-name>
+		<servlet-name>DygraphTestServlet</servlet-name>
 		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
 		<init-param>
 			<description>
@@ -18,11 +18,11 @@
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DygraphTestPortlet</servlet-name>
+		<servlet-name>DygraphTestServlet</servlet-name>
 		<url-pattern>/DygraphTestPortletApplicationServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>DygraphTestPortlet</servlet-name>
+		<servlet-name>DygraphTestServlet</servlet-name>
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>

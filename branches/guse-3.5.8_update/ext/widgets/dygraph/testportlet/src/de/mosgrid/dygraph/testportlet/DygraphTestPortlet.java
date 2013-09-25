@@ -29,7 +29,9 @@ public class DygraphTestPortlet extends Application implements Upload.Receiver {
 		Window mainWindow = new Window("Dygraph Demo", mainLayout);
 		// msg
 		Label msg = new Label(
-				"Hello,<br>this portlet demonstrates the integration of Dygraph into MoSGrid. Please upload a *.xvg file or load the demo data to create a graph.");
+				"Hello,<br>" +
+				"this portlet demonstrates the integration of Dygraph into MoSGrid. Please upload a *.xvg file or load the demo data to create a graph.<br>"+
+				"(version 1.0)");
 		msg.setContentMode(Label.CONTENT_RAW);
 		mainWindow.addComponent(msg);
 		// buttons

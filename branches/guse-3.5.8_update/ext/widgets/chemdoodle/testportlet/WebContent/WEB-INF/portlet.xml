@@ -2,8 +2,8 @@
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
 
     <portlet>
-        <portlet-name>Chemdoodletestportlet Application portlet</portlet-name>
-        <display-name>ChemDoodle Portlet</display-name>
+        <portlet-name>ChemDoodleTestPortlet</portlet-name>
+        <display-name>ChemDoodle Test Portlet</display-name>
         
         <portlet-class>com.vaadin.terminal.gwt.server.ApplicationPortlet2</portlet-class>
         <init-param>
@@ -34,8 +34,8 @@
         
         <!-- Not always required but Liferay uses these. -->
         <portlet-info>
-            <title>ChemDoodle Portlet</title>
-            <short-title>ChemDoodle Portlet</short-title>
+            <title>ChemDoodle Test Portlet</title>
+            <short-title>ChemDoodle Test Portlet</short-title>
         </portlet-info>
     </portlet>
 </portlet-app>

@@ -42,7 +42,9 @@ public class ChemdoodletestportletApplication extends Application implements Upl
 
 		// welcome msg
 		Label msg = new Label(
-				"Hello,<br>this portlet demonstrates the integration of ChemDoodle into MoSGrid. Please upload a *.pdb file or load the demo data to view a molecule.");
+				"Hello,<br>"+
+				"this portlet demonstrates the integration of ChemDoodle into MoSGrid. Please upload a *.pdb file or load the demo data to view a molecule.<br>"+
+				"(version 1.0)");
 		msg.setContentMode(Label.CONTENT_RAW);
 		mainWindow.addComponent(msg);
 
