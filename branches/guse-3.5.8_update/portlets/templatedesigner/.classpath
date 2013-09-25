@@ -49,5 +49,5 @@
 	<classpathentry kind="lib" path="lib/vaadin-6.7.3.jar"/>
 	<classpathentry kind="lib" path="lib/XtreemFS.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asm_api"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

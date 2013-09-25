@@ -33,7 +33,8 @@
         <mkdir dir="${war.dir}"/>
         <war destfile="${loc.chemdoodletestportlet.war}" webxml="WebContent/WEB-INF/web.xml">        	
         	<classes dir="${classes.dir}"/>        	
-        	<fileset dir="WebContent/"/>        	
+        	<fileset dir="WebContent/"/>
+        	<lib file="${loc.chemdoodle}/chemdoodle.jar"/>
     	</war>
     </target>
 	

@@ -9,5 +9,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Dygraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommonPortletLibs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
