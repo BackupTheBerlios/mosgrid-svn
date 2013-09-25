@@ -99,6 +99,7 @@
 		<include name="bcprov-jdk15-1.45.jar"/>
 		<include name="biojava3-core-3.0.3.jar"/>
 		<include name="biojava3-structure-3.0.3.jar"/>
+		<include name="CloudbrokerAPI-1.1.4c.jar"/>
 		<include name="commons-cli-1.2.jar"/>
 		<include name="commons-codec-1.4.jar"/>
 		<include name="commons-collections-3.1.jar"/>
