@@ -16,7 +16,7 @@
     </target>
 
     <target name="compile">
-    	<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />    	
+    	<!--<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />-->    	
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
         	<classpath>

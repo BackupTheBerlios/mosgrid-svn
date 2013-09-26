@@ -16,7 +16,7 @@
     </target>
 
     <target name="compile">
-    	<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />    	
+    	<!--<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />-->    	
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
         	<classpath>
@@ -34,7 +34,9 @@
         <war destfile="${loc.chemdoodletestportlet.war}" webxml="WebContent/WEB-INF/web.xml">        	
         	<classes dir="${classes.dir}"/>        	
         	<fileset dir="WebContent/"/>
-        	<lib file="${loc.chemdoodle}/chemdoodle.jar"/>
+        	<!--<lib file="${loc.chemdoodle}/chemdoodle.jar"/>-->
+        	<lib file="${loc.portlets.lib.dir}/biojava3-core-3.0.3.jar"/>
+        	<lib file="${loc.portlets.lib.dir}/biojava3-structure-3.0.3.jar"/>
     	</war>
     </target>
 	

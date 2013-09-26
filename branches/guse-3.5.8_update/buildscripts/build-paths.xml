@@ -98,7 +98,8 @@
 		<include name="FastInfoset.jar"/>
 		<include name="Foundation.jar"/>
 		<include name="XtreemFS.jar"/>
-		<include name="animator-1.6.6.jar"/>
+		<!-- apparently we don't need this one 
+		<include name="animator-1.6.6.jar"/>-->
 		<include name="apache-mime4j.jar"/>
 		<include name="axis-ant.jar"/>
 		<include name="axis.jar"/>

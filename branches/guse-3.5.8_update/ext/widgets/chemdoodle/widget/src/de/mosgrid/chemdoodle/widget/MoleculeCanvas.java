@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.mortbay.log.Log;
+
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.terminal.Sizeable;
@@ -289,8 +291,10 @@ public class MoleculeCanvas extends AbstractComponent {
 		this.defType = defType;
 		dirtyAttributes.add(Constants.MOLECULE_DEF);
 		dirtyAttributes.add(Constants.DEF_TYPE);
-
+		
+		Log.info("Requesting repaint for molecule of type " + defType);
 		requestRepaint();
+		Log.info("Repaint requested for molecule of type " + defType);
 	}
 
 	public void setMoleculeDefinition(InputStream is, DefType defType) {
