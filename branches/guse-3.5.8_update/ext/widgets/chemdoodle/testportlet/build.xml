@@ -34,7 +34,7 @@
         <war destfile="${loc.chemdoodletestportlet.war}" webxml="WebContent/WEB-INF/web.xml">        	
         	<classes dir="${classes.dir}"/>        	
         	<fileset dir="WebContent/"/>
-        	<!--<lib file="${loc.chemdoodle}/chemdoodle.jar"/>-->
+        	<lib file="${loc.chemdoodle}/chemdoodle.jar"/>
         	<lib file="${loc.portlets.lib.dir}/biojava3-core-3.0.3.jar"/>
         	<lib file="${loc.portlets.lib.dir}/biojava3-structure-3.0.3.jar"/>
     	</war>
