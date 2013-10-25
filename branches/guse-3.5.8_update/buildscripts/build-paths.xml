@@ -170,6 +170,7 @@
 		<include name="streambuffer.jar"/>
 		<include name="submitter.wsdd"/>
 		<include name="tool.wsdd"/>
+		<include name="velocity-1.5.jar"/>
 		<include name="wfi.wsdd"/>
 		<include name="wfi_cli.jar"/>
 		<include name="wfs_cli.jar"/>

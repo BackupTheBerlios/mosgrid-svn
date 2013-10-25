@@ -359,7 +359,7 @@ implements ItemClickListener, DropHandler,  Handler {
       }
     });
     this.upload.setImmediate(true);
-    //    this.upload.setIcon(new ThemeResource(ICON_UPLOAD));
+    this.upload.setIcon(new ThemeResource(ICON_UPLOAD));
     this.upload.setDescription("Upload File");
     this.upload.setButtonCaption("Upload File");
 
@@ -414,7 +414,7 @@ implements ItemClickListener, DropHandler,  Handler {
     });
 
     this.toolbar.addComponent(this.upload);
-    this.toolbar.setComponentAlignment(this.upload, Alignment.BOTTOM_LEFT);
+    //this.toolbar.setComponentAlignment(this.upload, Alignment.BOTTOM_LEFT);
 
     // New item button
     Button addButton = new Button("Create", new Button.ClickListener() {
