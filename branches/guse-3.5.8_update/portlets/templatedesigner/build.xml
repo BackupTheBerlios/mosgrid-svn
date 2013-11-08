@@ -8,9 +8,6 @@
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
 	
-    <property name="lib.dir"     value="lib"/>
-	<property name="webcontent.dir"     value="WebContent/WEB-INF/lib"/>
-
     <target name="clean">
     	<ant antfile="${loc.portletapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
     	<delete includeemptydirs="true">
@@ -32,8 +29,7 @@
                 	<file name="${loc.portletapi.jar}"/>
                 	<file name="${loc.xfscon.jar}"/>
                 </filelist>
-        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-        		<fileset dir="${webcontent.dir}" includes="**/*.jar"/>
+        		<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
         	</classpath>
     	</javac>
     	
@@ -53,13 +49,16 @@
         	<lib file="${loc.portletapi.jar}"/>
         	<lib file="${loc.xfscon.jar}"/>
         	
+        	<!-- use the libraries common to all portlets -->
+        	<lib refid="portlets.common.runtime.lib"/>
+        	
         	<classes dir="${classes.dir}"/>
         	
         	<fileset dir="WebContent/"/>
         	<zipfileset dir="${src.dir}/de/mosgrid/ukoeln/templatedesigner" includes="*.properties" prefix="WEB-INF/classes/de/mosgrid/ukoeln/templatedesigner/"/>
     	</war>
     </target>
-
+<!--
 	<target name="war.libless" depends="clean, compile">
     	<dirname property="war.dir" file="${loc.tdportlet.war}"/>
         <mkdir dir="${war.dir}"/>
@@ -77,48 +76,6 @@
         	<zipfileset dir="${src.dir}/de/mosgrid/ukoeln/templatedesigner" includes="*.properties" prefix="WEB-INF/classes/de/mosgrid/ukoeln/templatedesigner/"/>
     	</war>
     </target>
-
-	<target name="copy.war">
-		<copy todir="${loc.deploy.local}" overwrite="true">
-			<fileset file="${loc.tdportlet.war}"/>
-		</copy>
-	</target>
-	
-	<target name="copy.war.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="-scp"/>
-			<arg file="${loc.tdportlet.war}"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="localhost"/>
-		</java>
-	</target>
-	
-	<target name="invoke.information.naloxon">
-		<java fork="true" jar="${loc.urlinvoker}">
-			<arg value="naloxon.informatik.uni-tuebingen.de"/>
-		</java>
-	</target>
-	
-	<target name="deploy" depends="clean-build">
-		<antcall target="copy.war"/>
-		<sleep seconds="40"/>
-		<antcall target="invoke.information"/>
-	</target>
-	
-	<target name="undeploy">
-		<echo message="Deleting: ${loc.webapps.td.local}"></echo>
-		<delete dir="${loc.webapps.td.local}"/>
-	</target>
-	
-	<target name="deploy.naloxon" depends="clean-build">
-		<antcall target="copy.war.naloxon"/>
-		<sleep seconds="50"/>
-		<antcall target="invoke.information.naloxon"/>
-	</target>
-
+-->
 	<target name="clean-build" depends="clean,war"/>
 </project>
