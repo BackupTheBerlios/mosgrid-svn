@@ -38,10 +38,12 @@ public class ImportedWorkflow {
 
 	private void init() {
 		// Reset import counter. This can be done safely as old instances are surely deleted by garbage collector.
-		if (importCounter == Integer.MAX_VALUE) {
-			importCounter = 0;
+		synchronized(ImportedWorkflow.class) {
+			if (importCounter == Integer.MAX_VALUE) {
+				importCounter = 0;
+			}
+			this.importID = importCounter++;
 		}
-		this.importID = importCounter++;
 	}
 
 	public ASMWorkflow getAsmInstance() {
@@ -70,7 +72,7 @@ public class ImportedWorkflow {
 	public String getUserImportName() {
 		return WorkflowHelper.getInstance().getUserChosenName(asmInstance);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return importID;

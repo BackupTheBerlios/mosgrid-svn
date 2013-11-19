@@ -54,7 +54,7 @@ import de.mosgrid.util.XfsBridge;
 public abstract class MoSGridPortlet extends Application implements PortletRequestListener {
 	private static final long serialVersionUID = 1159491526862609105L;
 	private final Logger LOGGER = LoggerFactory.getLogger(MoSGridPortlet.class);
-
+	
 	private boolean isInitialized = false;
 	private PortletRequest firstRequest;
 	private MosgridUser user;
@@ -294,8 +294,8 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 					}
 
 					// try to import workflow by ASM
-					String realImportName = WorkflowHelper.getInstance().getFullWorkflowName(importName, template);
-					LOGGER.debug(getUser() + " Importing workflow bean as " + realImportName);
+					final String desiredWorkflowName = WorkflowHelper.getInstance().generateFullWorkflowName(importName, template, getUser().getUserID());
+					LOGGER.debug(getUser() + " Importing workflow bean as " + desiredWorkflowName);
 
 					// update progress
 					if (progressIndicator != null) {
@@ -303,13 +303,13 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 					}
 
 					// import ASM instance
-					String internalJobName = null;
+					final String givenWorkflowName;
 					try {
-						internalJobName = getAsmService().ImportWorkflow(getUser().getUserID(), realImportName,
+						givenWorkflowName = getAsmService().ImportWorkflow(getUser().getUserID(), desiredWorkflowName,
 								wkfBean.getUserID(), RepositoryItemTypeConstants.Workflow, wkfBean.getId().toString());
 
 						// getAsmService().test(getUser().getUserID(), internalJobName);
-						if (internalJobName == null) {
+						if (givenWorkflowName == null) {
 							throw new NullPointerException("ASM service returned empty import name.");
 						}
 					} catch (Exception e) {
@@ -322,15 +322,15 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 						progressIndicator.setValue(new Float(0.5));
 					}
 
-					LOGGER.trace(getUser() + " Searching for newly created ASM workflow instance " + internalJobName);
+					LOGGER.trace(getUser() + " Searching for newly created ASM workflow instance " + givenWorkflowName);
 					// resolve imported workflow instance
 					try {
-						workflowInstance = getAsmService().getASMWorkflow(getUser().getUserID(), internalJobName);
+						workflowInstance = getAsmService().getASMWorkflow(getUser().getUserID(), givenWorkflowName);
 						if (workflowInstance == null) {
 							throw new NullPointerException("ASM service returned empty instance.");
 						}
 					} catch (Exception e) {
-						String message = getUser() + " Could not find instance: " + internalJobName + "\n";
+						String message = getUser() + " Could not find instance: " + givenWorkflowName + "\n";
 						LOGGER.error(message, e);
 						throw new ImportFailedException(message, e);
 					}
@@ -390,8 +390,7 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 		getExecutorService().execute(importTask);
 	}
 
-	protected abstract ImportedWorkflow retrieveDomainDependandWorkflow(ASMWorkflow workflowInstance,
-			MSMLTemplate template);
+	protected abstract ImportedWorkflow retrieveDomainDependandWorkflow(ASMWorkflow workflowInstance, MSMLTemplate template);
 
 	protected abstract void afterImport(ImportedWorkflow newImport) throws ImportFailedException;
 

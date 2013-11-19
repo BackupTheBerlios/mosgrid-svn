@@ -108,6 +108,7 @@ public class MonitoringTab extends CustomComponent {
 	};
 
 	public static final String CAPTION = "Monitoring";
+	
 	private static final String CAPTION_TREE = "Submitted Workflows:";
 	private static final String CAPTION_BUTTON_UPDATE = "Update";
 	private static final String DESC_BUTTON_UPDATE = "Updates workflow list";
@@ -385,20 +386,21 @@ public class MonitoringTab extends CustomComponent {
 					LOGGER.trace(portlet.getUser() + " Found " + workflows.size() + " workflow instances");
 				}
 				for (ASMWorkflow workflowInstance : workflows) {
-					// get user import name
-					String wkfImportName = WorkflowHelper.getInstance().getUserChosenName(workflowInstance);
+					// get the name that the user entered (not the one given by gUSE)
+					final String workflowDisplayName = WorkflowHelper.getInstance().getUserChosenName(workflowInstance);
+					final String workflowName = workflowInstance.getWorkflowName();
 					if (LOGGER.isTraceEnabled()) {
-						LOGGER.trace(portlet.getUser() + " Updating " + wkfImportName + " ("
+						LOGGER.trace(portlet.getUser() + " Updating " + workflowName + " ("
 							+ workflowInstance.getStatusbean().getStatus() + ")");
 					}
 					// add tree item
-					final Item item = newTreeContainer.addItem(wkfImportName);
+					final Item item = newTreeContainer.addItem(workflowName);
 					// when update is invoked, the tree is regenerated, make sure that all items are collapsed
-					tree.collapseItem(wkfImportName);
+					tree.collapseItem(workflowName);
 
 					if (item != null) {
-						newTreeContainer.setChildrenAllowed(wkfImportName, true);
-						item.getItemProperty(ItemProperty.NAME).setValue(wkfImportName);
+						newTreeContainer.setChildrenAllowed(workflowName, true);
+						item.getItemProperty(ItemProperty.NAME).setValue(workflowDisplayName);
 						item.getItemProperty(ItemProperty.TYPE).setValue(ItemType.WORKFLOW);
 						item.getItemProperty(ItemProperty.DATA).setValue(workflowInstance);
 						// find status icon
@@ -413,11 +415,11 @@ public class MonitoringTab extends CustomComponent {
 							xfsRootPath = xfsRootPath + '/' + runtimeID;
 						}
 						if (LOGGER.isTraceEnabled()) {
-							LOGGER.trace("root path for workflow [" + wkfImportName + "] with uuid [" + runtimeID + "] is [" + xfsRootPath + ']');
+							LOGGER.trace("root path for workflow [" + workflowName + "] with uuid [" + runtimeID + "] is [" + xfsRootPath + ']');
 						}
 						item.getItemProperty(ItemProperty.XFS_PATH).setValue(xfsRootPath);
 					} else {
-						LOGGER.info(portlet.getUser() + " Failed to update " + wkfImportName);
+						LOGGER.info(portlet.getUser() + " Failed to update " + workflowName);
 					}
 				}
 				tree.requestRepaint();
