@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://config.dcibridge.lpds.sztaki.hu/" xmlns:ns1="data.dci" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://config.dcibridge.lpds.sztaki.hu/">
+
+<xs:import namespace="data.dci" schemaLocation="https://guse.sztaki.hu:443/dci_bridge_service/ResourceConfiguration?xsd=2"></xs:import>
+
+<xs:element name="get" type="tns:get"></xs:element>
+
+<xs:element name="getResponse" type="tns:getResponse"></xs:element>
+
+<xs:complexType name="get">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getResponse">
+<xs:sequence>
+<xs:element name="return" type="ns1:middleware" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

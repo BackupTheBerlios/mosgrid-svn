@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://zen.wsaxis13.net.wfi.lpds.sztaki.hu/" xmlns:ns1="http://schemas.ggf.org/bes/2006/08/bes-factory" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://zen.wsaxis13.net.wfi.lpds.sztaki.hu/">
+
+<xs:import namespace="http://schemas.ggf.org/bes/2006/08/bes-factory" schemaLocation="http://localhost:8084/wfi/JobStatusService?xsd=4"></xs:import>
+
+<xs:element name="sendStatus" type="tns:sendStatus"></xs:element>
+
+<xs:element name="sendStatusResponse" type="tns:sendStatusResponse"></xs:element>
+
+<xs:complexType name="sendStatus">
+<xs:sequence>
+<xs:element name="pJobID" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="pJobStatus" type="ns1:ActivityStatusType" minOccurs="0"></xs:element>
+<xs:element name="pResource" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sendStatusResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

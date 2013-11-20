@@ -1,0 +1,42 @@
+<!DOCTYPE project>
+<project name="remd-portlet" basedir="." default="clean-build">
+	
+	<import file="../../../../buildscripts/build-paths.xml"/>
+	<property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+
+    <target name="clean">
+    	<delete includeemptydirs="true">
+    		<fileset dir="${build.dir}" defaultexcludes="true">
+    			<include name="**/*"/>
+    		</fileset>
+    	</delete>
+    </target>
+
+    <target name="compile">
+    	<!--<ant antfile="${loc.portletapi}/build.xml" target="jar" inheritall="false" inheritrefs="false" />-->    	
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
+        	<classpath>
+                <filelist>
+                	<file name="${loc.dygraph}/dygraph.jar"/>
+                </filelist>
+	        	<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+	<target name="war" depends="clean, compile">
+    	<dirname property="war.dir" file="${loc.dygraphtestportlet.war}"/>
+        <mkdir dir="${war.dir}"/>
+        <war destfile="${loc.dygraphtestportlet.war}" webxml="WebContent/WEB-INF/web.xml">        	
+        	<classes dir="${classes.dir}"/>        	
+        	<fileset dir="WebContent/"/>
+        	<lib file="${loc.dygraph}/dygraph.jar"/>
+    	</war>
+    </target>
+	
+	<target name="clean-build" depends="clean,war"/>
+</project>

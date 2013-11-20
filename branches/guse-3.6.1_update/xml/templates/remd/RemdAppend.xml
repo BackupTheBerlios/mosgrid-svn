@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml    convention="convention:compchem"
+        xmlns="http://www.xml-cml.org/schema"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:convention="http://www.xml-cml.org/convention/"
+        xmlns:units="http://www.xml-cml.org/units/units"
+        xmlns:cmlx="http://www.xml-cml.org/schema/cmlx"
+        xmlns:compchem="http://www.xml-cml.org/dictionary/compchem/" 
+        xmlns:gromacs="http://www.xml-cml.org/dictionary/md-input/"
+        xmlns:parser="http://www.xml-cml.org/dictionary/parser/"
+        xmlns:env="http://www.xml-cml.org/dictionary/environment/"
+        xmlns:adapter="http://www.xml-cml.org/dictionary/adapter/jobref">
+
+	<module title="REMD Append" 
+            id="RemdAppend" 
+            dictRef="compchem:jobList" 
+            cmlx:workflowNotes="Append REMD simulations"
+            cmlx:displayName="REMDAppend"
+			cmlx:workflowGraph="RemdAppend.png">
+	<description>
+	<xhtml:p>
+	This workflow lets you append REMD simulations which have exceeded the maximal wall time.
+	</xhtml:p>
+	</description>
+		<module title="Uploads" id="RemdAppendInput" dictRef="compchem:job">
+			<description>
+			<xhtml:p>
+			The auto search mechanism lets you find previously submitted REMD jobs. All required input files are set automatically. You only have to select the root result directory of a previous simulation.
+			</xhtml:p>
+			</description>
+			<module dictRef="compchem:initialization">
+				<cmlx:uploadList>
+					<cmlx:jobInputUpload fileType="tpr" job="RemdUploads" port="tprIN"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="cpt" job="RemdUploads" port="cptIN"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="log" job="RemdUploads" port="logIN"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="trr" job="RemdUploads" port="trrIN"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="xtc" job="RemdUploads" port="xtcIN"></cmlx:jobInputUpload>
+					<cmlx:jobInputUpload fileType="edr" job="RemdUploads" port="edrIN"></cmlx:jobInputUpload>
+				</cmlx:uploadList>
+			</module>
+		</module>
+		<module title="REMD Append" id="remd-mdrun" dictRef="compchem:job">
+			<description>
+			<xhtml:p>
+			It is strongly recommended to use the same exchange frequency as in the previous run! Also the numer of nodes should be equal to the number of replicas.
+			</xhtml:p>
+			</description>
+			<module dictRef="compchem:initialization">
+				<parameterList>
+					<parameter dictRef="gromacs:mdrun.ExchangeFreq" cmlx:editable="true">
+						<scalar dataType="xsd:integer">500</scalar>
+					</parameter>
+					<parameter dictRef="gromacs:mdrun.NumberOfSystems" cmlx:editable="false">
+						<scalar dataType="xsd:integer"></scalar>
+					</parameter>
+				</parameterList>
+				<cmlx:adapterConfiguration adapterID="cmdadapter"/>
+			</module>
+			<module dictRef="compchem:environment">
+				<propertyList>
+					<property dictRef="env:nodes" cmlx:editable="true">
+						<scalar dataType="xsd:integer">2</scalar>
+					</property>
+					<property dictRef="env:cores" cmlx:editable="true">
+						<scalar dataType="xsd:integer">4</scalar>
+					</property>
+					<property dictRef="env:walltime" cmlx:editable="true">
+						<scalar dataType="xsd:integer">1440</scalar>
+					</property>
+					<property dictRef="env:memory" cmlx:editable="true">
+						<scalar dataType="xsd:integer">2000</scalar>
+					</property>
+				</propertyList>
+			</module>
+		</module>
+	</module>
+</cml>
