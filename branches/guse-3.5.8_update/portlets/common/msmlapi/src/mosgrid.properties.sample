@@ -1,0 +1,57 @@
+# Properties for MoSGrids Portlet-API
+# NOTE: changes are loaded after restarting the portal
+
+# Certifacte settings
+serviceCertFile = /local/guseuser/.certificates/mosgrid-grid.p12
+serviceCertPass = hahahahahaha
+
+# XtreemFS settings
+xfsPort = 32638
+xfsUrl = mustafa.zib.de
+xfsVolumeName = mosgrid
+xfsPass = kem9Ey7p
+
+# Names of upload and result dirs in XtreemFS for Portlet-API
+xfsUploadDir = uploads
+xfsResultDir = results
+
+# gUSE base path
+guseBasePath = /local/guseuser/guse/
+
+# gUSE users directory. Relative to gUSE base path.
+guseUserPath = users/
+
+# MSML sub directories. Relative to gUSE base path
+msmlTemplatesPath = templates/
+msmlDictionariesPath = dictionaries/
+
+# Parser configfiles
+parserConfigsPath = parserconfigs/configfiles/
+
+# Domain specific sub directories. Relative to template, dictionary or theme paths.
+mdPath = md/
+qcPath = qc/
+dockingPath = docking/
+remdPath = remd/
+
+# Common sub directories. Relative to dictionary path.
+parserPath = parser/
+adapterPath = adapter/
+environmentPath = environment/
+
+# Portlet-API theme name. The theme is located at TOMCAT_BASE/webapps/ROOT/html/VAADIN/themes/ and contains sub directories for each domain.
+customThemeName = PortletAPI
+# Theme sub directories. Relative to PortletAPI theme or domain specific sub directory.
+iconsPath = icons/
+workflowGraphPath = workflows/
+
+# Help URLs
+helpBaseUrl = https://naloxon.informatik.uni-tuebingen.de/help
+advancedHelpBaseUrl = https://naloxon.informatik.uni-tuebingen.de/advanced-help
+qcHelpUrl = https://naloxon.informatik.uni-tuebingen.de/help/quantum-chemistry
+mdHelpUrl = https://naloxon.informatik.uni-tuebingen.de/help/molecular-dynamics
+dockingHelpUrl = https://naloxon.informatik.uni-tuebingen.de/help/docking
+remdHelpUrl = https://naloxon.informatik.uni-tuebingen.de/advanced-help/replica-exchange-molecular-dynamics
+
+# whitelisted folders
+whitelistFolders = test, wkfinput

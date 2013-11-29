@@ -19,7 +19,9 @@ public enum MSMLProperties {
 	// Common dictionary keys
 	REL_PARSER_PATH("parserPath"),
 	REL_ADAPTER_PATH("adapterPath"),
-	REL_ENV_PATH("environmentPath");
+	REL_ENV_PATH("environmentPath"),
+	// xtreem folders that are "allowed" to be declared in input ports
+	WHITE_LIST_FOLDERS("whitelistFolders");
 
 	private static Properties properties;
 

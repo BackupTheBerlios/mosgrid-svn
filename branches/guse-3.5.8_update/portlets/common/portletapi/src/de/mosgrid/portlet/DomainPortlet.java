@@ -43,6 +43,7 @@ import de.mosgrid.msml.editors.MSMLTemplate;
 import de.mosgrid.msml.jaxb.bindings.DescriptionType;
 import de.mosgrid.msml.util.DictionaryFactory;
 import de.mosgrid.msml.util.IDictionary;
+import de.mosgrid.msml.util.MSMLProperties;
 import de.mosgrid.msml.util.wrapper.Job;
 import de.mosgrid.msml.util.wrapper.JobListParserConfig;
 import de.mosgrid.util.DefaultInputMaskFactory;
@@ -603,9 +604,6 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 	 * the current user it is deleted. Not deleting it if url fits for current user is good for testing purposes.
 	 */
 	private void cleanRemoteURLs(ASMWorkflow wkfInstance) {
-		// retrieve xfs home url for current user
-		String xfsHomeUrl = XfsBridge.createURL(getXfsBridge().getHomeDir());
-
 		for (ASMJob job : wkfInstance.getJobs().values()) {
 			for (String portNumber : job.getInput_ports().keySet()) {
 
@@ -613,8 +611,7 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 						wkfInstance.getWorkflowName(), job.getJobname(), portNumber);
 				if (currentRemoteURL != null && currentRemoteURL.startsWith(XfsBridge.XFS_URL_PREFIX)) {
 					// remote url is set and points to xfs
-					if (!currentRemoteURL.startsWith(xfsHomeUrl) && 
-							!currentRemoteURL.startsWith(XfsBridge.XFS_URL_PREFIX + "test/")) {
+					if (!isUrlWhitelisted(currentRemoteURL)) {
 						// remote url does not match for current user, thus delete
 						LOGGER.trace(getUser()
 								+ " Deleting XFS-Remote-URL because it does not match for current user \n\tJOB: "
@@ -631,7 +628,7 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 						wkfInstance.getWorkflowName(), job.getJobname(), portName);
 				if (currentRemoteURL != null && currentRemoteURL.startsWith(XfsBridge.XFS_URL_PREFIX)) {
 					// remote url is set and points to xfs
-					if (!currentRemoteURL.startsWith(xfsHomeUrl)) {
+					if (!isHomeFolder(currentRemoteURL)) {
 						// remote url does not match for current user, thus delete
 						LOGGER.trace(getUser()
 								+ " Deleting XFS-Remote-URL because it does not match for current user \n\tJOB: "
@@ -643,6 +640,28 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 				}
 			}
 		}
+	}
+	
+	// returns true if the given url is white listed, that is, it represents the home folder or 
+	// the url is one of the whitelisted xtreemfs folders
+	private boolean isUrlWhitelisted(final String url) {		
+		if (isHomeFolder(url)) {
+			return true;
+		}
+		// if not in the home folder, see if the folder is whitelisted		
+		final String[] whitelistedFolders = MSMLProperties.WHITE_LIST_FOLDERS.getProperty().split(",");
+		for (final String whitelistedFolder : whitelistedFolders) {
+			if (url.startsWith(XfsBridge.XFS_URL_PREFIX + whitelistedFolder.trim())) {
+				return true;
+			}
+		}
+		// at this point, the given url is neither the home folder nor whitelisted
+		return false;
+	}
+	
+	private boolean isHomeFolder(final String url) {
+		final String xfsHomeUrl = XfsBridge.createURL(getXfsBridge().getHomeDir());
+		return url.startsWith(xfsHomeUrl);
 	}
 
 	/**
