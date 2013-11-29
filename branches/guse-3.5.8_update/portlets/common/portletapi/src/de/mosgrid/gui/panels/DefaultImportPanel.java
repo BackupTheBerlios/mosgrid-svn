@@ -1,5 +1,6 @@
 package de.mosgrid.gui.panels;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class DefaultImportPanel extends AbstractImportPanel {
 	public static final String TOOLTIP_SELECT_TEMPLATE = "Please select a workflow.";
 	public static final String TOOLTIP_TEXTFIELD_IMPORT_NAME = "Please enter a name for your import in order to identify it later. A timestemp will be added automatically.";
 	public static final UserError ERROR_EMPTY = new UserError("Must not be empty!");
+	
+	private static final String DATE_FORMAT = "yyyy-MM-dd_HH:mm:ss";
 
 	private Map<ImportableWorkflow, Component> descComponents;
 	// left part for selection, import name field and import button
@@ -183,11 +186,20 @@ public class DefaultImportPanel extends AbstractImportPanel {
 			Component component = descComponents.get(selected);
 			// show component (bring to front)
 			rightLayout.showComponent(component);
-
-			importNameField.setValue(selected.getTemplate().getName());
+			
+			importNameField.setValue(generateImportName(selected.getTemplate().getName()));
 		} else {
 			rightLayout.showComponent(rightLayout.getEmptyComponent());
 		}
+	}
+
+	/**
+	 * @param  baseName import name base name
+	 * @return An import name with date and time appended.
+	 */
+	private Object generateImportName(final String baseName) {
+		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+		return baseName + '_' + simpleDateFormat.format(new java.util.Date());
 	}
 
 	@Override
