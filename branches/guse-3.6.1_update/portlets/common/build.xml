@@ -1,7 +1,7 @@
 <!DOCTYPE project>
 <project name="mosgrid-portlet-api" basedir="." default="clean-build">
 	
-	<import file="../../../buildscripts/build-paths.xml"/>
+	<import file="../../buildscripts/build-paths.xml"/>
 	
 	<property name="src.dir"     value="src"/>
 
@@ -36,7 +36,7 @@
                 	XTREEMFS-CONNECTION -->
                 	<file name="${loc.xfscon.jar}"/>
                 </filelist>
-        		<fileset dir="${loc.portlets.lib.dir}"/>
+        		<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
         	</classpath>
     	</javac>
     </target>
@@ -46,6 +46,15 @@
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${loc.portletapi.jar}" basedir="${classes.dir}">
     	</jar>
+    </target>
+	
+    <target name="war">
+    	<ant antfile="${loc.dockingportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.mdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.qcportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.remdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.tdportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
+    	<ant antfile="${loc.xfsportlet}/build.xml" target="war" inheritall="false" inheritrefs="false" />
     </target>
 
 	<target name="clean-build" depends="clean,jar"/>

@@ -10,10 +10,6 @@
 
     <property name="lib.dir"     value="libs"/>
 	
-    <path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
-    </path>
-	
     <target name="clean">
     	<delete includeemptydirs="true">
     		<fileset dir="${build.dir}" defaultexcludes="true">
@@ -24,8 +20,11 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" includeantruntime="false" target="1.6" source="1.6" debug="on"
-        	destdir="${classes.dir}" classpathref="classpath"/>
+        <javac srcdir="${src.dir}" includeantruntime="false" target="1.6" source="1.6" debug="on" destdir="${classes.dir}">
+        	<classpath>
+        		<fileset dir="${loc.portlets.lib.dir}"/>
+        	</classpath>
+        </javac>
     </target>
 
     <target name="jar" depends="compile">

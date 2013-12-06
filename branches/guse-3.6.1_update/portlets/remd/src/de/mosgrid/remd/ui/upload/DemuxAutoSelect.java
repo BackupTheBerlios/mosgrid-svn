@@ -84,7 +84,7 @@ public class DemuxAutoSelect extends MultiAutoSelect {
 		List<JobInputUploadType> uploadList = getJob().getInitialization().getUploadList().getJobInputUpload();
 		for (JobInputUploadType upload : uploadList) {
 			if (upload.getFileType().equals("xtc")) {
-				portlet.getAsmService().setNumberOfInputFiles(portlet.getUser().getUserID(),
+				portlet.setNumberOfInputFiles(portlet.getUser().getUserID(),
 						wkfImport.getAsmInstance().getWorkflowName(), upload.getJob(), upload.getPort(),
 						getReplicaCount());
 			}

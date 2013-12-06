@@ -123,7 +123,7 @@ public class MetaDataTab extends CustomComponent implements ValueChangeListener 
 				this.workflowIDField.setValue(wkfInstance.getWorkflowName());
 
 				String userID = monitoringTab.getPortlet().getUser().getUserID();
-				String runtimeID = ASMService.getInstance().getRuntimeID(userID, wkfInstance.getWorkflowName());
+				String runtimeID = monitoringTab.getPortlet().getRuntimeID(userID, wkfInstance.getWorkflowName());
 				this.runtimeIDField.setValue(runtimeID);
 
 				String wkfStatus = wkfInstance.getStatusbean().getStatus();

@@ -1,9 +1,0 @@
-<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
-    <service name="urn:storagewfiservice" provider="java:RPC">
-        <parameter name="className" value="hu.sztaki.lpds.storage.net.wsaxis13.StorageWfiServiceImpl"/>
-        <parameter name="allowedMethods" value="copyFile getNumberOfFileInDirectory ifTest"/>
-        <parameter name="scope" value="request"/>
-        <beanMapping qname="lpdsNS:FileBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.storage.com.FileBean"/>
-        <beanMapping qname="lpdsNS:IfBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.storage.com.IfBean"/>
-    </service>
-</deployment>

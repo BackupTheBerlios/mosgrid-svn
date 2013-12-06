@@ -1,9 +1,0 @@
-<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
-    <service name="urn:wfsstorageservice" provider="java:RPC">
-        <parameter name="className" value="hu.sztaki.lpds.wfs.net.wsaxis13.WfsStorageServiceImpl"/>
-        <parameter name="allowedMethods" value="getWorkflowXML setWorkflowXML"/>
-        <parameter name="scope" value="request"/>
-        <beanMapping qname="lpdsNS:StorageWorkflowNamesBean" xmlns:lpdsNS="urn:BeanService" languageSpecificType="java:hu.sztaki.lpds.wfs.com.StorageWorkflowNamesBean"/>
-	
-    </service>
-</deployment>

@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -406,7 +409,7 @@ public class MonitoringTab extends CustomComponent {
 						// find status icon
 						updateWkfStatus(workflowInstance, item);
 						// set xfs root
-						final String runtimeID = portlet.getAsmService().getRuntimeID(portlet.getUser().getUserID(),
+						final String runtimeID = portlet.getRuntimeID(portlet.getUser().getUserID(),
 								workflowInstance.getWorkflowName());
 						String xfsRootPath = portlet.getXfsBridge().getResultsDir();
 						item.getItemProperty(ItemProperty.WORKFLOW_UUID).setValue(runtimeID);
@@ -434,7 +437,7 @@ public class MonitoringTab extends CustomComponent {
 			}
 		}
 	}
-
+	
 	/**
 	 * @param runtimeID
 	 * @param xfsRootPath
@@ -462,25 +465,26 @@ public class MonitoringTab extends CustomComponent {
 	 */
 	private ThemeResource updateWkfStatus(ASMWorkflow workflowInstance, Item item) {
 		ThemeResource newIcon = IconProvider.getIcon(ICONS.GRAY_DOT);
+		final StatusConstants statusConstants = new StatusConstants();
 		String wkfStatus = workflowInstance.getStatusbean().getStatus();
 		if (LOGGER.isTraceEnabled()) {
 			LOGGER.trace(portlet.getUser() + " status of workflow (" + WorkflowHelper.getInstance().getUserChosenName(workflowInstance) + ") is [" + wkfStatus + ']');
 		}
-		if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.RUNNING))
-				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.READY))
-				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.INIT))) {
+		if (wkfStatus.equals(statusConstants.getStatus(StatusConstants.RUNNING))
+				|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.READY))
+				|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.INIT))) {
 			LOGGER.trace("yellow");
 			newIcon = IconProvider.getIcon(ICONS.YELLOW_DOT);
-		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.FINISHED))) {
+		} else if (wkfStatus.equals(statusConstants.getStatus(StatusConstants.FINISHED))) {
 			LOGGER.trace("green");
 			newIcon = IconProvider.getIcon(ICONS.GREEN_DOT);
-		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ERROR))
-				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ABORTED))
-				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.CANCELLED))) {
+		} else if (wkfStatus.equals(statusConstants.getStatus(StatusConstants.ERROR))
+				|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.ABORTED))
+				|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.CANCELLED))) {
 			LOGGER.trace("red");
 			newIcon = IconProvider.getIcon(ICONS.RED_DOT);
-		} else if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.SUSPENDED))
-				|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDED))) {
+		} else if (wkfStatus.equals(statusConstants.getStatus(StatusConstants.SUSPENDED))
+				|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDED))) {
 			LOGGER.trace("blue");
 			newIcon = IconProvider.getIcon(ICONS.BLUE_DOT);
 		} else {
@@ -884,7 +888,7 @@ public class MonitoringTab extends CustomComponent {
 			if (wkfInstance != null) {
 				try {
 					String importName = (String) wkfItem.getItemProperty(ItemProperty.NAME).getValue();
-					String runtimeID = ASMService.getInstance().getRuntimeID(portlet.getUser().getUserID(),
+					String runtimeID = portlet.getRuntimeID(portlet.getUser().getUserID(),
 							wkfInstance.getWorkflowName());
 					createModalDialog(importName, runtimeID);
 					portlet.removeASMInstance(wkfInstance);

@@ -1,9 +1,0 @@
-/* AUTOMATICALLY GENERATED ON Tue Mar 27 18:13:21 CEST 2012*/
-/* DO NOT EDIT */
-
-keystore "/home/schlemme/Entwicklung/guse/SAML_applet/mosgrid-public.jks";
-
-grant /* signedBy "mosgrid" */ {
-  permission java.security.AllPermission;
-};
-

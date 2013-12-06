@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://guse.hu/storage/services/monitoring/Monitor.xsd" uri="xml-resources/jaxb/ApplicationMonitoriSchema/guse.hu/storage/services/monitoring/Monitor.xsd"/>
-    <system systemId="http://guse.hu/storage/services/monitoring/SystemInformation.xsd" uri="xml-resources/jaxb/ApplicationMonitoriSchema/guse.hu/storage/services/monitoring/SystemInformation.xsd"/>
-</catalog>

@@ -402,7 +402,8 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 *            Use constants in StatusConstants
 	 */
 	public Collection<ASMWorkflow> getAllWorkflows(String status, boolean inclusive) {
-		String statusLiteral = StatusConstants.getStatus(status);		
+	    	final StatusConstants statusConstants = new StatusConstants(); 
+		String statusLiteral = statusConstants.getStatus(status);		
 		if (inclusive) {
 			LOGGER.trace(getUser() + " Retrieving all ASMWorkflows which are in status: " + status + " - " + statusLiteral);
 		} else {

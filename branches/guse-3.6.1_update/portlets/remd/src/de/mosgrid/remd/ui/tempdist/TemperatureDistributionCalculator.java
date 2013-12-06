@@ -437,7 +437,7 @@ public class TemperatureDistributionCalculator extends AbstractJobForm implement
 	}
 
 	private void setNumberOfInputFiles(int number, String jobId, String portId) {
-		portlet.getAsmService().setNumberOfInputFiles(portlet.getUser().getUserID(),
+		portlet.setNumberOfInputFiles(portlet.getUser().getUserID(),
 				wkfImport.getAsmInstance().getWorkflowName(), jobId, portId, number);
 	}
 

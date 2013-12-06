@@ -7,7 +7,6 @@
 	<property name="loc.ext.dir" location="${paths.basedir}/../ext/" />
 	<property name="loc.portlets.lib.dir" location="${paths.basedir}/../portlets/common/lib/"/>
 
-	<property name="loc.asmapi" location="${loc.portlets.dir}/common/asmapi/api/" />
 	<property name="loc.cmlstruc" location="${loc.portlets.dir}/common/converter/" />
 	<property name="loc.msmlapi" location="${loc.portlets.dir}/common/msmlapi/" />
 	<property name="loc.portletapi" location="${loc.portlets.dir}/common/portletapi/" />
@@ -25,7 +24,6 @@
 	<property name="loc.xfsportlet" location="${loc.portlets.dir}/xtreemfs/" />
 	<property name="loc.parser" location="${loc.ext.dir}/genparser/" />
 	
-	<property name="loc.asmapi.jar" location="${loc.asmapi}/mg-asm-api.jar" />
 	<property name="loc.cmlstruc.jar" location="${loc.cmlstruc}/mg-cml-struc.jar" />
 	<property name="loc.msmlapi.jar" location="${loc.msmlapi}/mg-msml-api.jar" />
 	<property name="loc.portletapi.jar" location="${loc.portletapi}/mg-portlet-api.jar" />
@@ -95,11 +93,47 @@
 		</war>
 	-->
 	<fileset id="portlets.common.runtime.lib" dir="${loc.portlets.lib.dir}">
+		<include name="animator-1.6.6.jar"/>
+		<include name="asm_api-3.4.6.jar"/>
+		<include name="biojava3-structure-3.0.3.jar"/>
+		<include name="cdk-1.4.10.jar"/>
+		<include name="cog-jglobus.jar"/>
+		<include name="commons-math3-3.0.jar"/>		
+		<include name="dcibridge_cli-3.6.1.jar"/>
+		<include name="Foundation.jar"/>
+		<include name="frontendbase-3.6.1.jar"/>
+		<include name="gemlcaquery_cli-3.6.1.jar"/>
+		<include name="guse_client-3.6.1.jar"/>
+		<include name="gwt-dev.jar"/>
+		<include name="gwt-user.jar"/>
+		<include name="information_cli-3.6.1.jar"/>
+		<include name="jgromacs_v1_modified.jar"/>
+		<include name="joda-time-1.6.2.jar"/>
+		<include name="logging_cli-3.6.1.jar"/>
+		<include name="opensaml-2.4.1.jar"/>
+		<include name="portal.wsdd"/>
+		<include name="portal-service.jar"/>
+		<include name="portal_cli-3.6.1.jar"/>
+		<include name="portlet-api-2.0.jar.jar"/>
+		<include name="protobuf-java-2.3.0.jar"/>
+		<include name="remote.wsdd"/>
+		<include name="repository_cli-3.6.1.jar"/>
+		<include name="storage.wsdd"/>
+		<include name="storage_cli-3.6.1.jar"/>
+		<include name="slf4j-api.jar"/>
+		<include name="submitter.wsdd"/>
+		<include name="tool.wsdd"/>
+		<include name="vaadin-6.7.3.jar"/>
+		<include name="wfi.wsdd"/>
+		<include name="wfi_cli-3.6.1.jar"/>
+		<include name="wfs_cli-3.6.1.jar"/>
+		<include name="xmltooling-1.3.1.jar"/>
+		<include name="XtreemFS.jar"/>
+		<include name="xtreemfs_authentication.jar"/>
+	<!--
 		<include name="FastInfoset.jar"/>
 		<include name="Foundation.jar"/>
 		<include name="XtreemFS.jar"/>
-		<!-- apparently we don't need this one 
-		<include name="animator-1.6.6.jar"/>-->
 		<include name="apache-mime4j.jar"/>
 		<include name="axis-ant.jar"/>
 		<include name="axis.jar"/>
@@ -178,6 +212,7 @@
 		<include name="xmlrpc.jar"/>
 		<include name="xmltooling-1.3.1.jar"/>
 		<include name="xtreemfs_authentication.jar"/>
+		-->
 	</fileset>
 
 

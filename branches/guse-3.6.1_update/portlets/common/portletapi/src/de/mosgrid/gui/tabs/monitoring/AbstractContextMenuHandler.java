@@ -15,7 +15,7 @@ import com.vaadin.event.Action.Handler;
 import de.mosgrid.gui.tabs.monitoring.MonitoringTab.ItemProperty;
 import de.mosgrid.gui.tabs.monitoring.MonitoringTab.ItemType;
 
-public abstract class AbstractContextMenuHandler implements Handler {
+public abstract class AbstractContextMenuHandler implements Handler {    
 	private static final long serialVersionUID = 7963526615406088821L;
 
 	/* list of filetypes */
@@ -111,14 +111,15 @@ public abstract class AbstractContextMenuHandler implements Handler {
 					ASMWorkflow wkfInstance = (ASMWorkflow) targetItem.getItemProperty(ItemProperty.DATA).getValue();
 					if (wkfInstance != null) {
 						String wkfStatus = wkfInstance.getStatusbean().getStatus();
+						final StatusConstants statusConstants = new StatusConstants();
 						//make workflow deleteable for given statuses
-						if (wkfStatus.equals(StatusConstants.getStatus(StatusConstants.FINISHED))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ERROR))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.ABORTED))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.CANCELLED))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.SUSPENDED))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDED))
-								|| wkfStatus.equals(StatusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDING))) {
+						if (wkfStatus.equals(statusConstants.getStatus(StatusConstants.FINISHED))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.ERROR))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.ABORTED))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.CANCELLED))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.SUSPENDED))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDED))
+								|| wkfStatus.equals(statusConstants.getStatus(StatusConstants.WORKFLOW_SUSPENDING))) {
 							actions.add(ACTION_WKF_DELETE);
 						} else {
 							//else abort wkf first

@@ -7,7 +7,6 @@
 
     <property name="build.dir"   value="bin"/>
     <property name="classes.dir" value="${build.dir}"/>
-	<property name="lib.dir"     value="lib"/>
 	
     <target name="clean">
     	<ant antfile="${loc.msmlapi}/build.xml" target="clean" inheritall="false" inheritrefs="false" />
@@ -35,7 +34,7 @@
         <javac srcdir="${src.dir}" includeantruntime="false" destdir="${classes.dir}" target="1.6" source="1.6" debug="on">
         	<classpath>
                 <fileset dir="${loc.msmlapi}" includes="*.jar"/>
-        		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        		<fileset dir="${loc.portlets.lib.dir}"/>
         	</classpath>
     	</javac>
     </target>

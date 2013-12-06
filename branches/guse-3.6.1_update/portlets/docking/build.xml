@@ -30,7 +30,7 @@
 					<file name="${loc.portletapi.jar}"/>
 					<file name="${loc.xfscon.jar}"/>
 				</filelist>
-				<fileset dir="${loc.portlets.lib.dir}" includes="**/*.jar"/>
+				<fileset dir="${loc.portlets.lib.dir}"/>
 			</classpath>
 		</javac>
 	</target>

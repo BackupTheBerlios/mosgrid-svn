@@ -1,10 +1,13 @@
 package de.mosgrid.portlet;
 
 import hu.sztaki.lpds.pgportal.services.asm.ASMJob;
+import hu.sztaki.lpds.pgportal.services.asm.ASMService;
 import hu.sztaki.lpds.pgportal.services.asm.ASMWorkflow;
 import hu.sztaki.lpds.pgportal.services.asm.beans.ASMRepositoryItemBean;
 import hu.sztaki.lpds.pgportal.services.asm.constants.RepositoryItemTypeConstants;
 import hu.sztaki.lpds.pgportal.services.asm.constants.StatusConstants;
+import hu.sztaki.lpds.wfs.com.JobPropertyBean;
+import hu.sztaki.lpds.wfs.com.PortDataBean;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,11 +15,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -446,7 +452,7 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 						// set remote urls of job ports
 						setPortEnvironment(wkfImport.getAsmInstance(), collector.getAllUploads());
 						// set cmd line params
-						infos.setInputParams(wkfImport.getAsmInstance());
+						infos.setInputParams(wkfImport.getAsmInstance(), getUser().getUserID());
 						// set environment variables
 						setEnvironmentParameters(wkfImport);
 
@@ -489,12 +495,13 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 					 */
 
 					try {
-						if (!getAsmService().isAutoSave()) {
-							LOGGER.debug(getUser() + " Saving workflow configuration "
-									+ wkfImport.getAsmInstance().getWorkflowName());
-							// save manually if auto save is off
-							getAsmService().saveWorkflowSettings(getUser().getUserID(), wkfImport.getAsmInstance());
-						}
+					    saveWorkflowSettings(getUser().getUserID(), wkfImport.getAsmInstance());
+//						if (!getAsmService().isAutoSave()) {
+//							LOGGER.debug(getUser() + " Saving workflow configuration "
+//									+ wkfImport.getAsmInstance().getWorkflowName());
+//							// save manually if auto save is off
+//							getAsmService().saveWorkflowSettings(getUser().getUserID(), wkfImport.getAsmInstance());
+//						}
 						getAsmService().submit(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName());
 					} catch (ClassNotFoundException e) {
 						String message = " ClassNotFoundException while submitting workflow.";
@@ -545,6 +552,11 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 		};
 		getExecutorService().execute(submissionTask);
 	}
+	
+	public void saveWorkflowSettings(String userID, ASMWorkflow wkfInstance) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	    Vector<JobPropertyBean> jobs = getWorkflowConfig(userID, wkfInstance.getWorkflowName());
+	    saveConfigData(userID, wkfInstance.getWorkflowName(), jobs);
+        }
 
 	/**
 	 * Helper method which sets the remote URL of a job to point at a file in xfs. Additionally sets the number of
@@ -563,26 +575,12 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 				if (job == null)
 					throw new SetURLException("Could not find job " + uploadBean.getJobname());
 				
-				final String portNumber = Long.toString(getAsmService().getInputPortNumberByName(
+				final String portNumber = Long.toString(getInputPortNumberByName(
 						getUser().getUserID(), 
 						wkfInstance.getWorkflowName(), 
 						uploadBean.getJobname(), 
 						uploadBean.getPort()));
-				
-//				// TODO: refactor port mapping
-//				String portNumber = null;
-//				for (Entry<String, String> entry : job.getInput_ports().entrySet()) {
-//					LOGGER.debug("jobName=" + job.getJobname() + ", entry.key=" + entry.getKey() + ", entry.value=" + entry.getValue());
-//					// UploadBean contains the name of the port, not its sequential number, however, ASMJob contains only 
-//					// the sequence numbers!					
-//					if (("PORT" + entry.getKey()).equals(uploadBean.getPort())) {
-//						portNumber = entry.getKey();
-//					}
-//				}
-//				if (portNumber == null) {
-//					throw new SetURLException("Could not find port " + uploadBean.getPort() + " on job "
-//							+ job.getJobname());
-//				}
+
 				LOGGER.trace(getUser() + " Setting Remote URL " + uploadBean);
 
 				getAsmService().setRemoteInputPath(getUser().getUserID(), wkfInstance.getWorkflowName(),
@@ -592,12 +590,116 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 				if (uploadBean.getFiles().size() > 1) {
 					int numberOxExecutions = uploadBean.getFiles().size();
 					LOGGER.trace(getUser() + " Setting number of executions to " + numberOxExecutions);
-					getAsmService().setNumberOfInputFiles(getUser().getUserID(), wkfInstance.getWorkflowName(),
+					setNumberOfInputFiles(getUser().getUserID(), wkfInstance.getWorkflowName(),
 							job.getJobname(), portNumber, numberOxExecutions);
 				}
 			}
 		}
 	}
+	
+	/**
+	 * Sets the number of expected input files of an input port (parameter sweep)
+	 */
+	public void setNumberOfInputFiles(String userID, String workflowID, String jobID, String portID, Integer value) {
+	    Vector<JobPropertyBean> jobs = getWorkflowConfig(userID, workflowID);
+		for (JobPropertyBean propertyBean : jobs) {
+			if (propertyBean.getName().equals(jobID)) {
+				Vector inputs = propertyBean.getInputs();
+				for (Object obj : inputs) {
+					PortDataBean portBean = (PortDataBean) obj;
+						if (portBean.getSeq() == Long.parseLong(portID)) {
+						    portBean.getData().put("max", value.toString());
+						    break;
+						}
+				}
+				break;
+			}
+		}// MoSGrid autosave
+		// couldn't find calls to setAutoSave(boolean), commenting out
+		//if (autoSave) {
+		//	saveConfigData(userID, workflowID, jobs);
+		//}
+	}
+	
+	/**
+	 * Returns the port sequence given its name.
+	 * @param userId The user owning the workflow.
+	 * @param workflowName The name of the workflow.
+	 * @param jobName The name of the job.
+	 * @param portName The port name.
+	 * @return The name of the input port. If the job or the port does not exist, an {@link IllegalArgumentException} will be thrown.
+	 */
+	public long getInputPortNumberByName(final String userId, final String workflowName, final String jobName, final String portName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		// first, find the job
+		final Collection<JobPropertyBean> jobProperties = getWorkflowConfig(userId, workflowName);
+        JobPropertyBean job = null;
+        for (final JobPropertyBean jobProperty : jobProperties) {
+        	if (jobName.equals(jobProperty.getName())) {
+        		job = jobProperty;
+        		break;
+        	}
+        }
+        if (job == null) {
+        	throw new IllegalArgumentException("job with name " + jobName + " does not exist for workflow " + workflowName + " from user " + userId);
+        }
+        // now find the input in the already found job
+        PortDataBean portProperty = null;
+        Collection<PortDataBean> inputs = (Collection<PortDataBean>)job.getInputs();
+        PortDataBean port = null;
+        for (final PortDataBean portData : inputs) {
+        	if (portData.getName().equals(portName)) {
+        		port = portData;
+        		break;
+        	}
+        }
+        if (port == null) {
+        	throw new IllegalArgumentException("port with name " + portName + " does not exist in job " + jobName + ", in workflow " + workflowName + " from user " + userId);
+        }
+        return port.getSeq();
+	}
+	
+	// FIXME: This is a hack using reflection... perhaps later ASM versions will be expose saveConfigData as public?
+	private void saveConfigData(String userID, String workflowName, Vector pJobs) {
+	    try {
+		// first, get the method
+		final Method saveConfigDataMethod = getAsmService().getClass().getDeclaredMethod("saveConfigData", String.class, String.class, Vector.class);
+		// make it accessible
+		saveConfigDataMethod.setAccessible(true);
+		// and invoke
+		saveConfigDataMethod.invoke(getAsmService(), userID, workflowName, pJobs);
+	    } catch (Exception e) {
+		throw new RuntimeException("could not invoke ASMService.saveConfigData(String, String, Vector)", e);
+	    } 
+	}
+	
+	// FIXME: This is a hack using reflection... perhaps later ASM versions will be expose getRuntimeID as public?
+	public String getRuntimeID(String userID, String workflowName) {
+	    try {
+		// first, get the method
+		final Method getRuntimeIDMethod = getAsmService().getClass().getDeclaredMethod("getRuntimeID", String.class, String.class);
+		// make it accessible
+		getRuntimeIDMethod.setAccessible(true);
+		// and invoke
+		return (String)getRuntimeIDMethod.invoke(getAsmService(), userID, workflowName);
+	    } catch (Exception e) {
+		throw new RuntimeException("could not invoke ASMService.getRuntimeID(String, String)", e);
+	    } 
+	}
+	
+	// FIXME: This is a hack using reflection... perhaps ASM will at some point expose getWorkflowConfig method?
+	private Vector<JobPropertyBean> getWorkflowConfig(final String userId, final String workflowId) {
+	    try {
+		// first, get the method
+		final Method getRuntimeIDMethod = getAsmService().getClass().getDeclaredMethod("getWorkflowConfig", String.class, String.class);
+		// make it accessible
+		getRuntimeIDMethod.setAccessible(true);
+		// and invoke
+		return (Vector<JobPropertyBean>)getRuntimeIDMethod.invoke(getAsmService(), userId, workflowId);
+	    } catch (Exception e) {
+		throw new RuntimeException("could not invoke ASMService.getWorkflowConfig(String, String)", e);
+	    } 
+	}
+	
 
 	/**
 	 * Helper method which cleans up all remote settings. If a remote path points to a xfs url but does not match for
@@ -830,27 +932,124 @@ public abstract class DomainPortlet extends MoSGridPortlet {
 				Integer numberOfCores = jobElement.getEnvironment().getNumberOfCores();
 				if (numberOfCores != null) {
 					LOGGER.trace(getUser() + " Setting number of cores to " + numberOfCores);
-					getAsmService().setCoreNumber(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
+					setCoreNumber(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
 							asmJob.getJobname(), numberOfCores.toString());
 				}
 
 				Integer memory = jobElement.getEnvironment().getMemoryValue();
 				if (memory != null) {
 					LOGGER.trace(getUser() + " Setting memory to " + memory + " MB");
-					getAsmService().setMemory(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
+					setMemory(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
 							asmJob.getJobname(), memory.toString());
 				}
 
 				Integer walltime = jobElement.getEnvironment().getWalltimeValue();
 				if (walltime != null) {
 					LOGGER.trace(getUser() + " Setting walltime to " + walltime);
-					getAsmService().setWalltime(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
+					setWalltime(getUser().getUserID(), wkfImport.getAsmInstance().getWorkflowName(),
 							asmJob.getJobname(), walltime.toString());
 
 				}
 				// LOGGER.debug(asmJob.dumpProperties());
 			}
 		}
+	}
+	
+	/**
+	 * Set job_desc
+	 * 
+	 * 
+	 * 
+	 * @param prop
+	 *            - property name to set ("nodenumber" etc.)
+	 * @param value
+	 *            - property value
+	 * @param userID
+	 *            - id of the user who owns the workflow
+	 * @param workflowID
+	 *            - id of the workflow
+	 * @param jobID
+	 *            - id of the job
+	 */
+	private void setJobDesc(String prop, String value, String userID, String workflowID, String jobID) {
+	    Vector<JobPropertyBean> jobs = getWorkflowConfig(userID, workflowID);
+
+		for (JobPropertyBean j : jobs) {
+			if (j.getName().equals(jobID)) {
+				j.getDesc().put(prop, value);
+				System.out.println("job : " + j.getName() + " set job property:" + prop + " value: " + value);
+				break;
+			}
+		}
+		// MoSGrid autosave
+		// NOTE: Found no calls to setAutoSave(boolean)! -delagarza
+		//if (autoSave) {
+		//	saveConfigData(userID, workflowID, jobs);
+		//}
+	}
+	
+	/**
+	 * Set walltime
+	 * 
+	 * @param value
+	 *            - walltime in ?
+	 * @param userID
+	 *            - id of the user who owns the workflow
+	 * @param workflowID
+	 *            - id of the workflow
+	 * @param jobID
+	 *            - id of the job
+	 */
+	private void setWalltime(String userID, String workflowID, String jobID, String value) {
+		setJobDesc("unicore.keyWalltime", value, userID, workflowID, jobID);
+	}
+	
+	/**
+	 * Set number of cores
+	 * 
+	 * @param value
+	 *            - number of cores
+	 * @param userID
+	 *            - id of the user who owns the workflow
+	 * @param workflowID
+	 *            - id of the workflow
+	 * @param jobID
+	 *            - id of the job
+	 */
+	private void setCoreNumber(String userID, String workflowID, String jobID, String value) {
+		setJobDesc("unicore.keyCores", value, userID, workflowID, jobID);
+	}
+
+	/**
+	 * Set memory
+	 * 
+	 * @param value
+	 *            - memory in ?
+	 * @param userID
+	 *            - id of the user who owns the workflow
+	 * @param workflowID
+	 *            - id of the workflow
+	 * @param jobID
+	 *            - id of the job
+	 */
+	private void setMemory(String userID, String workflowID, String jobID, String value) {
+		setJobDesc("unicore.keyMemory", value, userID, workflowID, jobID);
+	}
+
+	/**
+	 * Set workflow name
+	 * 
+	 * @param value
+	 *            - name of the workflow
+	 * @param userID
+	 *            - id of the user who owns the workflow
+	 * @param workflowID
+	 *            - id of the workflow
+	 * @param jobID
+	 *            - id of the job
+	 */
+	private void setWorkflowName(String userID, String workflowID, String jobID, String value) {
+		setJobDesc("unicore.keyWorkflowName", value, userID, workflowID, jobID);
 	}
 
 	/**
