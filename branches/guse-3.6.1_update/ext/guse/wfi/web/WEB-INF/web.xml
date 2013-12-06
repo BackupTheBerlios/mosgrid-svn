@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    <servlet>
+	<servlet-name>InitServices</servlet-name>
+        <servlet-class>hu.sztaki.lpds.information.local.InitAxisServices</servlet-class>
+	<init-param>
+    	    <param-name>baseurl</param-name>
+    	    <param-value>http://localhost:8080/wfi/servlet/AxisServlet</param-value>
+	</init-param>
+	<init-param>
+    	    <param-name>install-0</param-name>
+    	    <param-value>webapps/wfi/WEB-INF/lib/portal.wsdd</param-value>
+	</init-param>
+    <init-param>
+    	    <param-name>run-1</param-name>
+    	    <param-value>hu.sztaki.lpds.information.local.PropertyInitCommandImpl</param-value>
+	</init-param>
+    <init-param>
+    	    <param-name>property-2</param-name>
+    	    <param-value>hu.sztaki.lpds.logging.ActivateLoggingProperties</param-value>
+	</init-param>
+    </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <servlet>
+        <servlet-name>MonitorServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.wfi.service.zen.MonitorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JobStatusService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        </servlet>
+    <servlet-mapping>
+        <servlet-name>InitServices</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FileGetterServlet</servlet-name>
+        <servlet-class>hu.sztaki.lpds.wfi.util.FileGetterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileGetterServlet</servlet-name>
+        <url-pattern>/getFile</url-pattern>
+    </servlet-mapping>
+
+
+  <display-name>gUSE WFI</display-name>
+
+    <listener>
+        <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
+    </listener>
+
+  <servlet>
+    <servlet-name>AxisServlet</servlet-name>
+    <display-name>Apache-Axis Servlet</display-name>
+    <servlet-class>
+        org.apache.axis.transport.http.AxisServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-class>
+        org.apache.axis.transport.http.AdminServlet
+    </servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <display-name>SOAPMonitorService</display-name>
+    <servlet-class>
+        org.apache.axis.monitor.SOAPMonitorService
+    </servlet-class>
+    <init-param>
+      <param-name>SOAPMonitorPort</param-name>
+      <param-value>5001</param-value>
+    </init-param>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/servlet/AxisServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <url-pattern>/SOAPMonitor</url-pattern>
+  </servlet-mapping>
+
+
+    <!-- currently the W3C havent settled on a media type for WSDL;
+    http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft
+    for now we go with the basic 'it's XML' response -->
+  <mime-mapping>
+    <extension>wsdl</extension>
+     <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+
+  <mime-mapping>
+    <extension>xsd</extension>
+    <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+  <welcome-file-list id="WelcomeFileList">
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jws</welcome-file>
+  </welcome-file-list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <servlet-mapping>
+        <servlet-name>MonitorServlet</servlet-name>
+        <url-pattern>/monitor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobStatusService</servlet-name>
+        <url-pattern>/JobStatusService</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+
+</web-app>

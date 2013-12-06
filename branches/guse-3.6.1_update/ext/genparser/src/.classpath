@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="**/.svn/**|**/adapter/**|**/common/**|**/environment/**|**/examples/**|**/parser/**" kind="src" path="dictionaries"/>
+	<classpathentry excluding="**/.svn/**" kind="src" path="configfiles"/>
+	<classpathentry kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/MSMLAPI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CMLStruktur"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

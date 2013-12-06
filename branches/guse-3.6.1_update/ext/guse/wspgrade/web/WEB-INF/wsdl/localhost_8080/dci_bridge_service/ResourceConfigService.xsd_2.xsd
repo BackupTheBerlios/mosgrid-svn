@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://config.dcibridge.lpds.sztaki.hu/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://config.dcibridge.lpds.sztaki.hu/">
+
+<xs:element name="get" type="tns:get"></xs:element>
+
+<xs:element name="getResponse" type="tns:getResponse"></xs:element>
+
+<xs:complexType name="get">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getResponse">
+<xs:sequence>
+<xs:element name="return" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:ns1="http://xml.netbeans.org/schema/configure" ref="ns1:boinc" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns2="http://xml.netbeans.org/schema/configure" ref="ns2:pbs" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns3="http://xml.netbeans.org/schema/configure" ref="ns3:lsf" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns4="http://xml.netbeans.org/schema/configure" ref="ns4:gt4" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns5="http://xml.netbeans.org/schema/configure" ref="ns5:gelmca" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns6="http://xml.netbeans.org/schema/configure" ref="ns6:local" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns7="http://xml.netbeans.org/schema/configure" ref="ns7:gae" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns8="http://xml.netbeans.org/schema/configure" ref="ns8:unicore" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns9="http://xml.netbeans.org/schema/configure" ref="ns9:arc" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns10="http://xml.netbeans.org/schema/configure" ref="ns10:service" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns11="http://xml.netbeans.org/schema/configure" ref="ns11:glite" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element xmlns:ns12="http://xml.netbeans.org/schema/configure" ref="ns12:gt2" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

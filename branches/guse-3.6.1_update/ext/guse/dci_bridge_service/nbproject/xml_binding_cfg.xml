@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<schemas xmlns='http://xml.netbeans.org/schema/JAXBWizConfig' destdir='build/generated/addons/jaxb' projectName='dci_bridge_service' version='1.0'>
+	<schema type='-xmlschema' package='' name='dci-extension'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='src/conf/xml-resources/jaxb/dci-extension/www.shiwa-workflow.eu/documents/10753/45904/callback_and_proxy_extension.xsd' origLocation='https://www.shiwa-workflow.eu/documents/10753/45904/callback+and+proxy+extension' origLocationType='url'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='jsdl-posix'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='src/conf/xml-resources/jaxb/jsdl-posix/schemas.ggf.org/jsdl/2005/11/jsdl-posix.xsd' origLocation='http://schemas.ggf.org/jsdl/2005/11/jsdl-posix' origLocationType='url'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='jsdl'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='src/conf/xml-resources/jaxb/jsdl/schemas.ggf.org/jsdl/2005/11/jsdl.xsd' origLocation='http://schemas.ggf.org/jsdl/2005/11/jsdl' origLocationType='url'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='metabroker'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='src/conf/xml-resources/jaxb/metabroker/www.shiwa-workflow.eu/documents/10753/52033/mb_scheduling_description_language.xsd' origLocation='https://www.shiwa-workflow.eu/documents/10753/52033/MB+Scheduling+Description+Language' origLocationType='url'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='dci-config'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='src/conf/xml-resources/jaxb/dci-config/www.shiwa-workflow.eu/documents/10753/45904/dci-bridge_configuration_schema_2012.xsd' origLocation='http://www.shiwa-workflow.eu/documents/10753/45904/DCI-Bridge_Configuration_schema_2012' origLocationType='url'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+</schemas>

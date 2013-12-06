@@ -1,0 +1,3 @@
+getdown.txt = a6dea0313eed135db4c29ae05e733b01
+genparser.jar = 25b0d5ee1d502a98f754c1d71d0c50bf
+digest.txt = 6f6c4f34fc6bcce1562bfdaff5db3832

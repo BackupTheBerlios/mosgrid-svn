@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <type name="information" title="Information service"/>
+    <type name="logg" title="Logging service"/>
+    <type name="wfi" title="Wotkflow Interpreter service"/>
+    <type name="wfs" title="Workflow Storage service"/>
+    <type name="storage" title="Local file storage service"/>
+    <type name="submitter" title="Resource handler service"/>
+    <type name="portal" title="User interface"/>
+    <type name="repository" title="Workflow repository"/>
+    <type name="gemlcaquery" title="Gemlca information system"/>
+    <type name="serviceadmin" title="gUSE service admin"/>
+    <type name="resourceconfigure" title="gUSE DCI-Bridge resource admin"/>
+    <type name="statistics" title="for Statistics components"/>
+<service type="portal" url="http://localhost:8080/wspgrade" iurl="http://localhost:8080/wspgrade/init" surl="http://localhost:8080/wspgrade"  >
+        <property name="cache.time.msec" value="3000000" />
+        <property name="repeat.submit.workflow" value="1" />
+        <property name="notify.quota.time.in.hour" value="1" />
+        <property name="notify.quota.max.percent" value="95" />
+        <property name="gemlcacache.refreshintervall_min" value="30" />
+        <property name="wspgrade.maxulpoadfilesize" value="100" />
+        <property name="guse.wspgrade.suportedwfengines" value="zen" />
+        <property name="notify.smtp.host" value="smtp.sztaki.hu" />
+        <property name="guse.logdir" value="/guselogg" />
+        <property name="service.loglevel" value="6" />
+        <property name="service.logtrace" value="false" />
+    </service>
+    <service type="wfi" url="http://localhost:8080/wfi" iurl="http://localhost:8080/wfi/init" surl="http://localhost:8080/wfi"  >
+        <property name="guse.wfi.zen.sendinitstatus" value="true" />
+        <property name="wfi.zen.activeingjobs.max" value="500000" />
+        <property name="wfi.zen.waiting.getjobcount" value="60000" />
+        <property name="wfi.zen.loggfile" value="guselogg/wfi" />
+        <property name="wfi.incomingpoll.waiting" value="1000" />
+        <property name="wfi.incomingpoll.sendcount" value="100" />
+        <property name="guse.logdir" value="/guselogg" />
+        <property name="service.loglevel" value="6" />
+        <property name="system.id" value="guse3.4" />
+        <property name="tt.wsdl" value="http://localhost:8080/management/TesterService?wsdl" />
+    </service>
+    <service type="wfs" url="http://localhost:8080/wfs" iurl="http://localhost:8080/wfs/init" surl="http://localhost:8080/wfs"  >
+        <property name="history.max" value="200" />
+        <property name="noproxy" value="DesktopGrid,Local,Unibroker" />
+        <property name="guse.wfs.system.defaultworkflowtype" value="zen" />
+        <property name="guse.wfs.system.savestatus" value="true" />
+        <property name="guse.wfs.system.sleepsavetime" value="2000" />
+        <property name="guse.wfs.wfiplugin.zen" value="hu.sztaki.lpds.wfs.service.angie.plugins.wfi.ZenImpl" />
+        <property name="guse.wfs.system.savevisualizerdata" value="true" />
+        <property name="guse.wfs.system.saveonlyendstatus" value="false" />
+    </service>
+    <service type="information" url="http://localhost:8080/information" iurl="http://localhost:8080/information/init" surl=""  >
+    </service>
+    <service type="storage" url="http://localhost:8080/storage" iurl="http://localhost:8080/storage/init" surl=""  >
+        <property name="guse.storageclient.localmode.sendquota" value="true" />
+        <property name="guse.storage.importid.type" value="date" />
+        <property name="guse.storage.system.defaultworkflowtype" value="zen" />
+    </service>
+    <service type="repository" url="http://localhost:8080/repository" iurl="http://localhost:8080/repository/init" surl=""  >
+        <property name="rootuser" value="root" />
+        <property name="quotamax" value="2000" />
+        <property name="guse.storage.importid.type" value="date" />
+    </service>
+    <service type="serviceadmin" url="http://localhost:8080/information" iurl="null" surl=""  >
+    </service>
+    <service type="resourceconfigure" url="http://localhost:8080/dci_bridge_service" iurl="" surl=""  >
+    </service>
+    <service type="submitter" url="http://localhost:8080/dci_bridge_service" iurl="" surl="http://localhost:8080/dci_bridge_service"  >
+    </service>
+    <service type="statistics" url="http://localhost:8080/stataggregator" iurl="http://localhost:8080/stataggregator/init" surl="http://localhost:8080/stataggregator"  >
+	<property name="jobinstancetimeout" value="1" /> 
+	<property name="statrunningtimeout" value="1" /> 
+	<property name="aggregatejoblimit" value="250" /> 
+	<property name="sleeptime" value="100" /> 
+    </service>
+    <service type="statistics" url="http://localhost:8080/statvisualizer" iurl="http://localhost:8080/statvisualizer/init" surl="http://localhost:8080/statvisualizer"  >
+	<property name="language" value="hu" /> 
+	<property name="country" value="HU" /> 
+	<property name="portal.url" value="http://localhost:8080/wspgrade" /> 
+    </service>
+    <communication-type  name="gUSE" title="Standard gUSE">
+        <communication stype="portal" from="wfs" comtype="hu.sztaki.lpds.portal.net.wsaxis13.WfsPortalClientImpl" service="/services/urn:portalwfsservice" />
+        <communication stype="portal" from="storage" comtype="hu.sztaki.lpds.portal.net.wsaxis13.StoragePortalClientImpl" service="/services/urn:portalstorageservice" />
+        <communication stype="portal" from="wfi" comtype="hu.sztaki.lpds.portal.net.wsaxis13.WfsPortalClientImpl" service="/services/urn:portalwfsservice" />
+        <communication stype="portal" from="portal" comtype="" service="/services/urn:portalwfsservice" />
+        <communication stype="wfs" from="portal" comtype="hu.sztaki.lpds.wfs.net.wsaxis13.PortalWfsClientImpl" service="/services/urn:wfsportalservice" />
+        <communication stype="wfs" from="wfi" comtype="hu.sztaki.lpds.wfs.net.wsaxis13.WfiWfsClientImpl" service="/services/urn:wfswfiservice" />
+        <communication stype="wfs" from="submitter" comtype="hu.sztaki.lpds.wfs.net.wsaxis13.SubmitterWfsClientImpl" service="/services/urn:wfssubmitterservice" />
+        <communication stype="wfs" from="storage" comtype="hu.sztaki.lpds.wfs.net.wsaxis13.StorageWfsClientImpl" service="/services/urn:wfsstorageservice" />
+        <communication stype="wfs" from="repository" comtype="hu.sztaki.lpds.wfs.net.wsaxis13.RepositoryWfsClientImpl" service="/services/urn:wfsrepositoryservice" />
+        <communication stype="wfi" from="portal" comtype="hu.sztaki.lpds.wfi.net.wsaxis13.PortalWfiClientImpl" service="/services/urn:wfiportalservice" />
+        <communication stype="storage" from="portal" comtype="hu.sztaki.lpds.storage.net.wsaxis13.PortalStorageClientImpl" service="/services/urn:storageportalservice" />
+        <communication stype="storage" from="submitter" comtype="hu.sztaki.lpds.storage.net.http.SubmitterStorageClientImpl" service="/receiver" />
+        <communication stype="repository" from="portal" comtype="hu.sztaki.lpds.repository.net.wsaxis13.PortalRepositoryClientImpl" service="/services/urn:repositoryportalservice" />
+        <communication stype="logg" from="information" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="wfi" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="wfs" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="storage" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="submitter" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="portal" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="repository" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="logg" from="gemlcaquery" comtype="hu.sztaki.lpds.logging.net.wsaxis13.LogClientImpl" service="/services/urn:loggservice" />
+        <communication stype="information" from="logg" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="wfi" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="wfs" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="storage" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="submitter" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="portal" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="repository" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="information" from="gemlcaquery" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+        <communication stype="gemlcaquery" from="portal" comtype="hu.sztaki.lpds.gemlcaquery.net.wsaxis13.PortalGemlcaqueryClientImpl" service="/services/urn:gemlcaqueryportalservice" />
+        <communication stype="serviceadmin" from="portal" comtype="hu.sztaki.lpds.information.net.wsaxis13.ServiceAdminClientImpl" service="/services/urn:serviceadmin" />
+        <communication stype="resourceconfigure" from="submitter" comtype="hu.sztaki.lpds.information.net.wsaxis13.ResourceConfigurationClientImpl" service="/services/urn:resourceadmin" />
+        <communication stype="storage" from="wfi" comtype="hu.sztaki.lpds.storage.net.wsaxis13.WFIStorageClientImpl" service="/services/urn:storagewfiservice" />
+        <communication stype="submitter" from="wfi" comtype="hu.sztaki.lpds.dcibridge.client.SubbmitterJaxWSIMPL" service="/BESFactoryService?wsdl" />
+        <communication stype="resourceconfigure" from="portal" comtype="hu.sztaki.lpds.dcibridge.client.ResourceConfigJaxWsIMPL" service="/ResourceConfiguration?wsdl" />
+        <communication stype="portal" from="submitter" comtype="" service="/CredentialProvider?wsdl" />
+        <communication stype="wfi" from="submitter" comtype="" service="/JobStatusService?wsdl" />
+        <communication stype="wfi" from="wfi" comtype="" service="" />
+        <communication stype="information" from="statistics" comtype="hu.sztaki.lpds.information.net.wsaxis13.InformationClientImpl" service="/services/urn:infoservice" />
+    </communication-type>
+</root>

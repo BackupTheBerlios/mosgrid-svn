@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bes-factory="http://schemas.ggf.org/bes/2006/08/bes-factory" xmlns:wsa="http://www.w3/org/2005/08/addressing" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="BESFactory" targetNamespace="http://schemas.ggf.org/bes/2006/08/bes-factory">
+<wsdl:import namespace="http://schemas.ggf.org/bes/2006/08/bes-factory" location="http://localhost:8080/dci_bridge_service/BESFactoryService?wsdl=1"></wsdl:import>
+<wsdl:service name="BESFactoryService">
+<wsdl:port name="BESFactoryPort" binding="bes-factory:BESFactoryBinding">
+<soap:address location="http://localhost:8080/dci_bridge_service/BESFactoryService"></soap:address>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

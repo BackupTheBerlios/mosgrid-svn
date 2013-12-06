@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<schemas xmlns='http://xml.netbeans.org/schema/JAXBWizConfig' destdir='build/generated/addons/jaxb' projectName='dcibridge_cli' version='0.5'>
+	<schema type='-xmlschema' package='' name='dci-config'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/dci-config/dci-bridge_configuration_schema_2012.xsd' origLocation='xml-resources/jaxb/dci-config/www.shiwa-workflow.eu/documents/10753/45904/dci-bridge_configuration_schema_2012.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='jsdl-posix'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/jsdl-posix/jsdl-posix.xsd' origLocation='xml-resources/jaxb/jsdl-posix/schemas.ggf.org/jsdl/2005/11/jsdl-posix.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='jsdl'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/jsdl/jsdl.xsd' origLocation='xml-resources/jaxb/jsdl/schemas.ggf.org/jsdl/2005/11/jsdl.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+	<schema type='-xmlschema' package='' name='metabroker'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/metabroker/mb_scheduling_description_language.xsd' origLocation='xml-resources/jaxb/metabroker/www.shiwa-workflow.eu/documents/10753/52033/mb_scheduling_description_language.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+</schemas>
