@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://guse.hu/storage//services/monitoring/w3.wsdl" uri="src/conf/xml-resources/web-services/SysteminformationImpl/wsdl/guse.hu/storage/services/monitoring/w3.wsdl"/>
-    <system systemId="http://guse.hu/storage/services/monitoring/w3.xsd" uri="src/conf/xml-resources/web-services/SysteminformationImpl/wsdl/guse.hu/storage/services/monitoring/w3.xsd"/>
-</catalog>

@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Vaadin-Package-Version: 1
-Vaadin-Widgetsets: de.mosgrid.dygraph.widget.DygraphWidgetset
-Implementation-Title: DygraphWidget
-Implementation-Version: 1.5
-Implementation-Vendor: Andreas Zink
