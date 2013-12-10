@@ -96,6 +96,7 @@
 		<!--
 		these libs are used only for compiling and are already in the classpath in tomcat/liferay,
 		so there's no need to include them in the WEB-INF/lib folder of the mosgrid portlets 
+		<include name="portal-service.jar"/>
 		<include name="portlet-api-2.0.jar"/>
 		<include name="vaadin-6.7.3.jar"/>
 		<include name="gwt-user.jar"/>
@@ -107,11 +108,12 @@
 		<include name="biojava3-structure-3.0.3.jar"/>
 		<include name="cdk-1.4.10.jar"/>
 		<include name="cog-jglobus.jar"/>
+		<include name="commons-math3-3.0.jar"/>
 		<include name="Foundation.jar"/>
 		<include name="jgromacs_v1_modified.jar"/>
 		<include name="joda-time-1.6.2.jar"/>
 		<include name="opensaml-2.4.1.jar"/>
-		<include name="openws-1.4.1.jar"/>
+		<include name="openws-1.4.1.jar"/>		
 		<include name="protobuf-java-2.3.0.jar"/>
 		<include name="slf4j-api.jar"/>
 		<include name="xmltooling-1.3.1.jar"/>
