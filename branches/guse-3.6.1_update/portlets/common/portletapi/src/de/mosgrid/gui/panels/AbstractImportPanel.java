@@ -171,10 +171,7 @@ public abstract class AbstractImportPanel extends CustomComponent implements IIm
 				Notification notif = NotificationFactory.createValidationFailedNotification();
 				portlet.getMainWindow().showNotification(notif);
 			}
-		} catch (InvalidValueException e) {
-			// could happen while validation but should be caught in child classes
 		} catch (Exception e) {
-			// could happen while starting new thread etc
 			LOGGER.error(portlet.getUser() + " Error while importing workflow!", e);
 			importFailed(null, getImportName(), new ImportFailedException(e.getMessage(), e));
 		}

@@ -577,7 +577,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	private void fireStatusMsgChange(String msg, ThemeResource icon) {
 		for (IStatusMessageListener l : new ArrayList<IStatusMessageListener>(statusMessageListenerList)) {
+		    try {
 			l.statusMessageChanged(msg, icon);
+		    } catch (Exception e) {
+			LOGGER.error("Could not notify about status message changing. StatusMessageListener [" + l + ']', e);
+		    }
 		}
 	}
 
@@ -643,7 +647,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	protected void fireImportSucceeded(ImportedWorkflow wkfImport) {
 		for (IImportListener l : new ArrayList<IImportListener>(importListenerList)) {
+		    try {
 			l.importSucceeded(wkfImport);
+		    } catch (Exception e) {
+			LOGGER.error("Could not notify about import succeeding. ImportListener [" + l + ']', e);
+		    }
 		}
 	}
 
@@ -652,7 +660,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	protected void fireImportFailed(MSMLTemplate failedImport, String userImportName, ImportFailedException e) {
 		for (IImportListener l : new ArrayList<IImportListener>(importListenerList)) {
+		    try {
 			l.importFailed(failedImport, userImportName, e);
+		    } catch (Exception ex) {
+			LOGGER.error("Could not notify about import failing. ImportListener [" + l + ']', ex);
+		    }
 		}
 	}
 
@@ -661,7 +673,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	protected void fireSubmissionSucceeded(ImportedWorkflow wkfImport) {
 		for (ISubmissionListener l : new ArrayList<ISubmissionListener>(submissionListenerList)) {
+		    try {
 			l.submissionSucceeded(wkfImport);
+		    } catch (Exception e) {
+			LOGGER.error("Could not notify about submission succeeding. SubmissionListener [" + l + ']', e);
+		    }
 		}
 	}
 
@@ -669,8 +685,12 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 * Notifies SubmissionListener if wkf submission failed
 	 */
 	protected void fireSubmissionFailed(ImportedWorkflow failedImport, SubmissionFailedException e) {
-		for (ISubmissionListener l : new ArrayList<ISubmissionListener>(submissionListenerList)) {
+	    	for (ISubmissionListener l : new ArrayList<ISubmissionListener>(submissionListenerList)) {
+		    try {
 			l.submissionFailed(failedImport, e);
+		    } catch (Exception ex) {
+			LOGGER.error("Could not notify about submission failing. SubmissionListener [" + l + ']', ex);
+		    }
 		}
 	}
 
@@ -679,7 +699,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	protected void fireRemovalSucceeded(ImportedWorkflow wkfImport) {
 		for (ISubmissionListener l : new ArrayList<ISubmissionListener>(submissionListenerList)) {
+		    try {
 			l.removalSucceeded(wkfImport);
+		    } catch (Exception e) {
+			LOGGER.error("Could not notify about removal succeeding. SubmissionListener [" + l + ']', e);
+		    }
 		}
 	}
 
@@ -688,7 +712,11 @@ public abstract class MoSGridPortlet extends Application implements PortletReque
 	 */
 	protected void fireRemovalFailed(ImportedWorkflow failedImport, RemovingFailedException e) {
 		for (ISubmissionListener l : new ArrayList<ISubmissionListener>(submissionListenerList)) {
+		    try {
 			l.removalFailed(failedImport, e);
+		    } catch (Exception ex) {
+			LOGGER.error("Could not notify about removal failing. SubmissionListener [" + l + ']', ex);
+		    }
 		}
 	}
 

@@ -11,7 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/XtreemFS-Connection"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Dygraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemDoodle"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asm_api"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
