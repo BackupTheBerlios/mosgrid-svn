@@ -14,8 +14,9 @@ import de.mosgrid.msml.jaxb.bindings.ScalarType;
 import de.mosgrid.msml.util.wrapper.JobInitialization;
 
 /**
- * Creates file content in simple Java properties-file style i.e. each line consists of PARAMETER_NAME = VALUE. For
- * example Gromacs supports this type of input files (mdp format).
+ * Creates file content in simple Java properties-file style i.e. each line
+ * consists of PARAMETER_NAME = VALUE. For example Gromacs supports this type of
+ * input files (mdp format).
  * 
  */
 public class SimpleAdapter extends AdapterForMSMLForInputFile {
@@ -30,38 +31,36 @@ public class SimpleAdapter extends AdapterForMSMLForInputFile {
 
 	@Override
 	protected InputInfoForInputFile getInputInfoForInputFile() throws AdapterException {
-		StringBuilder fileContentBuilder = new StringBuilder();
+		final StringBuilder fileContentBuilder = new StringBuilder();
 
-		JobInitialization init = getInfo().getJob().getInitialization();
-		List<ParameterType> params = init.getParamList().getParameter();
-		if (params == null)
-			throw new AdapterException("Job " + getInfo().getJob().getId() + 
-					" has an adapter set, but no parameters. This does not make sense.");
-		for (ParameterType parameter : params) {
-			EntryType entry = getInfo().getMSML().getDictEntry(parameter.getDictRef());
+		final JobInitialization init = getInfo().getJob().getInitialization();
+		final List<ParameterType> params = init.getParamList().getParameter();
+		if (params == null) {
+			throw new AdapterException("Job " + getInfo().getJob().getId() + " has an adapter set, but no parameters. This does not make sense.");
+		}
+		for (final ParameterType parameter : params) {
+			final EntryType entry = getInfo().getMSML().getDictEntry(parameter.getDictRef());
 			if (entry == null) {
 				LOGGER.warn("Could not resolve dictref: " + parameter.getDictRef());
 				continue;
 			}
-			ScalarType scalar = parameter.getScalar();
+			final ScalarType scalar = parameter.getScalar();
 			if (scalar == null) {
-				LOGGER.warn("Invalid parameter found for job " + getInfo().getJob().getTitle()
-						+ ". Parameter must be of type 'Scalar'");
+				LOGGER.warn("Invalid parameter found for job " + getInfo().getJob().getTitle() + ". Parameter must be of type 'Scalar'");
 				continue;
 			}
 			// only set parameter if not null or empty
 			if (scalar.getValue() != null) {
-				String value = scalar.getValue().trim();
+				final String value = scalar.getValue().trim();
 				if (!value.equals("")) {
 					fileContentBuilder.append(entry.getTerm() + " = " + value + "\n");
 				}
 			} else if (parameter.isOptional() != null && !parameter.isOptional()) {
 				// if parameter is not given but actually required
-				LOGGER.warn("Missing required parameter value for job " + getInfo().getJob().getTitle()
-						+ " with parameter " + entry.getTerm());
+				LOGGER.warn("Missing required parameter value for job " + getInfo().getJob().getTitle() + " with parameter " + entry.getTerm());
 			}
 		}
-		InputInfoForInputFile info = new InputInfoForInputFile(fileContentBuilder.toString(), getInfo());
+		final InputInfoForInputFile info = new InputInfoForInputFile(fileContentBuilder.toString(), getInfo());
 		return info;
 	}
 }

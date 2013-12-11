@@ -3,7 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="activation-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="animator-1.6.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="asm_api-3.4.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="asm_api-3.4.6.jar" sourcepath="/Users/delagarza/Projects/asm_3.4.6/asm_api/src/main/java"/>
 	<classpathentry exported="true" kind="lib" path="axis-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="biojava3-structure-3.0.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="cdk-1.4.10.jar"/>
@@ -81,7 +81,7 @@
 	<classpathentry exported="true" kind="lib" path="vaadin-6.7.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="wfi_cli-3.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="wfi.wsdd"/>
-	<classpathentry exported="true" kind="lib" path="wfs_cli-3.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="wfs_cli-3.6.1.jar" sourcepath="/Users/delagarza/Projects/guse-3.6.1"/>
 	<classpathentry exported="true" kind="lib" path="wsdl4j-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="xercesImpl-2.9.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="xml-apis-1.3.04.jar"/>
